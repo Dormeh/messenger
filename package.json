@@ -1,0 +1,47 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">= 16.14.2"
+  },
+  "parcelCleanPaths": [
+    "dist",
+    ".cache"
+  ],
+  "version": "1.0.0",
+  "description": "---",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel src/pages/index.hbs --no-source-maps --no-cache --port 3000 --open",
+    "build": "parcel build src/pages/index.hbs --no-source-maps --no-cache --public-url ./",
+    "start": "npm run build && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dormeh/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dormeh/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/Dormeh/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "@parcel/config-default": "^2.8.0",
+    "handlebars": "^4.7.7",
+    "parcel": "^2.8.0",
+    "parcel-plugin-clean-easy": "^1.0.2",
+    "parcel-plugin-handlebars": "^0.4.4",
+    "parcel-reporter-static-files-copy": "^1.4.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
