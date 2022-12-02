@@ -1,0 +1,88 @@
+@import "../../partials/mixins";
+
+.input {
+  @include text(0.8125em, 0.8125em, 500, normal, var(--grey-3));
+  font-family: 'Inter', sans-serif;
+  text-align: start;
+  width: 100%;
+  padding: 12px 0;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__label {
+    @include text($size: 0.75em, $lh: 2.5em);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  & &__input-text, & &__input-text:valid {
+    padding: 0.4375em 0;
+    background-color: unset;
+    border: none;
+    border-bottom: 1px solid transparentize(rgba(#3369F3, 1), 0.2);
+    @include text(1em, 1.25em, 400, normal, false);
+    transition: border-color 0.25s ease-in-out, box-shadow 0.30s ease-in-out;
+
+    &::placeholder {
+      color: var(--grey-2);
+    }
+  }
+
+  & &__input-text:focus, &__input-text.input__input-text_focused {
+    color: var(--active-text-color);
+    border-bottom-color: darken(#3369F3, 15%);
+    box-shadow: 0 1px 1px rgba(51, 154, 240, 0.1);
+    outline: none;
+  }
+
+  &__icon {
+    width: 2em;
+    height: 2em;
+    top: calc(50%);
+    transform: translate(-100%, -50%);
+    position: absolute;
+    left: calc(100% - 1.125em);
+    display: none;
+  }
+  &__error-name {
+    position: absolute;
+    @include text(8px,8px,400,normal,var(--red));
+    top: 100%;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: 1s opacity;
+  }
+
+  &_success &__icon_success {
+    color: var(--blue);
+    display: block;
+  }
+
+  &_invalid {
+    & .input__icon_error {
+      color: var(--red);
+      display: block;
+    }
+
+    & .input__input-text {
+      border: 1px solid var(--red);
+      box-shadow: 0 1px 1px rgba(240, 61, 62, 0.1);
+      border-radius: 0.4em;
+    }
+  }
+  & &__input-text:invalid {
+    border-bottom: 1px solid var(--red);
+    &~.input__error-name {
+      opacity: 1;
+    }
+    //&~.input__icon_error {
+    //  color: var(--red);
+    //  display: block;
+    //}
+  }
+
+}
