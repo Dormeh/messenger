@@ -1,0 +1,53 @@
+@import "../../partials/mixins";
+
+
+.login-form {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 50px 30px 30px;
+  width: 340px;
+  min-height: 460px;
+  background: #FFFFFF;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  &_registr-form {
+    max-height: 615px;
+    height: 100%;
+  }
+
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    padding-bottom: 1.5em;
+
+    color: #1E1E1E;
+
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  &__inputs-inner {
+    @include flex-center;
+  }
+
+  &__button {
+
+  }
+  &__change-form-link {
+    font-family: 'Inter', sans-serif;
+    @include text(11px, 11px, 500, normal, #3369F3);
+    margin-top: 14px;
+    text-decoration: none;
+    text-align: center;
+  }
+}

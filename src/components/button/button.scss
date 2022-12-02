@@ -1,0 +1,62 @@
+@import "../../partials/mixins";
+
+.button {
+  @include text(0.8125em, 0.8125em, 500, false, var(--main-font-color));
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  @include flex-center;
+  background: unset;
+  padding: 0.75em 1.2em 0.75em 1.2em;
+  border: none;
+  cursor: pointer;
+  outline-style: none;
+  white-space: nowrap;
+  border-radius: 0.5em;
+  transition: opacity 200ms ease-in-out, background 200ms ease-in-out, border 200ms ease-in-out, transform 100ms ease-in-out;
+
+  &_primary {
+    color: var(--font-color-light);
+    background: var(--ligth-blue);
+  }
+
+  &_secondary {
+    color: var(--font-color-light);
+    background: var(--secondary);
+  }
+
+  &_alternate {
+    box-sizing: border-box;
+    color: var(--active-text-color);
+    background: transparent;
+    border-color: var(--grey-3);
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  &_primary:hover {
+    background: var(--primary);
+  }
+
+  &_secondary:hover {
+    background: var(--dark-purple);
+  }
+
+  &_alternate:hover {
+    border-color: var(--active-text-color);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &:active {
+    transform: translate(1%, 1%);
+  }
+
+  &_set-big-btn {
+    padding: 1em 3em 1em 3em;
+    width: 100%;
+  }
+
+}

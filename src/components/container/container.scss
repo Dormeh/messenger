@@ -1,0 +1,6 @@
+@import "../../partials/mixins";
+
+.container {
+@include flex-center;
+  height: 100%;
+}
