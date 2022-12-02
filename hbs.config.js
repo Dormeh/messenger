@@ -3,5 +3,5 @@ module.exports = {
     // decorators: 'src/markup/decorators',
     // helpers: 'src/markup/helpers',
     layouts: 'src/layouts',
-    partials: 'src/partials',
+    partials: 'src/components',
 };
