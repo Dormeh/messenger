@@ -2,6 +2,9 @@
 @import "../../components/input/input.scss";
 @import "../../components/login-form/login-form.scss";
 @import "../../components/container/container.scss";
+@import "../../components/chat-layout/chat-layout.scss";
+@import "../../components/card/card.scss";
+@import "../../components/avatar/avatar.scss";
 @import '../fonts/fonts.css';
 @import "normalize.css";
 
