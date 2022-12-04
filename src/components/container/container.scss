@@ -3,11 +3,5 @@
 .container {
 @include flex-center;
   height: 100%;
-  background-color: white;
-
-  &_chat {
-    background: #E5E5E5;
-  }
-
-
+  margin: 0 15px;
 }

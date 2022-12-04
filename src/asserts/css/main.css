@@ -5,6 +5,7 @@
 @import "../../components/chat-layout/chat-layout.scss";
 @import "../../components/card/card.scss";
 @import "../../components/avatar/avatar.scss";
+@import "../../components/page/page.scss";
 @import '../fonts/fonts.css';
 @import "normalize.css";
 

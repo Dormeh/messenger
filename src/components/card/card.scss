@@ -2,23 +2,16 @@
 
 .card {
   display: grid;
+  box-sizing: border-box;
   font-family: 'Inter', sans-serif;
-  grid-template-rows: 12px 1fr 12px;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas:
-          "card-splitter card-splitter card-splitter"
-"avatar card-preview card-info"
-"footer footer footer";
+  grid-template:
+          "header header header" 10px
+          "avatar card-preview card-info" 1fr
+          "footer footer footer" 10px / auto 1fr auto;
   height: 70px;
   padding: 0 10px;
+  cursor: pointer;
 
-  &__splitter {
-    grid-area: card-splitter;
-    height: 12px;
-    display: flex;
-    justify-content: stretch;
-    border-top: 1px solid #EAEAEA;
-  }
   &__preview {
     @include text(12px,15px,500,normal,#999999);
     width: 193px;
