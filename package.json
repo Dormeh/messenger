@@ -33,11 +33,11 @@
   },
   "homepage": "https://github.com/Dormeh/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "parcel": "^2.8.0",
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
     "@parcel/transformer-sass": "^2.8.0",
+    "parcel": "^2.8.0",
+    "parcel-packager-svg-sprite": "^2.0.0",
     "parcel-plugin-clean-easy": "^1.0.2",
-    "parcel-transformer-svg-sprite": "^2.0.0",
     "sass": "^1.56.1"
   },
   "dependencies": {
