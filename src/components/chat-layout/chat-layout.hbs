@@ -4,10 +4,7 @@
             <a class="chat-layout__link" href="index.hbs">Сменить аккаунт</a>
             <a class="chat-layout__link" href="profile.hbs">
                 <span>Профиль</span>
-                <svg class="chat-layout__nav-icon">
-                    <use href="../asserts/images/icons_sprite.svg#arrow"></use>
-                </svg>
-
+                {{> 'svgicons/arrow' arrowIconClass="chat-layout__nav-icon"}}
             </a>
         </div>
         <div class="chat-layout__search-bar">
@@ -16,8 +13,8 @@
 
 
     </div>
-<!--    Пример формирования шаблона из js компонента который будет на 2-м спринте-->
-<!--    Повтор сделан в данном случае так js компонент пока не делаем и чтобы визуально оценить верстку-->
+    <!--    Пример формирования шаблона из js компонента который будет на 2-м спринте-->
+    <!--    Повтор сделан в данном случае так js компонент пока не делаем и чтобы визуально оценить верстку-->
     <div class="chat-layout__list">
         <div class="chat-layout__card-splitter"></div>
         {{> 'card/card' userName="Mr.Cat.1" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:46" cardMessCount="2"}}
