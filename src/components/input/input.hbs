@@ -3,9 +3,7 @@
         <label class="input__label">{{label}}</label>
         <div class="input__container">
             <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text">
-            <svg class="chat-layout__search-icon">
-                <use href="../asserts/images/icons_sprite.svg#search"></use>
-            </svg>
+            {{> 'svgicons/search' searchIconClass="chat-layout__search-icon"}}
         </div>
     </div>
 {{else}}
