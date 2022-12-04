@@ -25,7 +25,7 @@
     border: none;
     border-bottom: 1px solid transparentize(rgba(#3369F3, 1), 0.2);
     @include text(1em, 1.25em, 400, normal, false);
-    transition: border-color 0.25s ease-in-out, box-shadow 0.30s ease-in-out;
+    transition: border-color 0.25s ease-in-out, box-shadow 0.3s ease-in-out;
 
     &::placeholder {
       color: var(--grey-2);
