@@ -4,16 +4,13 @@
   display: grid;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
-  grid-template:
-          "header header header" 10px
-          "avatar card-preview card-info" 1fr
-          "footer footer footer" 10px / auto 1fr auto;
+  grid-template: "header header header" 10px "avatar card-preview card-info" 1fr "footer footer footer" 10px / auto 1fr auto;
   height: 70px;
   padding: 0 10px;
   cursor: pointer;
 
   &__preview {
-    @include text(12px,15px,500,normal,#999999);
+    @include text(12px, 15px, 500, normal, #999999);
     width: 193px;
     grid-area: card-preview;
     display: flex;
@@ -32,30 +29,31 @@
     padding-right: 10px;
     grid-area: avatar;
     @include flex-center;
-
-    & .avatar {
+    & .card__avatar-container {
       width: 47px;
       height: 47px;
     }
   }
+
+
+
   &__user-name {
-    @include text(13px,13px,600, normal, #1E1E1E);
-    margin-bottom: 4px;
+    @include text(13px, 13px, 600, normal, #1E1E1E);
+    margin-bottom: 8px;
 
   }
+
   &__time {
-    @include text(9px,13px,500,normal,#999999);
+    @include text(9px, 13px, 500, normal, #999999);
   }
+
   &__unr-message-count {
     @include flex-center;
-    @include text(11px,12px,500,normal,#FFFFFF);
+    @include text(11px, 12px, 500, normal, #FFFFFF);
     align-self: flex-end;
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background-color: #3369F3;
-  ;
   }
-
-
 }

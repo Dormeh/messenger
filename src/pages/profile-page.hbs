@@ -1,0 +1,56 @@
+{{!< main}}
+<main class="page page_chat-theme">
+    <div class="container">
+        <div class="chat-layout profile">
+            <div class="profile__nav-back">
+                <a href="chat-page.hbs">
+                    {{> 'svgicons/arrowBack'}}
+                </a>
+            </div>
+            <div class="profile__preview">
+                <div class="profile__content-container profile__content-container_chng">
+                    <div class="profile__avatar-preview">
+                        {{> 'avatar/avatar' avatarClass="profile__avatar-container profile__avatar-container_chng"}}
+                        <h3 class="profile__user-title">User</h3>
+                    </div>
+                    <div class="profile__user-info">
+                        <div class="profile__string">
+                            <p class="profile__text">Почта</p>
+                            <p class="profile__text profile__text_light">pochta@yandex.ru</p>
+                        </div>                        <div class="profile__string">
+                            <p class="profile__text">Логин</p>
+                            <p class="profile__text profile__text_light">login</p>
+                        </div>
+                        <div class="profile__string">
+                            <p class="profile__text">Имя</p>
+                            <p class="profile__text profile__text_light">User</p>
+                        </div>
+                        <div class="profile__string">
+                            <p class="profile__text">Фамилия</p>
+                            <p class="profile__text profile__text_light">User</p>
+                        </div>
+                        <div class="profile__string">
+                            <p class="profile__text">Имя в чате</p>
+                            <p class="profile__text profile__text_light">User</p>
+                        </div>
+                        <div class="profile__string">
+                            <p class="profile__text">Телефон</p>
+                            <p class="profile__text profile__text_light">+7 (909) 967 30 30</p>
+                        </div>
+                    </div>
+                    <div class="profile__change-controls">
+                        <div class="profile__string profile__string_start">
+                            <a href="#" class="profile__link">Изменить данные</a>
+                        </div>
+                        <div class="profile__string profile__string_start">
+                            <a href="#" class="profile__link">Изменить пароль</a>
+                        </div>
+                        <div class="profile__string profile__string_start">
+                            <a href="#" class="profile__link profile__link_red">Выйти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
