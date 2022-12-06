@@ -10,7 +10,7 @@
   cursor: pointer;
 
   &__preview {
-    @include text(12px, 15px, 500, normal, #999999);
+    @include text(12px, 15px, 500, normal, var(--grey-6));
     width: 193px;
     grid-area: card-preview;
     display: flex;
@@ -38,22 +38,22 @@
 
 
   &__user-name {
-    @include text(13px, 13px, 600, normal, #1E1E1E);
+    @include text(13px, 13px, 500, normal, var(--active-text-color));
     margin-bottom: 8px;
 
   }
 
   &__time {
-    @include text(9px, 13px, 500, normal, #999999);
+    @include text(9px, 13px, 500, normal, var(--grey-6));
   }
 
   &__unr-message-count {
     @include flex-center;
-    @include text(11px, 12px, 500, normal, #FFFFFF);
+    @include text(11px, 12px, 500, normal, var(--font-color-light));
     align-self: flex-end;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: #3369F3;
+    background-color: var(--ligth-blue);
   }
 }

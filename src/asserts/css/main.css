@@ -1,6 +1,6 @@
 @import "../../components/button/button.scss";
 @import "../../components/input/input.scss";
-@import "../../components/form/login-form.scss";
+@import "../../components/form/form.scss";
 @import "../../components/container/container.scss";
 @import "../../components/chat-layout/chat-layout.scss";
 @import "../../components/card/card.scss";
@@ -12,39 +12,29 @@
 
 :root {
     --main-bg-color: #ffff;
-    --main-font-color: #212429;
-    --active-text-color: #212429;
+    --second-bg-color: #e5e5e5;
+    --main-font-color: #1e1e1e;
+    --active-text-color: #1e1e1e;
     --icons-color: #212429;
-    --pink: #F784AD;
     --purple: #7048E8;
     --blue: #374FC7;
-    --ligth-blue: #3369F3;
+    --ligth-blue: #3369f3;
     --dark-blue: #334D6E;
     --dark-purple: #5028C6;
-    --red: #f03d3e;
-    --red-orange: #d84910;
+    --red: #f95151;
     --font-color-light: #ffff;
-    --grey-2: #dde2e5;
-    --grey-3: #ACB5BD;
+    --grey-2: #eaeaea;
+    --grey-3: #8c939a;
     --grey-4: #495057;
-    --grey-5: #F9FAFC;
-    --grey-6: #90A0B7;
-    --grey-7: #F9FAFC;
+    --grey-5: #FBFBFB;
+    --grey-6: #999999;
+    --grey-7: #f9fafc;
 
     --error: var(--red);
     --success: var(--blue);
 
     --primary: var(--blue);
     --secondary: var(--purple);
-
-
-    --token-attr-value: #07a;
-    --token-attr-name: #690;
-    --token-tag: #905;
-    --token-function: #dd4a68;
-    --token-punctuation: #999;
-
-
 }
 
 html, body {

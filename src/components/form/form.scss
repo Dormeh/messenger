@@ -1,7 +1,7 @@
 @import "../../partials/mixins";
 
 
-.login-form {
+.form {
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
@@ -9,7 +9,7 @@
     padding: 50px 30px 30px;
     width: 340px;
     min-height: 460px;
-    background: #FFFFFF;
+    background: var(--grey-5);
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
     border-radius: 12px;
   }
@@ -27,7 +27,7 @@
     text-align: center;
     padding-bottom: 1.5em;
 
-    color: #1E1E1E;
+    color: var(--main-font-color);
 
   }
 
@@ -47,7 +47,7 @@
   }
   &__change-form-link {
     font-family: 'Inter', sans-serif;
-    @include text(11px, 11px, 500, normal, #3369F3);
+    @include text(11px, 11px, 500, normal, lighten(#3369f3, 20%));
     margin-top: 14px;
     text-decoration: none;
     text-align: center;

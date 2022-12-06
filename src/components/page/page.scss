@@ -2,9 +2,9 @@
 
 .page {
   height: 100%;
-  background-color: white;
+  background-color: var(--main-bg-color);
 
   &_chat-theme {
-    background: #E5E5E5;
+    background: var(--second-bg-color);
   }
 }

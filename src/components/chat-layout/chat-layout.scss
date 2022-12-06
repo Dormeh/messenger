@@ -3,9 +3,7 @@
 
 .chat-layout {
   display: grid;
-  grid-template:
-          "chats-header chat-tape"
-          "chats-list chat-tape" 1fr / auto 1fr;
+  grid-template: "chats-header chat-tape" "chats-list chat-tape" 1fr / auto 1fr;
   max-height: 720px;
   max-width: 1280px;
   background-color: white;
@@ -15,10 +13,10 @@
 
   &__list-header {
     grid-area: chats-header;
-    border-right: 1px solid #EAEAEA;
-    background-color: #FBFBFB;
+    border-right: 1px solid var(--grey-2);
+    background-color: var(--main-bg-color);
     padding: 21px 10px 12px;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
 
   }
 
@@ -29,32 +27,33 @@
   }
 
   &__link {
-    @include text(12px, 12px, 500, normal, #999999);
+    @include text(12px, 12px, 500, normal, var(--grey-6));
   }
 
   &__nav-icon {
     width: 6px;
     height: 10px;
-    color: #999999;
+    color: var(--grey-6);
   }
 
   & &__seach-input {
     margin-top: 22px;
     padding: 0;
+
     & .input__input-text {
       min-height: 23px;
-      background-color: #EFEFEF;
+      background-color: var(--grey-2);
       border: none;
       border-radius: 5px;
       outline: none;
-      padding: 6px 12px;
+      padding: 6px 30px;
 
       &:focus ~ .chat-layout__search-icon {
-        display: none;
+        left: 6%;
       }
 
       &::placeholder {
-        color: #999999;
+        color: var(--grey-6);
         text-align: center;
       }
     }
@@ -72,42 +71,44 @@
       z-index: 1;
       width: 13px;
       height: 14px;
-      color: #999999;
+      color: var(--grey-6);
     }
   }
 
   &__list {
     display: flex;
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
     width: 310px;
     flex-direction: column;
     justify-content: flex-start;
     grid-area: chats-list;
-    border-right: 1px solid #EAEAEA;
-    background-color: #FBFBFB;
+    border-right: 1px solid var(--grey-2);
+    background-color: var(--main-bg-color);
     overflow: auto;
 
     &::-webkit-scrollbar {
       width: 4px;
-      background-color: #f9f9fd;
+      background-color: var(--grey-5);
     }
 
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: #cccece;
+      background-color: #657380;
     }
   }
 
   &__card-splitter {
     padding-top: 1px;
-    background-color: #EAEAEA;
+    background-color: var(--grey-5);
     margin: 2px 10px;
   }
 
-  &__tape {
-    @include text(12px, 12px, 500, normal, #999999);
+  &__feed {
+    @include text(12px, 12px, 500, normal, var(--grey-3));
+    background-color: var(--main-bg-color);
     font-family: 'Inter', sans-serif;
     @include flex-center;
     grid-area: chat-tape;
+    border-radius: 0 5px 5px 0;
   }
 }
