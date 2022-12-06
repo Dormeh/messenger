@@ -26,7 +26,8 @@
     }
   ],
   "title": "Регистрация",
-  "addFormClass": "login-form_registr-form",
+  "addFormClass": "login-form_login-view login-form_registr-form",
+  "inputAddClass": "input_log-form",
   "buttonTitle": "Зарегестрироваться",
   "backLink": "index.hbs",
   "backLinkTitle": "Войти"
