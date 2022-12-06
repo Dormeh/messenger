@@ -26,36 +26,45 @@
     @include text(1em, 1.25em, 400, normal, var(--active-text-color));
     transition: border-color 0.25s ease-in-out;
     border-bottom: 1px solid var(--grey-2);
+
     &::placeholder {
       color: var(--grey-3);
     }
   }
+
   &_log-form {
     padding: 12px 0;
+
     & .input__input-text {
       border-bottom: 1px solid var(--ligth-blue);
     }
   }
+
   &_profile {
-    height: 33px;
+    height: 35px;
+
     & .input__input-text {
-      text-align:right;
+      text-align: right;
+
       &::placeholder {
         text-align: right;
         color: var(--grey-3);
       }
     }
+
     & .input__label {
       display: none;
     }
+
     & .input__profile-label {
       color: var(--main-font-color);
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
     }
+
     & .input__error-name {
-      top: 100%;
+      top: 105%;
       left: 100%;
       transform: translateX(-100%);
       white-space: nowrap;
@@ -70,7 +79,7 @@
 
   &__error-name {
     position: absolute;
-    @include text(8px,8px,400,normal,var(--red));
+    @include text(8px, 8px, 400, normal, var(--red));
     top: 100%;
     transform: translateY(100%);
     opacity: 0;
@@ -79,7 +88,8 @@
 
   & &__input-text:invalid {
     border-bottom: 1px solid var(--red);
-    &~.input__error-name {
+
+    & ~ .input__error-name {
       opacity: 1;
     }
   }

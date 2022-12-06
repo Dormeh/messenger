@@ -18,15 +18,18 @@
     justify-content: space-evenly;
 
   }
+
   &__title {
-    @include text(150px,150px, 500, normal, var(--main-font-color));
+    @include text(150px, 150px, 500, normal, var(--main-font-color));
 
   }
+
   &__message {
-    @include text(28px,34pxpx, 300, normal, var(--active-text-color));
+    @include text(28px, 34 pxpx, 300, normal, var(--active-text-color));
     opacity: 0.7;
   }
+
   &__back-link {
-    @include text(20px,22pxpx, 400, normal, var(--dark-blue));
+    @include text(20px, 22 pxpx, 400, normal, var(--dark-blue));
   }
 }

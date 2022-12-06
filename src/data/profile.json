@@ -14,21 +14,23 @@
     },
     {
       "placeholder": "Иван",
-      "name": "name",
+      "name": "first_name",
       "label": "Имя"
     },
     {
       "placeholder": "Иванов",
-      "label": "Фамилия"
+      "label": "Фамилия",
+      "name": "second_name"
     },
     {
       "placeholder": "Имя",
-      "name": "name",
+      "name": "display_name",
       "label": "Имя в чате"
     },
     {
       "placeholder": "+7 (909) 967 30 30",
-      "label": "Телефон"
+      "label": "Телефон",
+      "name": "phone"
     }
 
   ],

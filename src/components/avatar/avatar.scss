@@ -10,13 +10,15 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
   &_default {
     border-radius: 50%;
     position: relative;
     background-color: var(--second-bg-color);
   }
+
   &__svg {
-    color: #CDCDCD;
+    color: #cdcdcd;
     position: absolute;
     top: 50%;
     left: 50%;

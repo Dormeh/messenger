@@ -3,7 +3,7 @@
     <form class="form__inner">
         <div class="form___inputs-inner">
             {{#each form.inputs}}
-                {{> 'input/input' placeholder=this.placeholder type=this.type errorName=this.errorName inputAddClass=../form.inputAddClass formLabel=this.label profileInput=../form.profileInput}}
+                {{> 'input/input' placeholder=this.placeholder type=this.type errorName=this.errorName inputAddClass=../form.inputAddClass formLabel=this.label profileInput=../form.profileInput name=this.name}}
             {{/each}}
         </div>
         {{#unless profileMainPage}}

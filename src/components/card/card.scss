@@ -29,13 +29,12 @@
     padding-right: 10px;
     grid-area: avatar;
     @include flex-center;
+
     & .card__avatar-container {
       width: 47px;
       height: 47px;
     }
   }
-
-
 
   &__user-name {
     @include text(13px, 13px, 500, normal, var(--active-text-color));
