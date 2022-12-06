@@ -10,38 +10,13 @@
         <div class="chat-layout__search-bar">
             {{> 'input/input' placeholder="Поиск" type="text" inputAddClass="chat-layout__seach-input" searchInput="true"}}
         </div>
-
-
     </div>
-    <!--    Пример формирования шаблона из js компонента который будет на 2-м спринте-->
-    <!--    Повтор сделан в данном случае так js компонент пока не делаем и чтобы визуально оценить верстку-->
     <div class="chat-layout__list">
         <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.1" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:46" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.2" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:45" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.3" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:44" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.4" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:43" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.5" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:42" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.6" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:41" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.7" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:40" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.8" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:39" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.9" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:38" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.10" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:37" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.11" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:36" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.12" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:35" cardMessCount="2"}}
-        <div class="chat-layout__card-splitter"></div>
-        {{> 'card/card' userName="Mr.Cat.13" userMessage="Мяууу...Мяууу...Мяууу...Мяууу..." cardTime="10:34" cardMessCount="2"}}
+        {{#each messages.chats}}
+            {{> 'card/card' userName=this.userName userMessage=this.message cardTime=this.time cardMessCount=this.unreadMes}}
+            <div class="chat-layout__card-splitter"></div>
+        {{/each}}
 
     </div>
     <div class="chat-layout__tape">Выберите чат чтобы отправить сообщение</div>

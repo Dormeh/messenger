@@ -1,0 +1,33 @@
+{
+  "inputs": [
+    {
+      "placeholder": "Логин",
+      "name": "login",
+      "type": "email",
+      "errorName": "введите корректный email"
+    },
+    {
+      "placeholder": "Имя",
+      "name": "name"
+    },
+    {
+      "placeholder": "Фамилия"
+    },
+    {
+      "placeholder": "Телефон"
+    },
+    {
+      "placeholder": "Пароль",
+      "type": "password"
+    },
+    {
+      "placeholder": "Пароль (ещё раз)",
+      "type": "password"
+    }
+  ],
+  "title": "Регистрация",
+  "addFormClass": "login-form_registr-form",
+  "buttonTitle": "Зарегестрироваться",
+  "backLink": "index.hbs",
+  "backLinkTitle": "Войти"
+}
