@@ -3,8 +3,7 @@
     {
       "placeholder": "Логин",
       "name": "login",
-      "type": "email",
-      "errorName": "введите корректный email"
+      "errorName": "Неверный логин"
     },
     {
       "placeholder": "Имя",
@@ -26,7 +25,7 @@
     }
   ],
   "title": "Регистрация",
-  "addFormClass": "login-form_login-view login-form_registr-form",
+  "addFormClass": "form_login-view form_registr-form",
   "inputAddClass": "input_log-form",
   "buttonTitle": "Зарегестрироваться",
   "backLink": "index.hbs",

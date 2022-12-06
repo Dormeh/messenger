@@ -1,7 +1,7 @@
-<div class="login-form {{form.addFormClass}}">
-    <h1 class="login-form__title">{{form.title}}</h1>
-    <form class="login-form__inner">
-        <div class="login-form___inputs-inner">
+<div class="form {{form.addFormClass}}">
+    <h1 class="form__title">{{form.title}}</h1>
+    <form class="form__inner">
+        <div class="form___inputs-inner">
             {{#each form.inputs}}
                 {{> 'input/input' placeholder=this.placeholder type=this.type errorName=this.errorName inputAddClass=../form.inputAddClass formLabel=this.label profileInput=../form.profileInput}}
             {{/each}}
@@ -11,5 +11,5 @@
             {{> 'button/button' formAction="chat-page.html" buttonTitle=form.buttonTitle buttonClass="button_primary button_set-big-btn profile__button-container"}}
         {{/unless}}
     </form>
-    <a href="{{form.backLink}}" class="login-form__change-form-link">{{form.backLinkTitle}}</a>
+    <a href="{{form.backLink}}" class="form__change-form-link">{{form.backLinkTitle}}</a>
 </div>

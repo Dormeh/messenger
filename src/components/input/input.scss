@@ -27,13 +27,13 @@
     transition: border-color 0.25s ease-in-out;
     border-bottom: 1px solid var(--grey-2);
     &::placeholder {
-      color: var(--grey-2);
+      color: var(--grey-3);
     }
   }
   &_log-form {
     padding: 12px 0;
     & .input__input-text {
-      border-bottom: 1px solid transparentize(rgba(#3369F3, 1), 0.2);
+      border-bottom: 1px solid var(--ligth-blue);
     }
   }
   &_profile {
@@ -55,7 +55,7 @@
       transform: translateY(-50%);
     }
     & .input__error-name {
-      top: 90%;
+      top: 100%;
       left: 100%;
       transform: translateX(-100%);
       white-space: nowrap;
@@ -63,8 +63,8 @@
 
   }
 
-  & &__input-text:focus, &__input-text.input__input-text_focused {
-    border-bottom-color: darken(#3369F3, 15%);
+  & &__input-text:focus {
+    border-bottom-color: lighten(#3369f3, 15%);
     outline: none;
   }
 
