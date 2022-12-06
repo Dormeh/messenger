@@ -6,7 +6,6 @@
                 {{> 'input/input' placeholder=this.placeholder type=this.type errorName=this.errorName inputAddClass=../form.inputAddClass formLabel=this.label profileInput=../form.profileInput}}
             {{/each}}
         </div>
-        <a href="chat-page.hbs"></a>
         {{#unless profileMainPage}}
             {{> 'button/button' formAction="chat-page.html" buttonTitle=form.buttonTitle buttonClass="button_primary button_set-big-btn profile__button-container"}}
         {{/unless}}

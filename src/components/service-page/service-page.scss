@@ -1,0 +1,32 @@
+@import "../../partials/mixins";
+
+.service-page {
+  background-color: var(--second-bg-color);
+  font-family: "Roboto", sans-serif;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  text-transform: uppercase;
+  max-width: 500px;
+  max-height: 400px;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+
+  &__preview {
+    height: 100%;
+    @include flex-center;
+    justify-content: space-evenly;
+
+  }
+  &__title {
+    @include text(150px,150px, 500, normal, var(--main-font-color));
+
+  }
+  &__message {
+    @include text(28px,34pxpx, 300, normal, var(--active-text-color));
+    opacity: 0.7;
+  }
+  &__back-link {
+    @include text(20px,22pxpx, 400, normal, var(--dark-blue));
+  }
+}

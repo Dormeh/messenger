@@ -7,34 +7,28 @@
 @import "../../components/avatar/avatar.scss";
 @import "../../components/profile/profile.scss";
 @import "../../components/page/page.scss";
+@import "../../components/service-page/service-page.scss";
 @import '../fonts/fonts.css';
 @import "normalize.css";
 
 :root {
-    --main-bg-color: #ffff;
-    --second-bg-color: #e5e5e5;
-    --main-font-color: #1e1e1e;
-    --active-text-color: #1e1e1e;
-    --icons-color: #212429;
-    --purple: #7048E8;
-    --blue: #374FC7;
-    --ligth-blue: #3369f3;
-    --dark-blue: #334D6E;
-    --dark-purple: #5028C6;
-    --red: #f95151;
+    --main-bg-color: #343941;
+    --second-bg-color: #4c5761;
+    --main-font-color: #b0b3b6;
     --font-color-light: #ffff;
-    --grey-2: #eaeaea;
+    --active-text-color: #ffff;
+    --icons-color: #ffff;
+    --primary: var(--blue);
+    --dark-blue: #a1b5ce;
+    --ligth-blue: #3369f3;
+    --blue: #374FC7;
+    --red: #f95151;
+    --grey-2: #666768;
     --grey-3: #8c939a;
-    --grey-4: #495057;
-    --grey-5: #FBFBFB;
+    --grey-4: #818c98;
+    --grey-5: #454e59;
     --grey-6: #999999;
     --grey-7: #f9fafc;
-
-    --error: var(--red);
-    --success: var(--blue);
-
-    --primary: var(--blue);
-    --secondary: var(--purple);
 }
 
 html, body {
