@@ -32,7 +32,8 @@
     }
 
   ],
-
+  "inputAddClass": "input_profile",
   "addFormClass": "profile__user-info",
-  "buttonTitle": "Сохранить"
+  "buttonTitle": "Сохранить",
+  "profileInput": true
 }
