@@ -1,7 +1,6 @@
 module.exports = {
-    // data: 'src/markup/data',
-    // decorators: 'src/markup/decorators',
-    // helpers: 'src/markup/helpers',
+    data: 'src/data',
+    helpers: 'src/tools',
     layouts: 'src/layouts',
     partials: 'src/components',
 };

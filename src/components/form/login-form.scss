@@ -5,12 +5,14 @@
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
-  padding: 50px 30px 30px;
-  width: 340px;
-  min-height: 460px;
-  background: #FFFFFF;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
-  border-radius: 12px;
+  &_login-view {
+    padding: 50px 30px 30px;
+    width: 340px;
+    min-height: 460px;
+    background: #FFFFFF;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+    border-radius: 12px;
+  }
   &_registr-form {
     max-height: 615px;
     height: 100%;
@@ -29,7 +31,7 @@
 
   }
 
-  &__form {
+  &__inner {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

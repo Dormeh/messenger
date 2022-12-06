@@ -1,17 +1,14 @@
-{{#if searchInput}}
-    <div class="input {{inputAddClass}}">
-        <label class="input__label">{{label}}</label>
-        <div class="input__container">
-            <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text">
+<div class="input {{inputAddClass}}">
+    <label class="input__label">{{label}}</label>
+    <div class="input__container">
+        <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text">
+        {{#if profileInput}}
+            <span class="input__profile-label">{{formLabel}}</span>
+        {{/if}}
+        {{#if searchInput}}
             {{> 'svgicons/search' searchIconClass="chat-layout__search-icon"}}
-        </div>
-    </div>
-{{else}}
-    <div class="input {{inputAddClass}}">
-        <label class="input__label">{{label}}</label>
-        <div class="input__container">
-            <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text">
+        {{else}}
             <div class="input__error-name">{{errorName}}</div>
-        </div>
+        {{/if}}
     </div>
-{{/if}}
+</div>

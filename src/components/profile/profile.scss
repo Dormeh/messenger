@@ -51,11 +51,17 @@
   &__user-title {
     text-align: center;
     margin-bottom: 0;
+    opacity: 0;
   }
 
   &__user-info {
     @include text(16px, 16px, 600, normal, #1E1E1E);
     width: 100%;
+    height: 100%;
+    & .profile__button-container {
+      align-self: center;
+      width: 50%;
+    }
   }
 
   &__string {
@@ -89,17 +95,20 @@
     background: #ffffff;
     border-radius: 5px;
     @include flex-center;
-  }
 
-  &__content-container {
-    padding: 60px 0 100px;
-    min-width: 280px;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
+    &_inactive {
+      & .login-form__inner {
+        pointer-events: none;
+      }
+      & .profile__user-title {
+        opacity: 1;
+      }
+    }
+    &_password {
+      & .login-form__inner {
+        justify-content: space-around;
+      }
+    }
   }
 
   &__change-controls {
