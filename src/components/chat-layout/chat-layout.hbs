@@ -1,12 +1,12 @@
 <div class="chat-layout">
     <div class="chat-layout__list-header">
-        <div class="chat-layout__navbar">
+        <nav class="chat-layout__navbar">
             <a class="chat-layout__link" href="index.hbs">Сменить аккаунт</a>
             <a class="chat-layout__link" href="profile-page.hbs">
                 <span>Профиль</span>
                 {{> 'svgicons/arrow' arrowIconClass="chat-layout__nav-icon"}}
             </a>
-        </div>
+        </nav>
         <div class="chat-layout__search-bar">
             {{> 'input/input' placeholder="Поиск" type="text" inputAddClass="chat-layout__seach-input" searchInput="true"}}
         </div>
