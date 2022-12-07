@@ -1,0 +1,58 @@
+@import "../../partials/mixins";
+
+.card {
+  display: grid;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  grid-template: "header header header" 10px "avatar card-preview card-info" 1fr "footer footer footer" 10px / auto 1fr auto;
+  height: 70px;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &__preview {
+    @include text(12px, 15px, 500, normal, var(--grey-6));
+    width: 193px;
+    grid-area: card-preview;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  &__info {
+    grid-area: card-info;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__avatar {
+    padding-right: 10px;
+    grid-area: avatar;
+    @include flex-center;
+
+    & .card__avatar-container {
+      width: 47px;
+      height: 47px;
+    }
+  }
+
+  &__user-name {
+    @include text(13px, 13px, 500, normal, var(--active-text-color));
+    margin-bottom: 8px;
+
+  }
+
+  &__time {
+    @include text(9px, 13px, 500, normal, var(--grey-6));
+  }
+
+  &__unr-message-count {
+    @include flex-center;
+    @include text(11px, 12px, 500, normal, var(--font-color-light));
+    align-self: flex-end;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--ligth-blue);
+  }
+}

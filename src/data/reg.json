@@ -1,0 +1,43 @@
+{
+  "inputs": [
+    {
+      "placeholder": "Почта",
+      "name": "email",
+      "type": "email",
+      "errorName": "Некорректная почта"
+    },
+    {
+      "placeholder": "Логин",
+      "name": "login",
+      "errorName": "Неверный логин"
+    },
+    {
+      "placeholder": "Имя",
+      "name": "first_name"
+    },
+    {
+      "placeholder": "Фамилия",
+      "name": "second_name"
+    },
+    {
+      "placeholder": "Телефон",
+      "name": "phone"
+    },
+    {
+      "placeholder": "Пароль",
+      "type": "password",
+      "name": "password"
+    },
+    {
+      "placeholder": "Пароль (ещё раз)",
+      "type": "password",
+      "name": "password"
+    }
+  ],
+  "title": "Регистрация",
+  "addFormClass": "form_login-view form_registr-form",
+  "inputAddClass": "input_log-form",
+  "buttonTitle": "Зарегистрироваться",
+  "backLink": "index.hbs",
+  "backLinkTitle": "Войти"
+}

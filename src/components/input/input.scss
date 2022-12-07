@@ -1,0 +1,97 @@
+@import "../../partials/mixins";
+
+.input {
+  @include text(0.8125em, 0.8125em, 500, normal, var(--grey-3));
+  font-family: 'Inter', sans-serif;
+  text-align: start;
+  width: 100%;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__label {
+    @include text($size: 0.75em, $lh: 2.5em);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__input-text {
+    box-sizing: border-box;
+    padding: 7px 0;
+    background-color: unset;
+    border: none;
+    @include text(1em, 1.25em, 400, normal, var(--active-text-color));
+    transition: border-color 0.25s ease-in-out;
+    border-bottom: 1px solid var(--grey-2);
+
+    &::placeholder {
+      color: var(--grey-3);
+    }
+  }
+
+  &_log-form {
+    padding: 12px 0;
+
+    & .input__input-text {
+      border-bottom: 1px solid var(--ligth-blue);
+    }
+  }
+
+  &_profile {
+    height: 35px;
+
+    & .input__input-text {
+      text-align: right;
+
+      &::placeholder {
+        text-align: right;
+        color: var(--grey-3);
+      }
+    }
+
+    & .input__label {
+      display: none;
+    }
+
+    & .input__profile-label {
+      color: var(--main-font-color);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    & .input__error-name {
+      top: 105%;
+      left: 100%;
+      transform: translateX(-100%);
+      white-space: nowrap;
+    }
+
+  }
+
+  & &__input-text:focus {
+    border-bottom-color: lighten(#3369f3, 15%);
+    outline: none;
+  }
+
+  &__error-name {
+    position: absolute;
+    @include text(8px, 8px, 400, normal, var(--red));
+    top: 100%;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: 0.3s opacity;
+  }
+
+  & &__input-text:invalid {
+    border-bottom: 1px solid var(--red);
+
+    & ~ .input__error-name {
+      opacity: 1;
+    }
+  }
+
+}

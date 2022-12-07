@@ -1,0 +1,24 @@
+---
+title: 'profile-chng-pswd-page'
+addPageClass: 'page_chat-theme'
+
+---
+
+{{!< main}}
+
+<div class="chat-layout profile">
+    <div class="profile__nav-back">
+        <a href="profile-page.hbs">
+            {{> 'svgicons/arrowBack'}}
+        </a>
+    </div>
+    <div class="profile__preview profile__preview_password">
+        <div class="container container_profile">
+            <div class="profile__avatar-preview">
+                {{> 'avatar/avatar' avatarClass="profile__avatar-container"}}
+                <h3 class="profile__user-title">User</h3>
+            </div>
+            {{> 'form/form' form=password}}
+        </div>
+    </div>
+</div>

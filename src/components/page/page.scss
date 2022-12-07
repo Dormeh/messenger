@@ -1,0 +1,10 @@
+@import "../../partials/mixins";
+
+.page {
+  height: 100%;
+  background-color: var(--main-bg-color);
+
+  &_chat-theme {
+    background: var(--second-bg-color);
+  }
+}
