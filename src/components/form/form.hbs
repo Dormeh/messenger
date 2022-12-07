@@ -1,0 +1,14 @@
+<div class="form {{form.addFormClass}}">
+    <h1 class="form__title">{{form.title}}</h1>
+    <form class="form__inner">
+        <fieldset class="form___inputs-inner">
+            {{#each form.inputs}}
+                {{> 'input/input' placeholder=this.placeholder type=this.type errorName=this.errorName inputAddClass=../form.inputAddClass formLabel=this.label profileInput=../form.profileInput name=this.name}}
+            {{/each}}
+        </fieldset>
+        {{#unless profileMainPage}}
+            {{> 'button/button' formAction="chat-page.html" buttonTitle=form.buttonTitle buttonClass="button_primary button_set-big-btn profile__button-container"}}
+        {{/unless}}
+    </form>
+    <a href="{{form.backLink}}" class="form__change-form-link">{{form.backLinkTitle}}</a>
+</div>

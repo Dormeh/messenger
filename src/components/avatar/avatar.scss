@@ -1,0 +1,28 @@
+@import "../../partials/mixins";
+
+.avatar {
+  width: 10em;
+  height: 10em;
+
+  &__img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &_default {
+    border-radius: 50%;
+    position: relative;
+    background-color: var(--second-bg-color);
+  }
+
+  &__svg {
+    color: #cdcdcd;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+

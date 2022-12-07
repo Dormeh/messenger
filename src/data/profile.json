@@ -1,0 +1,41 @@
+{
+  "inputs": [
+    {
+      "placeholder": "pochta@yandex.ru",
+      "name": "email",
+      "type": "email",
+      "errorName": "введите корректный email",
+      "label": "Почта"
+    },
+    {
+      "placeholder": "ivanivanov",
+      "name": "login",
+      "label": "Логин"
+    },
+    {
+      "placeholder": "Иван",
+      "name": "first_name",
+      "label": "Имя"
+    },
+    {
+      "placeholder": "Иванов",
+      "label": "Фамилия",
+      "name": "second_name"
+    },
+    {
+      "placeholder": "Имя",
+      "name": "display_name",
+      "label": "Имя в чате"
+    },
+    {
+      "placeholder": "+7 (909) 967 30 30",
+      "label": "Телефон",
+      "name": "phone"
+    }
+
+  ],
+  "inputAddClass": "input_profile",
+  "addFormClass": "profile__user-info",
+  "buttonTitle": "Сохранить",
+  "profileInput": true
+}

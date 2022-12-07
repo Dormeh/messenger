@@ -1,0 +1,9 @@
+{{#if avatarName}}
+    <div class="avatar {{avatarClass}}">
+        <img src="../asserts/images/{{avatarName}}.png" alt="avatar" class="avatar__img">
+    </div>
+{{else}}
+    <div class="avatar avatar_default {{avatarClass}}">
+        {{> 'svgicons/avatarDefault' avatarDefaultClass="avatar__svg"}}
+    </div>
+{{/if}}
