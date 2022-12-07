@@ -1,3 +1,4 @@
+@import "normalize.css";
 @import "../../components/button/button.scss";
 @import "../../components/input/input.scss";
 @import "../../components/form/form.scss";
@@ -9,7 +10,6 @@
 @import "../../components/page/page.scss";
 @import "../../components/service-page/service-page.scss";
 @import '../fonts/fonts.css';
-@import "normalize.css";
 
 :root {
     --main-bg-color: #343941;
