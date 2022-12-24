@@ -1,0 +1,23 @@
+import Block from 'core/Block';
+import template from 'bundle-text:./button.hbs';
+
+// import './button.scss';
+
+interface ButtonProps {
+  buttonTitle: string;
+  buttonClass: string;
+  formAction: string;
+  onClick: () => void;
+}
+
+export class Button extends Block {
+  constructor({buttonTitle, buttonClass, formAction, onClick}: ButtonProps) {
+    super({buttonTitle, buttonClass, formAction, events: {click: {fn: onClick, options: false}}});
+
+  }
+
+  protected render(): string {
+
+    return template;
+  }
+}
