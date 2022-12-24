@@ -67,7 +67,7 @@ export class Chat_layout extends Block {
                     {{/each}}
 
                 </div>
-                {{{ChatFeed ref=chat_feed}}}
+                {{{ChatFeed ref=chat_feed svg=svg}}}
             </div>
         `;
     }

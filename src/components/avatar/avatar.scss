@@ -3,6 +3,7 @@
 .avatar {
   width: 10em;
   height: 10em;
+  @include flex-center;
 
   &__img {
     height: 100%;
@@ -23,6 +24,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  &__svg_mini {
+    width: 40px;
+    height: 40px;
+    top: 0;
+    left: 0;
+    transform: translate(-8%, -8%) scale(0.5);
+    transform-origin: center;
+
   }
 }
 
