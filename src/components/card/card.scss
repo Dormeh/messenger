@@ -9,6 +9,18 @@
   padding: 0 10px;
   cursor: pointer;
 
+  &:hover {
+    background: lighten(#343941, 5%);
+  }
+  &_active, &_active:hover {
+    background: lighten(#343941, 10%);
+    & .card__message {
+      font-weight: 300;
+      color: var(--active-text-color);
+      opacity: 0.6;
+    }
+  }
+
   &__preview {
     @include text(12px, 15px, 500, normal, var(--grey-6));
     width: 193px;
@@ -40,6 +52,9 @@
     @include text(13px, 13px, 500, normal, var(--active-text-color));
     margin-bottom: 8px;
 
+  }
+  &__message {
+    @include text(13px, 13px, 400, normal, var(--grey-6));
   }
 
   &__time {

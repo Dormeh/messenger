@@ -63,7 +63,7 @@
       transform: translateY(-50%);
     }
 
-    & .input__error-name {
+    & .input_error {
       top: 105%;
       left: 100%;
       transform: translateX(-100%);
@@ -77,21 +77,22 @@
     outline: none;
   }
 
-  &__error-name {
+  &_error {
     position: absolute;
     @include text(8px, 8px, 400, normal, var(--red));
     top: 100%;
-    transform: translateY(100%);
-    opacity: 0;
+    transform: translateY(80%);
+    //opacity: 0;
     transition: 0.3s opacity;
+    white-space: nowrap;
   }
 
-  & &__input-text:invalid {
-    border-bottom: 1px solid var(--red);
-
-    & ~ .input__error-name {
-      opacity: 1;
-    }
-  }
+  //& &__input-text:invalid {
+  //  border-bottom: 1px solid var(--red);
+  //
+  //  & ~ .input__error-name {
+  //    opacity: 1;
+  //  }
+  //}
 
 }

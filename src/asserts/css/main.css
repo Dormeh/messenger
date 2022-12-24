@@ -31,6 +31,6 @@
     --grey-7: #f9fafc;
 }
 
-html, body {
+html, body, #app {
     height: 100%;
 }
