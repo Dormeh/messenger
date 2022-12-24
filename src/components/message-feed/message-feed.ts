@@ -5,8 +5,8 @@ import messages from 'data/messages.json'
 
 
 export class MessageFeed extends Block {
-    constructor() {
-        super();
+    constructor({svg}) {
+        super({svg});
         this.setProps({
             messages,
         })
