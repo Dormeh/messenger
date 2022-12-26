@@ -11,38 +11,67 @@ interface ChatFeedProps {
     loginValue: string;
     profileMainPage?: boolean;
     svg: string;
+    selectedChat: Block
 }
 
 export class ChatFeed extends Block {
 
-    constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg}: ChatFeedProps) {
-        super({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg});
+    constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
+        super({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat});
     }
 
     protected render(): string {
+        const {selectedChat} = this.props;
+
+        const photo = selectedChat && selectedChat.props.photo ? selectedChat.props.photo : '';
+        const name = selectedChat ? selectedChat.props.userName : '';
 
         // language=hbs
         return `
             <div class="chat-feed">
                 <div class="container">
-                    <div class="chat-feed__header">
-                        <div class="chat-feed__content-box">
-                        {{{Avatar avatarClass="chat-feed_header-avatr" svg=svg avatarMini=true}}}
-                            <p class="chat-feed__user-name">UserName</p>
+                    {{#if selectedChat}}
+                        <div class="chat-feed__header">
+                            <div class="chat-feed__content-box">
+                                {{{Avatar avatarClass="chat-feed_header-avatr" photo="${photo}" svg=svg avatarSvgClass="avatar__svg_mini"}}}
+                                <p class="chat-feed__user-name">${name}</p>
+                            </div>
+                            {{{ButtonSVG svg=svg
+                             buttonSvgClass="button-svg_round"
+                             svgClass="button-svg__svg-elem_tree-dots"
+                             svgName="tree-dots"
+                             }}}   
                         </div>
-                        <button class="chat-feed__button">...</button>
-                    </div>
-                    <div class="chat-feed__preview">
-                        {{{MessageFeed svg=svg}}}
-                    </div>
-                    <div class="chat-feed__footer">
-                        <button class="chat-feed__button">...</button>
-                        {{{Input inputAddClass="chat-feed__message-input"
-                                 placeholder="Сообщение"
-                        }}}
-                        <button class="chat-feed__button">...</button>
+                        <div class="chat-feed__preview">
+                            {{{MessageFeed ref="message_feed"
+                            
+                            }}}
+                        </div>
+                        <div class="chat-feed__footer">
+                            {{{ButtonSVG svg=svg
+                             buttonSvgClass="button-svg_round"
+                             svgClass="button-svg__svg-elem_clip"
+                             svgName="clip"
+                             }}}
+                            {{{Input ref="messageInput"
+                                     inputAddClass="chat-feed__message-input"
+                                     placeholder="Сообщение"
+                                     name="message"
+                                     messageInput=true
+                                     eventBlurOff=true
+                            }}}
+                            {{{ButtonSVG svg=svg
+                             buttonSvgClass="button-svg_round button-svg_primary"
+                              svgClass="button-svg__svg-elem_arrow-back"
+                              onClick=onSubmit
+                              svgName="arrow-back"
+                              }}}
 
-                    </div>
+                        </div>
+                    {{else}}
+                        <p class="chat-feed__default-text">Выберете чат</p>
+                    {{/if}}
+
                 </div>
 
             </div>

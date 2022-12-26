@@ -9,24 +9,28 @@ interface CardProps {
     cardMessCount:string;
     photo: any;
     onClick: () => void;
+    messagesUrl: string;
+    messages: []
+    svg:string;
 }
 
 export class Card extends Block {
-    constructor({userName, userMessage, cardTime, cardMessCount, photo, onClick}: CardProps) {
-        super({userName, userMessage, cardTime, cardMessCount, photo, events: {click: {fn: onClick, options: false}}});
+    constructor({userName, userMessage, messagesUrl, messages, cardTime, cardMessCount, photo, svg, onClick}: CardProps) {
+        super({userName, userMessage, messagesUrl, messages, cardTime, cardMessCount, svg, photo, events: {click: {fn: onClick, options: false}}});
     }
 
     protected render(): string {
+        const lastMessage = this.props.messages ? this.props.messages[this.props.messages.length - 1].text.slice(0, 29) + '...' : ''
         // language=hbs
 
         return `
                 <div class="card">
                     <div class="card__avatar">
-                        {{{Avatar svg=svg photo=photo avatarClass="card__avatar-container" avatarName="avatar"}}}
+                        {{{Avatar svg=svg photo=photo svg=svg avatarClass="card__avatar-container" avatarSvgClass="avatar__svg_midi" avatarName="avatar"}}}
                     </div>
                     <div class="card__preview">
                         <p class="card__user-name">{{userName}}</p>
-                        <p class="card__message">{{userMessage}}</p>
+                        <p class="card__message">${lastMessage}</p>
                     </div>
                     <div class="card__info">
                         <p class="card__time">{{cardTime}}</p>

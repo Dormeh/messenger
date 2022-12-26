@@ -4,7 +4,7 @@ import Block from 'core/Block';
 
 interface ErrorProps {
     errorName?: string;
-    errorAddClass?: string;
+    messageInput?: boolean;
 
 }
 
@@ -13,7 +13,7 @@ export class ErrorComponent extends Block<ErrorProps> {
     protected render(): string {
         // language=hbs
         return `
-            <div class="error {{errorAddClass}}">{{#if errorName}}{{errorName}}{{/if}}</div>
+            <div class="error {{#if messageInput}}input_message-error{{else}}input_error{{/if}}{{errorAddClass}}">{{#if errorName}}{{errorName}}{{/if}}</div>
 `
     }
 }

@@ -4,20 +4,21 @@ import template from "*.hbs";
 
 interface AvatarProps {
     avatarClass: string;
-    avatarMini: boolean;
+    avatarSvgClass: string;
     photo: string;
     svg: string;
 
 }
 
 export class Avatar extends Block {
-    constructor({avatarClass, avatarMini, photo, svg}: AvatarProps) {
-        super({avatarClass, avatarMini,  photo, svg});
-        console.log(svg)
+    constructor({avatarClass, avatarSvgClass, photo, svg}: AvatarProps) {
+        super({avatarClass, avatarSvgClass,  photo, svg});
 
     }
 
     protected render(): string {
+        // const {photo} = this.props;
+        // console.log(photo)
         // language=hbs
 
         return `
@@ -27,7 +28,7 @@ export class Avatar extends Block {
                     </div>
                 {{else}}
                     <div class="avatar avatar_default {{avatarClass}}">
-                        <svg class="avatar__svg {{#if avatarMini}}avatar__svg_mini{{/if}}">
+                        <svg class="avatar__svg {{avatarSvgClass}}">
                             <use href="{{svg}}#default-avatar"></use>
                         </svg>
                     </div>

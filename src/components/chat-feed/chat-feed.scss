@@ -19,7 +19,7 @@
   }
 
   & &__message-input {
-    padding: 0 10px;
+    margin: 0 10px;
 
     & .input__input-text {
       @include text(12px, 12px, 500, normal, var(--active-text-color));
@@ -60,6 +60,17 @@
     width: calc(100% + 30px);
     background: darken(#343941, 5%);
     flex-grow: 1;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      background-color: var(--grey-5);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: #222a32;
+    }
   }
 
   &__footer {
@@ -67,5 +78,7 @@
     width: 100%;
     //border-top: 1px solid var(--grey-5);
     display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
