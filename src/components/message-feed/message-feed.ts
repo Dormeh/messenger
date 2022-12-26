@@ -1,18 +1,18 @@
 import Block from 'core/Block';
 
 import './message-feed.scss';
-import messages from 'data/messages.json'
 
-
+interface MessageFeedProps {
+    messages:[]
+}
 export class MessageFeed extends Block {
-    constructor({svg}) {
-        super({svg});
-        this.setProps({
-            messages,
-        })
+    constructor({messages}:MessageFeedProps) {
+        super({messages});
+
     }
 
     protected render(): string {
+
         // language=hbs
         return `
             <div class="message-feed">

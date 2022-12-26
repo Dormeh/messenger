@@ -115,4 +115,14 @@
       color: var(--red);
     }
   }
+
+  &__svg {
+    color: white;
+    background-color: var(--ligth-blue);
+    border-radius: 50%;
+    padding: 12px;
+    width: 20px;
+    height: 20px;
+    transform: rotate(180deg);
+  }
 }

@@ -72,8 +72,6 @@ export class Page extends Block {
                         ref="form"
                         form=form
                         onSubmit=onSubmit
-                        onFocus=onFocus
-                        onBlur=onBlur
                         onInput=onInput
                         onChange=onChange
                         errorName=errorName

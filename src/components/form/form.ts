@@ -46,7 +46,8 @@ export class Form extends Block {
                                   formAction="chat.html"
                                   buttonTitle=form.buttonTitle
                                   buttonClass=form.buttonClass
-                                  onClick=onSubmit }}}
+                                  onClick=onSubmit 
+                        }}}
                     {{/unless}}
                 </form>
                 <a href="{{form.backLink}}" class="form__change-form-link">{{form.backLinkTitle}}</a>

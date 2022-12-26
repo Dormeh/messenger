@@ -82,17 +82,14 @@
     @include text(8px, 8px, 400, normal, var(--red));
     top: 100%;
     transform: translateY(80%);
-    //opacity: 0;
-    transition: 0.3s opacity;
     white-space: nowrap;
   }
-
-  //& &__input-text:invalid {
-  //  border-bottom: 1px solid var(--red);
-  //
-  //  & ~ .input__error-name {
-  //    opacity: 1;
-  //  }
-  //}
+  &_message-error {
+    top: -30%;
+    left: 2%;
+    position: absolute;
+    @include text(8px, 8px, 400, normal, var(--active-text-color));
+    white-space: nowrap;
+  }
 
 }

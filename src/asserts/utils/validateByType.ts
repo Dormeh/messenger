@@ -3,6 +3,9 @@ export class ValidateComponent {
         login: this.loginCheck,
         password: this.passwordCheck,
         password_confirm: this.passwordCheck,
+        oldPassword: this.passwordCheck,
+        newPassword: this.passwordCheck,
+        newPassword_confirm: this.passwordCheck,
         email: this.emailCheck,
         first_name: this.nameCheck,
         second_name: this.nameCheck,
@@ -95,7 +98,7 @@ export class ValidateComponent {
         }
     }
     messageCheck(value: string) {
-        if (value.length === 0) {
+        if (!value || value.length === 0) {
             return 'Сообщение не может быть пустым';
         }
     }

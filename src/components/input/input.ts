@@ -10,10 +10,13 @@ interface InputProps {
     onChange?: () => void;
     onFocus: () => void;
     onBlur: () => void;
+    eventBlurOff?: boolean;
+    eventFocusOff?: boolean;
     type?: 'text' | 'password' | 'email';
     placeholder?: string;
     value?: string;
     errorName?: string;
+    messageInput?: boolean;
     inputAddClass: string;
     name: string;
     svg?: any;
@@ -21,19 +24,23 @@ interface InputProps {
 
 export class Input extends Block {
     // private name: never;
-    constructor({...props}: InputProps) {
-        super({...props});
-
-        this.setProps({
+    constructor({eventBlurOff, eventFocusOff, ...props}: InputProps) {
+        super({eventBlurOff, eventFocusOff, ...props});
+        const newProps = {
             events: {
-                blur: {fn: this.onBlur.bind(this), options: true},
-                // input: {fn: this.onInput.bind(this), options: false},
-                // change: {fn: onChange, options: true},
-                focus: {fn: this.onFocus.bind(this), options: true},
-
-
+            } as {
+                blur:{},
+                focus:{}
             }
-        })
+        };
+        if (!eventBlurOff) {
+            newProps.events.blur = {fn: this.onBlur.bind(this), options: true}
+        }
+        if (!eventFocusOff) {
+            newProps.events.focus = {fn: this.onFocus.bind(this), options: true}
+        }
+        if (Object.keys(newProps.events).length) this.setProps(newProps)
+
     }
 
     onBlur(event: MouseEvent): void {
@@ -80,7 +87,7 @@ export class Input extends Block {
                             <use href="{{svg}}#search"></use>
                         </svg>
                     {{else}}
-                        {{{ErrorComponent errorAddClass="input_error" ref="error"}}}
+                        {{{ErrorComponent ref="error" messageInput=messageInput}}}
                     {{/if}}
                 </div>
             </div>

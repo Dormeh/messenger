@@ -28,6 +28,9 @@
 
   &__link {
     @include text(12px, 12px, 500, normal, var(--grey-6));
+    &:hover {
+      color: var(--active-text-color);
+    }
   }
 
   &__nav-icon {
