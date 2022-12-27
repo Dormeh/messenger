@@ -19,6 +19,9 @@ interface Event {
 
 export class ProfilePage extends Block {
     static componentName = 'Profile';
+    private form: HTMLCollection | undefined;
+    private formElems: Record<string, HTMLElement> | undefined;
+    private formRefs: { [p: string]: Block; } | undefined;
 
     constructor() {
         super();
@@ -64,7 +67,7 @@ export class ProfilePage extends Block {
         event.preventDefault();
 
         const rules = Object.keys(this.formElems as object).map(key => {
-            const value2 = key === 'newPassword_confirm' && this.formElems['newPassword'].value;
+            const value2 = key === 'newPassword_confirm' && this.formElems && this.formElems['newPassword'].value;
             return {
                 type: ValidateRuleType[key],
                 value: this.formElems[key].value,
@@ -84,7 +87,7 @@ export class ProfilePage extends Block {
     }
 
     componentDidMount() {
-        this.form = this.refs.form.element?.children[1].elements as HTMLCollection;
+        this.form = this.refs.form.element?.children[1].elements;
         this.formElems = Object.keys(this.form as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
             acc[key] = this.form[key]
             return acc

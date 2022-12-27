@@ -44,8 +44,7 @@ export class Form extends Block {
 
                     </fieldset>
                     {{#unless profileMainPage}}
-                        {{{Button ref='button'
-                                  formAction="chat.html"
+                        {{{Button formAction="chat.html"
                                   buttonTitle=form.buttonTitle
                                   buttonClass=form.buttonClass
                                   onClick=onSubmit 
