@@ -1,6 +1,6 @@
 import Block from 'core/Block';
 
-// import './input.scss';
+import './error.scss';
 
 interface ErrorProps {
     errorName?: string;
@@ -8,7 +8,7 @@ interface ErrorProps {
 
 }
 
-export class ErrorComponent extends Block<ErrorProps> {
+export class ErrorComponent extends Block {
     static componentName = 'ErrorComponent';
 
     protected render(): string {

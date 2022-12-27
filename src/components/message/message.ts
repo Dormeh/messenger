@@ -11,9 +11,7 @@ export class Message extends Block {
     static componentName = 'Message';
         constructor({message, onClick}: MessageProps) {
         super({message, events: {click: {fn: onClick, options: false}}});
-        // this.setProps({
-        //
-        // })
+
     }
 
     protected render(): string {

@@ -1,5 +1,7 @@
 import Block from "core/Block";
 
+import './chat-layout.scss';
+
 import chats from 'data/chats.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
@@ -63,7 +65,7 @@ export class Chat_layout extends Block {
             if (key.includes('card')) cardList.push(this.refs[key])
         })
         cardList.forEach(card => card.element?.classList.remove('card_active'))
-        // @ts-ignore
+
         const card: HTMLElement = event.target.closest('.card');
         const cardRef = cardList.find(elem => elem.element === card);
         card.classList.add('card_active');
@@ -72,13 +74,13 @@ export class Chat_layout extends Block {
             selectedChat: cardRef
         })
         this.refs.chat_feed.refs.message_feed.setProps({
-        // @ts-ignore
+
             messages: cardRef.props.messages || []
         })
 
     }
 
-    loadMessages = async (chats: []) => {
+    loadMessages = async (chats= []) => {
         for (const chat of chats) {
              chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
         }

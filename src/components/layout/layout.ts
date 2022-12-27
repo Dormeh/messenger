@@ -1,5 +1,8 @@
 import Block from '../../core/Block';
 
+import '../container/container.scss';
+import '../page/page.scss'
+
 interface LayoutProps {
   addPageClass: string;
 }

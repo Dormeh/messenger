@@ -3,7 +3,7 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 
 type strObj = { [key: string]: string }
 
-// import './input.scss';
+import './input.scss';
 
 interface InputProps {
     onInput?: () => void;
@@ -61,15 +61,6 @@ export class Input extends Block {
 
         if (this.refs.error.props['errorName']) this.refs.error.setProps({errorName: ''});
     }
-
-    // onInput(event: MouseEvent): void {
-    //     console.log('input')
-    //     const errorMessage = validateForm([
-    //         {type: ValidateRuleType[this.props.name], value: event.target?.value},
-    //     ])
-    //     this.refs.error.setProps({errorName: errorMessage[this.props.name]})
-    //
-    // }
 
     protected render(): string {
         // language=hbs
