@@ -1,6 +1,6 @@
 import Block from 'core/Block';
 
-// import './input.scss';
+import './error.scss';
 
 interface ErrorProps {
     errorName?: string;

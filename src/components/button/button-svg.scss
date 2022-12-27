@@ -8,12 +8,13 @@
   position: relative;
   background: transparent;
   padding: 15px;
-  transition:  background 200ms ease-in-out,  transform 100ms ease-in-out;
+  transition: background 200ms ease-in-out, transform 100ms ease-in-out;
 
 
   &_primary {
     color: var(--font-color-light);
     background: var(--ligth-blue);
+
     &:hover {
       background: var(--primary);
     }
@@ -28,16 +29,18 @@
     position: absolute;
 
     &_arrow-back {
-    width: 17px;
-    height: 19px;
-    color: white;
+      width: 17px;
+      height: 19px;
+      color: white;
 
     }
+
     &_clip {
       width: 30px;
       height: 30px;
       color: var(--grey-6);
     }
+
     &_tree-dots {
       width: 3px;
       height: 16px;
@@ -45,9 +48,11 @@
     }
 
   }
+
   &:hover &__svg-elem {
     color: var(--active-text-color);
   }
+
   &:active {
     transform: translate(1%, 1%);
   }

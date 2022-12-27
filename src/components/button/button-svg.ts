@@ -15,18 +15,28 @@ interface ButtonProps {
 
 export class ButtonSVG extends Block {
     static componentName = 'ButtonSVG';
-        constructor({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, onClick}: ButtonProps) {
-        super({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, events: {click: {fn: onClick, options: false}}});
+
+    constructor({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, onClick}: ButtonProps) {
+        super({
+            buttonTitle,
+            buttonSvgClass,
+            formAction,
+            svg,
+            svgClass,
+            svgName,
+            events: {click: {fn: onClick, options: false}}
+        });
 
     }
 
     protected render(): string {
 
         // language=hbs
-        return `<button class="button-svg {{buttonSvgClass}}">
-                    <svg class="button-svg__svg-elem {{svgClass}}">
-                        <use href="{{svg}}#{{svgName}}"></use>
-                    </svg>
-                </button>`;
+        return `
+            <button class="button-svg {{buttonSvgClass}}">
+                <svg class="button-svg__svg-elem {{svgClass}}">
+                    <use href="{{svg}}#{{svgName}}"></use>
+                </svg>
+            </button>`;
     }
 }

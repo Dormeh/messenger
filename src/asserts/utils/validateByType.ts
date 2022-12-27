@@ -28,6 +28,7 @@ export class ValidateComponent {
             return 'Логин не может состоять только из цифр, дефиса и подчеркивания _';
         }
     }
+
     passwordCheck(value: string, value2?: string) {
         if (value.length === 0) {
             return 'Пароль не может быть пустым';
@@ -44,14 +45,14 @@ export class ValidateComponent {
         }
     }
 
-    emailCheck(value: string){
+    emailCheck(value: string) {
         if (value.length === 0) return 'email не может быть пустым';
         if (!/[^@\s]+@[^@\s]+\.[^@\s]+/.test(value)) {
             return 'Некорректная электронная почта';
         }
     }
 
-    nameCheck(value: string){
+    nameCheck(value: string) {
         if (value.length === 0) return 'Поле не может быть пустым';
         if (!/^[A-ZА-ЯЁ]/.test(value)) {
             return 'Первая буква должна быть заглавной';
@@ -67,9 +68,10 @@ export class ValidateComponent {
         }
         if (!/^[A-ZА-ЯЁ][A-Za-zа-яё]+(-[A-ZА-ЯЁ]?[A-Za-zа-яё]+)*$/.test(value)) {
             return 'Поле может содержать только кириллицу/латиницу и дефисы';
-        }    }
+        }
+    }
 
-    phoneCheck(value: string){
+    phoneCheck(value: string) {
         if (value.length === 0) {
             return 'Поле не может быть пустым';
         }
@@ -86,6 +88,7 @@ export class ValidateComponent {
             return 'Телефон не должен содержать пробелы или дефисы';
         }
     }
+
     displayNameCheck(value: string) {
         if (value.length === 0) {
             return 'Поле не может быть пустым';
@@ -97,6 +100,7 @@ export class ValidateComponent {
             return 'Имя не может быть больше 20 символов';
         }
     }
+
     messageCheck(value: string) {
         if (!value || value.length === 0) {
             return 'Сообщение не может быть пустым';
