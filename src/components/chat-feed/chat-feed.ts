@@ -11,13 +11,13 @@ interface ChatFeedProps {
     loginValue: string;
     profileMainPage?: boolean;
     svg: string;
-    selectedChat: Block
+    selectedChat: Block;
 }
 
 export class ChatFeed extends Block {
     static componentName = 'ChatFeed';
 
-        constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
+    constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
         super({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat});
     }
 
@@ -34,13 +34,17 @@ export class ChatFeed extends Block {
                     {{#if selectedChat}}
                         <div class="chat-feed__header">
                             <div class="chat-feed__content-box">
-                                {{{Avatar avatarClass="chat-feed_header-avatr" photo="${photo}" svg=svg avatarSvgClass="avatar__svg_mini"}}}
+                                {{{Avatar avatarClass="chat-feed_header-avatr"
+                                          photo="${photo}"
+                                          svg=svg
+                                          avatarSvgClass="avatar__svg_mini"
+                                   }}}
                                 <p class="chat-feed__user-name">${name}</p>
                             </div>
                             {{{ButtonSVG svg=svg
-                             buttonSvgClass="button-svg_round"
-                             svgClass="button-svg__svg-elem_tree-dots"
-                             svgName="tree-dots"
+                                         buttonSvgClass="button-svg_round"
+                                         svgClass="button-svg__svg-elem_tree-dots"
+                                         svgName="tree-dots"
                              }}}   
                         </div>
                         <div class="chat-feed__preview">
@@ -50,9 +54,9 @@ export class ChatFeed extends Block {
                         </div>
                         <div class="chat-feed__footer">
                             {{{ButtonSVG svg=svg
-                             buttonSvgClass="button-svg_round"
-                             svgClass="button-svg__svg-elem_clip"
-                             svgName="clip"
+                                         buttonSvgClass="button-svg_round"
+                                         svgClass="button-svg__svg-elem_clip"
+                                         svgName="clip"
                              }}}
                             {{{Input ref="messageInput"
                                      inputAddClass="chat-feed__message-input"

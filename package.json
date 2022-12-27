@@ -19,7 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel src/index.html --no-source-maps --no-cache --port 3000 --open",
     "build": "parcel build src/index.html",
-    "start": "parcel build src/pages/index.hbs && node server.js"
+    "start": "parcel build src/index.html && node server.js"
   },
   "alias": {
     "core": "./src/core",
@@ -43,6 +43,10 @@
     "@babel/core": "7.17.8",
     "@parcel/transformer-inline-string": "2.8.2",
     "@parcel/transformer-sass": "2.8.2",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^7.32.0",
+    "eslint-loader": "^4.0.2",
     "parcel": "2.8.2",
     "parcel-packager-svg-sprite": "2.0.0",
     "parcel-plugin-clean-easy": "1.0.2",

@@ -128,7 +128,7 @@ export default class Block<P  extends IBlockProps = {}> {
 
   protected render(): string {
     return '';
-  };
+  }
 
   getContent(): HTMLElement {
     // Хак, чтобы вызвать CDM только после добавления в DOM

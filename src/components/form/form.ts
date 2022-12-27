@@ -1,5 +1,8 @@
 import Block from 'core/Block';
 
+import './form.scss';
+
+
 interface FormProps {
     form: {};
     onSubmit: any;
@@ -20,7 +23,6 @@ export class Form extends Block {
 
     protected render(): string {
 
-        // console.log(this.refs)
         // language=hbs
         return `
             <div class="form {{form.addFormClass}}">
@@ -39,12 +41,10 @@ export class Form extends Block {
                                      value=value
                             }}}
                         {{/each}}
-<!--                        {{{Input name="dfdf" onChange=onChange onFocus=onFocus value=loginValue }}}-->
 
                     </fieldset>
                     {{#unless profileMainPage}}
-                        {{{Button 
-                                  formAction="chat.html"
+                        {{{Button formAction="chat.html"
                                   buttonTitle=form.buttonTitle
                                   buttonClass=form.buttonClass
                                   onClick=onSubmit 

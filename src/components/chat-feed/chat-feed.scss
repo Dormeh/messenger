@@ -13,6 +13,7 @@
   &__content-box {
     display: inline-flex;
   }
+
   &__user-name {
     padding-left: 10px;
     @include flex-center(row);
