@@ -1,5 +1,7 @@
 import Block from 'core/Block';
 
+import '../../components/profile/profile.scss';
+
 import form from 'data/profile.json';
 import formPassword from 'data/password.json';
 
@@ -9,14 +11,15 @@ import svg from 'images/icons_sprite.svg';
 interface Event {
     event: MouseEvent;
     readonly target: HTMLElement | null;
+
     preventDefault(): void
+
     tagName: string;
-
-
 }
 
 export class ProfilePage extends Block {
-static componentName = 'Profile';
+    static componentName = 'Profile';
+
     constructor() {
         super();
 

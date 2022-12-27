@@ -1,1 +1,1 @@
-export { ChatFeed as default } from './chat-feed';
+export {ChatFeed as default} from './chat-feed';

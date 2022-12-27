@@ -12,8 +12,10 @@
   &:hover {
     background: lighten(#343941, 5%);
   }
+
   &_active, &_active:hover {
     background: lighten(#343941, 10%);
+
     & .card__message {
       font-weight: 300;
       color: var(--active-text-color);
@@ -53,6 +55,7 @@
     margin-bottom: 8px;
 
   }
+
   &__message {
     @include text(13px, 13px, 400, normal, var(--grey-6));
   }

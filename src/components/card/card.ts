@@ -1,23 +1,33 @@
 import Block from 'core/Block';
-import template from "*.hbs";
+
+import './card.scss';
 
 
 interface CardProps {
     userName: string;
     userMessage: string;
     cardTime: string;
-    cardMessCount:string;
-    photo: any;
+    cardMessCount: string;
+    photo: string;
     onClick: () => void;
-    messagesUrl: string;
     messages: []
-    svg:string;
+    svg: string;
 }
 
 export class Card extends Block {
     static componentName = 'Card';
-        constructor({userName, userMessage, messagesUrl, messages, cardTime, cardMessCount, photo, svg, onClick}: CardProps) {
-        super({userName, userMessage, messagesUrl, messages, cardTime, cardMessCount, svg, photo, events: {click: {fn: onClick, options: false}}});
+
+    constructor({userName, userMessage, messages, cardTime, cardMessCount, photo, svg, onClick}: CardProps) {
+        super({
+            userName,
+            userMessage,
+            messages,
+            cardTime,
+            cardMessCount,
+            svg,
+            photo,
+            events: {click: {fn: onClick, options: false}}
+        });
     }
 
     protected render(): string {
