@@ -8,7 +8,7 @@ interface ErrorProps {
 
 }
 
-export class ErrorComponent extends Block {
+export class ErrorComponent extends Block<ErrorProps> {
     static componentName = 'ErrorComponent';
 
     protected render(): string {

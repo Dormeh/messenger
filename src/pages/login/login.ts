@@ -6,10 +6,8 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 
 export class LoginPage extends Block {
     private form: HTMLCollection | object | undefined;
-    private formElems: {} | undefined;
-    private formRefs: {
-        [p: string]: Block;
-    } | undefined;
+    private formElems: Record<string, HTMLElement> | undefined;
+    private formRefs: { [p: string]: Block; } | undefined;
 
     constructor() {
         super();
@@ -19,7 +17,6 @@ export class LoginPage extends Block {
         })
 
     }
-
 
     onSubmit(event: MouseEvent): void {
         console.log('Submit')
@@ -62,10 +59,6 @@ export class LoginPage extends Block {
                         ref="form"
                         form=form
                         onSubmit=onSubmit
-                        onFocus=onFocus
-                        onBlur=onBlur
-                        onInput=onInput
-                        onChange=onChange
                         errorName=errorName
                 }}}
             {{/Layout}}

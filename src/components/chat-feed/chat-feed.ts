@@ -11,7 +11,7 @@ interface ChatFeedProps {
     loginValue: string;
     profileMainPage?: boolean;
     svg: string;
-    selectedChat: Block
+    selectedChat: Block;
 }
 
 export class ChatFeed extends Block {

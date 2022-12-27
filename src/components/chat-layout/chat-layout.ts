@@ -9,7 +9,8 @@ import avatar from 'images/avatar.png'
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
-        constructor() {
+
+    constructor() {
         super();
         chats.forEach((elem: {
             avatarUrl?: string
@@ -26,14 +27,15 @@ export class Chat_layout extends Block {
         })
 
     }
+
     onSubmit(event: MouseEvent): void {
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
         const rules = [{
-                type: ValidateRuleType['message'],
-                value: inputElem.value as string
-            }]
+            type: ValidateRuleType['message'],
+            value: inputElem.value as string
+        }]
 
         const errorMessage = validateForm(rules)
         messageInput.refs.error.setProps({errorName: errorMessage['message']})
@@ -45,16 +47,18 @@ export class Chat_layout extends Block {
             const newMessage = {
                 "text": inputElem.value,
             }
-            const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages|| [];
+            const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages || [];
             oldMessages.push(newMessage);
             this.refs.chat_feed.refs.message_feed.setProps({
                 messages: oldMessages
             })
-            inputElem.value ='';
+            inputElem.value = '';
             inputElem.focus();
             const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview')
-            const feedScroll = feed?.scrollHeight;
-            feed?.scroll(0, feedScroll);
+            if (feed) {
+                const feedScroll = feed.scrollHeight;
+                feed.scroll(0, feedScroll);
+            }
         }
     }
 
@@ -80,9 +84,9 @@ export class Chat_layout extends Block {
 
     }
 
-    loadMessages = async (chats= []) => {
+    loadMessages = async (chats = []) => {
         for (const chat of chats) {
-             chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
+            chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
         }
         this.setProps({
             chats

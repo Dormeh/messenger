@@ -4,13 +4,10 @@ import form from 'data/reg.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 
 
-
 export class Page extends Block {
-    private form: HTMLCollection | object | undefined;
-    private formElems: {} | undefined;
-    private formRefs: {
-        [p: string]: Block;
-    } | undefined;
+    private form: HTMLCollection | undefined;
+    private formElems: Record<string, HTMLElement> | undefined;
+    private formRefs: { [p: string]: Block; } | undefined;
 
     constructor() {
         super();
@@ -56,15 +53,13 @@ export class Page extends Block {
 
     render() {
 
-    // language=hbs
+        // language=hbs
         return `
             {{#Layout name="Registrashion" addPageClass=""}}
                 {{{Form
                         ref="form"
                         form=form
                         onSubmit=onSubmit
-                        onInput=onInput
-                        onChange=onChange
                         errorName=errorName
                 }}}
             {{/Layout}}
