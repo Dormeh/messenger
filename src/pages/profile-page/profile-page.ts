@@ -97,7 +97,7 @@ static componentName = 'Profile';
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
-                        <a href="chat-page.html">
+                        <a href="chat">
                             <svg class="profile__svg">
                                 <use href="{{svg}}#arrow-back"></use>
                             </svg>

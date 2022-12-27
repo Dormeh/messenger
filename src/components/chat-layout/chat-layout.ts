@@ -94,8 +94,8 @@ export class Chat_layout extends Block {
             <div class="chat-layout">
                 <div class="chat-layout__list-header">
                     <nav class="chat-layout__navbar">
-                        <a class="chat-layout__link" href="index.html">Сменить аккаунт</a>
-                        <a class="chat-layout__link" href="profile-page.html">
+                        <a class="chat-layout__link" href="auth">Сменить аккаунт</a>
+                        <a class="chat-layout__link" href="profile">
                             <span>Профиль</span>
                             <svg class="chat-layout__nav-icon">
                                 <use href="{{svg}}#arrow"></use>
