@@ -2,13 +2,21 @@ import EventBus from './EventBus';
 import {nanoid} from 'nanoid';
 import Handlebars from 'handlebars';
 
+interface IBlockProps {
+  events?: Record<string, IListener>
+}
+
 interface BlockMeta<P = any> {
   props: P;
 }
 
 type Events = Values<typeof Block.EVENTS>;
+interface IListener {
+  fn: () => void;
+  options: boolean;
+}
 
-export default class Block<P  extends object = {}> {
+export default class Block<P  extends IBlockProps = {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -20,7 +28,7 @@ export default class Block<P  extends object = {}> {
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
+  readonly props: P;
   protected children: {[id: string]: Block} = {};
 
   eventBus: () => EventBus<Events>;
@@ -164,7 +172,7 @@ export default class Block<P  extends object = {}> {
   }
 
   _removeEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events = (this.props).events;
 
     if (!events || !this._element) {
       return;
@@ -177,7 +185,7 @@ export default class Block<P  extends object = {}> {
   }
 
   _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events as {};
+    const events = (this.props).events;
 
     if (!events) {
       return;

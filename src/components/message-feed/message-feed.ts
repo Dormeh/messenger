@@ -6,7 +6,8 @@ interface MessageFeedProps {
     messages:[]
 }
 export class MessageFeed extends Block {
-    constructor({messages}:MessageFeedProps) {
+    static componentName = 'MessageFeed';
+        constructor({messages}:MessageFeedProps) {
         super({messages});
 
     }

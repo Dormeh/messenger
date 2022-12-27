@@ -5,6 +5,7 @@ interface LayoutProps {
 }
 
 export class Layout extends Block {
+  static componentName = 'Layout';
   constructor({addPageClass}: LayoutProps) {
     super({addPageClass});
   }

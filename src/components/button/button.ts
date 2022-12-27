@@ -11,7 +11,8 @@ interface ButtonProps {
 }
 
 export class Button extends Block {
-  constructor({buttonTitle, buttonClass, formAction, onClick}: ButtonProps) {
+  static componentName = 'Button';
+      constructor({buttonTitle, buttonClass, formAction, onClick}: ButtonProps) {
     super({buttonTitle, buttonClass, formAction, events: {click: {fn: onClick, options: false}}});
 
   }

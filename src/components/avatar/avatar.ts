@@ -11,7 +11,8 @@ interface AvatarProps {
 }
 
 export class Avatar extends Block {
-    constructor({avatarClass, avatarSvgClass, photo, svg}: AvatarProps) {
+    static componentName = 'Avatar';
+        constructor({avatarClass, avatarSvgClass, photo, svg}: AvatarProps) {
         super({avatarClass, avatarSvgClass,  photo, svg});
 
     }

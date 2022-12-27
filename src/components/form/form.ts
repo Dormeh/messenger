@@ -12,8 +12,9 @@ interface FormProps {
 }
 
 export class Form extends Block {
+    static componentName = 'Form';
 
-    constructor({form, onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage}: FormProps) {
+        constructor({form, onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage}: FormProps) {
         super({form, onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage});
     }
 

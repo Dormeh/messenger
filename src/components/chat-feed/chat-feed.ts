@@ -15,8 +15,9 @@ interface ChatFeedProps {
 }
 
 export class ChatFeed extends Block {
+    static componentName = 'ChatFeed';
 
-    constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
+        constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
         super({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat});
     }
 
@@ -61,10 +62,10 @@ export class ChatFeed extends Block {
                                      eventBlurOff=true
                             }}}
                             {{{ButtonSVG svg=svg
-                             buttonSvgClass="button-svg_round button-svg_primary"
-                              svgClass="button-svg__svg-elem_arrow-back"
-                              onClick=onSubmit
-                              svgName="arrow-back"
+                                          buttonSvgClass="button-svg_round button-svg_primary"
+                                          svgClass="button-svg__svg-elem_arrow-back"
+                                          onClick=onSubmit
+                                          svgName="arrow-back"
                               }}}
 
                         </div>
