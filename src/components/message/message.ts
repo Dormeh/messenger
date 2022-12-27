@@ -8,7 +8,8 @@ interface MessageProps {
 }
 
 export class Message extends Block {
-    constructor({message, onClick}: MessageProps) {
+    static componentName = 'Message';
+        constructor({message, onClick}: MessageProps) {
         super({message, events: {click: {fn: onClick, options: false}}});
         // this.setProps({
         //

@@ -16,7 +16,7 @@ interface Event {
 }
 
 export class ProfilePage extends Block {
-
+static componentName = 'Profile';
     constructor() {
         super();
 

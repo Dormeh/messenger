@@ -14,7 +14,8 @@ interface ButtonProps {
 }
 
 export class ButtonSVG extends Block {
-    constructor({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, onClick}: ButtonProps) {
+    static componentName = 'ButtonSVG';
+        constructor({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, onClick}: ButtonProps) {
         super({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, events: {click: {fn: onClick, options: false}}});
 
     }

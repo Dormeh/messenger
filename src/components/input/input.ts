@@ -23,8 +23,8 @@ interface InputProps {
 }
 
 export class Input extends Block {
-    // private name: never;
-    constructor({eventBlurOff, eventFocusOff, ...props}: InputProps) {
+    static componentName = 'Input';
+        constructor({eventBlurOff, eventFocusOff, ...props}: InputProps) {
         super({eventBlurOff, eventFocusOff, ...props});
         const newProps = {
             events: {

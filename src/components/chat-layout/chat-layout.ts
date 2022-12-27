@@ -6,7 +6,8 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import avatar from 'images/avatar.png'
 
 export class Chat_layout extends Block {
-    constructor() {
+    static componentName = 'Chat_layout';
+        constructor() {
         super();
         chats.forEach((elem: {
             avatarUrl?: string

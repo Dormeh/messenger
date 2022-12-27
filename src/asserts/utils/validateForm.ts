@@ -26,7 +26,7 @@ type strObj = { [key: string]: string | undefined }
 const validateByType: any = new ValidateComponent();
 
 
-export function validateForm(rules: { type: string; value: string; value2: string }[]): object {
+export function validateForm(rules: ValidateRule[]): object {
 
     const errorMessage: strObj = {};
 

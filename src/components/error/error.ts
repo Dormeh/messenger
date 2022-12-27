@@ -9,11 +9,16 @@ interface ErrorProps {
 }
 
 export class ErrorComponent extends Block<ErrorProps> {
+    static componentName = 'ErrorComponent';
 
     protected render(): string {
         // language=hbs
         return `
-            <div class="error {{#if messageInput}}input_message-error{{else}}input_error{{/if}}{{errorAddClass}}">{{#if errorName}}{{errorName}}{{/if}}</div>
-`
+            <div class="error {{#if messageInput}}input_message-error{{else}}input_error{{/if}} {{errorAddClass}}">
+                {{#if errorName}}
+                    {{errorName}}
+                {{/if}}
+            </div>
+        `
     }
 }
