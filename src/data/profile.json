@@ -5,37 +5,46 @@
       "name": "email",
       "type": "email",
       "errorName": "введите корректный email",
-      "label": "Почта"
+      "label": "Почта",
+      "ref": "emailInput"
     },
     {
       "placeholder": "ivanivanov",
       "name": "login",
-      "label": "Логин"
+      "label": "Логин",
+      "ref": "loginInput"
     },
     {
       "placeholder": "Иван",
       "name": "first_name",
-      "label": "Имя"
+      "label": "Имя",
+      "ref": "firstNameInput"
     },
     {
       "placeholder": "Иванов",
       "label": "Фамилия",
-      "name": "second_name"
+      "name": "second_name",
+      "ref": "secondNameInput"
+
     },
     {
       "placeholder": "Имя",
       "name": "display_name",
-      "label": "Имя в чате"
+      "label": "Имя в чате",
+      "ref": "chatNameInput"
     },
     {
       "placeholder": "+7 (909) 967 30 30",
       "label": "Телефон",
-      "name": "phone"
+      "name": "phone",
+      "ref": "phoneInput"
+
     }
 
   ],
   "inputAddClass": "input_profile",
   "addFormClass": "profile__user-info",
+  "buttonClass": "button_primary button_set-big-btn profile__button-container",
   "buttonTitle": "Сохранить",
   "profileInput": true
 }

@@ -5,6 +5,6 @@
   background-color: var(--main-bg-color);
 
   &_chat-theme {
-    background: var(--second-bg-color);
+    background: lighten(#515864, 10%);
   }
 }
