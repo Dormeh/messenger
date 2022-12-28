@@ -9,7 +9,7 @@
     "declaration-block-semicolon-newline-after": "always",
     "block-opening-brace-space-after": "never-single-line",
     "block-closing-brace-space-before": "never-single-line",
-    "block-closing-brace-newline-after": "always",
-    "block-opening-brace-space-before": "always"
+    "block-closing-brace-newline-after": "never-single-line",
+    "block-opening-brace-space-before": "never-single-line"
   }
 }
