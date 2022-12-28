@@ -2,13 +2,5 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-standard-scss"
-  ],
-  "rules": {
-    "selector-class-pattern": null,
-    "scss/at-import-partial-extension": null,
-    "block-opening-brace-space-after": "never-single-line",
-    "block-closing-brace-space-before": "never-single-line",
-    "block-closing-brace-newline-after": "never-single-line",
-    "block-opening-brace-space-before": "never-single-line"
-  }
+  ]
 }
