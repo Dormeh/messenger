@@ -2,6 +2,7 @@
 
 .avatar {
   @include flex-center;
+
   position: relative;
 
   &__img {
@@ -32,7 +33,6 @@
     left: 0;
     transform: translate(-8%, -8%) scale(0.5);
     transform-origin: center;
-
   }
 
   &__svg_midi {
@@ -42,4 +42,3 @@
     transform-origin: center;
   }
 }
-

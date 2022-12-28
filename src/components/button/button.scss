@@ -2,11 +2,14 @@
 
 .button {
   @include text(0.8125em, 0.8125em, 500, false, var(--main-font-color));
-  font-family: 'Inter', sans-serif;
+
+  font-family: Inter, sans-serif;
   text-align: center;
+
   @include flex-center;
+
   background: unset;
-  padding: 0.75em 1.2em 0.75em 1.2em;
+  padding: 0.75em 1.2em;
   border: none;
   cursor: pointer;
   outline-style: none;
@@ -33,8 +36,7 @@
   }
 
   &_set-big-btn {
-    padding: 1em 3em 1em 3em;
+    padding: 1em 3em;
     width: 100%;
   }
-
 }
