@@ -1,26 +1,28 @@
 @import "normalize.css";
-@import '../fonts/fonts.css';
+@import "../fonts/fonts.css";
 
 :root {
-    --main-bg-color: #343941;
-    --second-bg-color: #4c5761;
-    --main-font-color: #b0b3b6;
-    --font-color-light: #ffff;
-    --active-text-color: #ffff;
-    --icons-color: #ffff;
-    --primary: var(--blue);
-    --dark-blue: #a1b5ce;
-    --ligth-blue: #3369f3;
-    --blue: #374FC7;
-    --red: #f95151;
-    --grey-2: #666768;
-    --grey-3: #8c939a;
-    --grey-4: #818c98;
-    --grey-5: #454e59;
-    --grey-6: #999999;
-    --grey-7: #f9fafc;
+  --main-bg-color: #343941;
+  --second-bg-color: #4c5761;
+  --main-font-color: #b0b3b6;
+  --font-color-light: #ffff;
+  --active-text-color: #ffff;
+  --icons-color: #ffff;
+  --primary: var(--blue);
+  --dark-blue: #a1b5ce;
+  --ligth-blue: #3369f3;
+  --blue: #374fc7;
+  --red: #f95151;
+  --grey-2: #666768;
+  --grey-3: #8c939a;
+  --grey-4: #818c98;
+  --grey-5: #454e59;
+  --grey-6: #999;
+  --grey-7: #f9fafc;
 }
 
-html, body, #app {
-    height: 100%;
+html,
+body,
+#app {
+  height: 100%;
 }
