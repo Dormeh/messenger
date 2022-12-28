@@ -6,8 +6,7 @@
   "rules": {
     "selector-class-pattern": null,
     "scss/at-import-partial-extension": null,
-    "at-rule-empty-line-before": "always",
-    "block-closing-brace-newline-after": "always",
-    "block-closing-brace-space-before": "never"
+    "declaration-block-semicolon-newline-after": "always",
+    "block-opening-brace-space-after": "always"
   }
 }
