@@ -1,0 +1,18 @@
+@import "../../partials/mixins";
+
+.message {
+  background: #5871af;
+  max-width: 380px;
+  border-radius: 15px 15px 0;
+  margin: 10px;
+  padding: 11px;
+  font-weight: 300;
+  color: var(--active-text-color);
+  align-self: flex-end;
+
+  &_other-user {
+    align-self: flex-start;
+    border-radius: 0 15px 15px;
+    background: #4c5761;
+  }
+}

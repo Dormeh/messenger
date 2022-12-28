@@ -1,0 +1,56 @@
+@import "../../partials/mixins";
+
+.button-svg {
+  @include flex-center;
+
+  border: none;
+  outline: none;
+  position: relative;
+  background: transparent;
+  padding: 15px;
+  transition: background 200ms ease-in-out, transform 100ms ease-in-out;
+
+  &_primary {
+    color: var(--font-color-light);
+    background: var(--ligth-blue);
+
+    &:hover {
+      background: var(--primary);
+    }
+  }
+
+  &_round {
+    border-radius: 50%;
+    padding: 17px;
+  }
+
+  &__svg-elem {
+    position: absolute;
+
+    &_arrow-back {
+      width: 17px;
+      height: 19px;
+      color: white;
+    }
+
+    &_clip {
+      width: 30px;
+      height: 30px;
+      color: var(--grey-6);
+    }
+
+    &_tree-dots {
+      width: 3px;
+      height: 16px;
+      color: var(--grey-6);
+    }
+  }
+
+  &:hover &__svg-elem {
+    color: var(--active-text-color);
+  }
+
+  &:active {
+    transform: translate(1%, 1%);
+  }
+}
