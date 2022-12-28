@@ -1,6 +1,5 @@
 @import "../../partials/mixins";
 
-
 .chat-layout {
   display: grid;
   grid-template: "chats-header chat-tape" "chats-list chat-tape" 1fr / auto 1fr;
@@ -17,17 +16,17 @@
     background-color: var(--main-bg-color);
     padding: 21px 10px 12px;
     border-top-left-radius: 5px;
-
   }
 
   &__navbar {
     display: flex;
     justify-content: space-between;
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, sans-serif;
   }
 
   &__link {
     @include text(12px, 12px, 500, normal, var(--grey-6));
+
     &:hover {
       color: var(--active-text-color);
     }

@@ -2,7 +2,8 @@
 
 .input {
   @include text(0.8125em, 0.8125em, 500, normal, var(--grey-3));
-  font-family: 'Inter', sans-serif;
+
+  font-family: Inter, sans-serif;
   text-align: start;
   width: 100%;
 
@@ -14,6 +15,7 @@
 
   &__label {
     @include text($size: 0.75em, $lh: 2.5em);
+
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
@@ -23,7 +25,9 @@
     padding: 7px 0;
     background-color: unset;
     border: none;
+
     @include text(1em, 1.25em, 400, normal, var(--active-text-color));
+
     transition: border-color 0.25s ease-in-out;
     border-bottom: 1px solid var(--grey-2);
 
@@ -69,7 +73,6 @@
       transform: translateX(-100%);
       white-space: nowrap;
     }
-
   }
 
   & &__input-text:focus {
@@ -79,17 +82,21 @@
 
   &_error {
     position: absolute;
+
     @include text(8px, 8px, 400, normal, var(--red));
+
     top: 100%;
     transform: translateY(80%);
     white-space: nowrap;
   }
+
   &_message-error {
     top: -30%;
     left: 2%;
     position: absolute;
+
     @include text(8px, 8px, 400, normal, var(--active-text-color));
+
     white-space: nowrap;
   }
-
 }
