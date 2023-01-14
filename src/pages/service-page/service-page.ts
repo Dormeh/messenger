@@ -21,7 +21,7 @@ export class ServicePage extends Block {
                     <div class="service-page__preview">
                         <h1 class="service-page__title">{{status}}</h1>
                         <p class="service-page__message">{{message}}</p>
-                        <a href="chat" class="service-page__back-link">{{linkName}}</a>
+                        <a href="/chat" class="service-page__back-link">{{linkName}}</a>
                     </div>
                 </div>
             {{/Layout}}

@@ -103,7 +103,7 @@ export class ProfilePage extends Block {
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
-                        <a href="chat">
+                        <a href="/chat">
                             <svg class="profile__svg">
                                 <use href="{{svg}}#arrow-back"></use>
                             </svg>

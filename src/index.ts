@@ -1,11 +1,4 @@
-import {renderDOM} from './core';
-import LoginPage from './pages/login';
-import RegPage from './pages/registrashion';
-import Chat_page from './pages/chat'
-import ProfilePage from  "./pages/profile-page"
-import ServicePage from  "./pages/service-page"
-import Block from 'core/Block';
-
+import Router from 'core/Router/Router'
 
 import './asserts/css/main.css';
 
@@ -13,26 +6,15 @@ import {regAll} from './asserts/utils/registrAllComponents'
 
 regAll();
 
-const routes: Record<string | number, Block> = {
-    auth: new LoginPage,
-    registration: new RegPage,
-    chat: new Chat_page,
-    profile: new ProfilePage,
-    404: new ServicePage({status:404, message: 'кажется вы не туда попали', linkName:'назад к чатам'}),
-    500: new ServicePage({status:500, message: 'ой ... похоже мы что-то сломали', linkName:'назад к чатам'}),
-}
+const router = Router.instance();
 
-
-document.addEventListener("click", (event):void => {
-    const link = event.target && event.target.closest('a') as HTMLElement;
-    if (!link) return;
-
-    const href = link.getAttribute('href');
-
-    if (href && routes[href]) {
-        event.preventDefault();
-        renderDOM(routes[href]);
-
-    }
-})
-
+router
+    .addRoute(/^$/, 'nav')
+    .addRoute(/^auth$/, 'auth')
+    .addRoute(/^registration$/, 'registration')
+    .addRoute(/^chat$/, 'chat')
+    .addRoute(/^profile$/, 'profile')
+    .addRoute(/^404\/?$/, '404')
+    .addRoute(/^500\/?$/, '500')
+    .setNotFoundPagePath('404')
+    .listen();
