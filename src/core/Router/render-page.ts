@@ -43,6 +43,7 @@ export default async function (path: string, match?: string[]): Promise<Block> {
     const page = routes[path].arg ? new routes[path].Page(routes[path].arg) :new routes[path].Page;
 
     renderDOM(page);
+    document.title = `App / ${routes[path].Page.componentName}`
 
     return page;
 }

@@ -2,9 +2,12 @@ import Block from 'core/Block';
 
 import form from 'data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import Router from "../../core/Router/Router";
+import {auth} from '../../services/auth'
 
 
 export class LoginPage extends Block {
+    static componentName = 'LoginPage';
     private form: HTMLCollection | object | undefined;
     private formElems: Record<string, HTMLElement> | undefined;
     private formRefs: { [p: string]: Block; } | undefined;
@@ -15,6 +18,8 @@ export class LoginPage extends Block {
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
             form,
         })
+        // const router = Router.instance();// тест управления роутером
+        // setTimeout(() => router.navigate('/'), 3000)
 
     }
 
@@ -37,7 +42,9 @@ export class LoginPage extends Block {
             acc[key] = item.value;
             return acc;
         }, {})
+
         console.log(formValues)
+        auth(formValues);
     }
 
     componentDidMount() {

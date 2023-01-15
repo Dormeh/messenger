@@ -18,7 +18,7 @@ interface Event {
 }
 
 export class ProfilePage extends Block {
-    static componentName = 'Profile';
+    static componentName = 'ProfilePage';
     private form: HTMLCollection | undefined;
     private formElems: Record<string, HTMLElement> | undefined;
     private formRefs: { [p: string]: Block; } | undefined;

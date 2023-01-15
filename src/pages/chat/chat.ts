@@ -1,6 +1,7 @@
 import Block from "core/Block";
 
 export class Chat_page extends Block {
+    static componentName = 'ChatPage';
     constructor() {
         super();
     }
