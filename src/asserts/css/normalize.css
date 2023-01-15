@@ -64,7 +64,7 @@ hr {
  */
 
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -77,6 +77,7 @@ pre {
 
 a {
   background-color: transparent;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 }
 
 /**
@@ -106,7 +107,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -357,10 +358,8 @@ p {
 
 input,
 textarea,
-button,
 select,
 label,
 a {
-  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
   text-decoration: none;
 }
