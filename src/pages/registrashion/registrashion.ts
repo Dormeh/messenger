@@ -5,6 +5,7 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 
 
 export class Page extends Block {
+    static componentName = 'SignUpPage';
     private form: HTMLCollection | undefined;
     private formElems: Record<string, HTMLElement> | undefined;
     private formRefs: { [p: string]: Block; } | undefined;

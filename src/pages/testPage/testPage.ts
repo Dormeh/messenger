@@ -2,6 +2,7 @@ import Block from 'core/Block';
 
 
 export class NavPage  extends Block {
+    static componentName = 'DebugPage';
 
     protected render(): string {
         return `<ul id="nav-list">

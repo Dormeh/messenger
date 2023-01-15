@@ -30,7 +30,14 @@ export default class Router implements RouterInterface{
     static instance() {
         if (!this._instance) {
             this._instance = new Router();
+            console.log(
+                '%cновый роутер',
+                'background: #222; color: #bada55',
+            )
+
         }
+        this.counter = this.counter ? ++this.counter: 1;
+        console.log('обращение к роутеру', this.counter)
         return this._instance;
     }
 
