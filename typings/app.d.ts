@@ -6,7 +6,15 @@ declare global {
   interface ImportMeta {
     url: string;
   }
+  export type AppState = {
+    appIsInited: boolean;
+    screen: Screens | null;
+    isLoading: boolean;
+    loginFormError: string | null;
+    user: User | null;
+  };
 }
+
 // declare module '*.hbs';
 // declare module '*.jpg';
 // declare module '*.jpeg';
