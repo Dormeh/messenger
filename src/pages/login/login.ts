@@ -4,7 +4,7 @@ import form from 'data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import Router from "core/Router/Router";
 import {Store} from "core/Store";
-
+import {withStore} from '../../asserts/utils'
 import {login} from '../../services/auth'
 
 
@@ -17,6 +17,7 @@ export class LoginPage extends Block {
     constructor() {
         super();
         this.setProps({
+            store: Store.instance(),
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
             form,
         })
@@ -45,10 +46,8 @@ export class LoginPage extends Block {
             return acc;
         }, {})
 
-        console.log(formValues)
-        const store = Store.instance();
-        store.dispatch(login, formValues)
-        // login(formValues);
+        console.log(formValues);
+        this.props.store.dispatch(login, formValues);
     }
 
     componentDidMount() {
@@ -76,3 +75,4 @@ export class LoginPage extends Block {
     `;
     }
 }
+// export default withStore(LoginPage);

@@ -1,9 +1,11 @@
 import Block from 'core/Block';
 
 import '../../components/profile/profile.scss';
-
+import {userDataToForm} from '../../asserts/utils'
 import form from 'data/profile.json';
 import formPassword from 'data/password.json';
+import {Store} from "core/Store";
+import {passwordChg, userChg} from '../../services/user'
 
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import svg from 'images/icons_sprite.svg';
@@ -25,11 +27,11 @@ export class ProfilePage extends Block {
 
     constructor() {
         super();
-
+        const userData = Store.instance().getState().user;
         this.setProps({
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
-
-            form,
+            form: userDataToForm(userData, form),
+            store: Store.instance(),
             svg,
             profileMainPage: true,
             events: {
@@ -39,6 +41,7 @@ export class ProfilePage extends Block {
                 }
             }
         })
+        console.log('props', this.props)
 
     }
 
@@ -84,6 +87,11 @@ export class ProfilePage extends Block {
             return acc;
         }, {})
         console.log(formValues)
+        if (delete formValues.newPassword_confirm) {
+            this.props.store.dispatch(passwordChg, formValues);
+        } else {
+            this.props.store.dispatch(userChg, formValues);
+        }
     }
 
     componentDidMount() {
