@@ -13,12 +13,23 @@ export type PasswordData = {
     oldPassword: string;
     newPassword: string;
 }
+
+export type AvatarData = FormData;
+
 export const userAPI = {
 
-    profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {data, headers: { 'Content-Type': 'application/json' }}),
+    profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {
+        data,
+        headers: {'Content-Type': 'application/json'}
+    }),
 
-    passwordChg: (data: PasswordData) => request.put(`${process.env.API_ENDPOINT}/user/password`, {data, headers: { 'Content-Type': 'application/json' }}),
+    passwordChg: (data: PasswordData) => request.put(`${process.env.API_ENDPOINT}/user/password`, {
+        data,
+        headers: {'Content-Type': 'application/json'}
+    }),
 
-    avatarChg: () => request.put(`${process.env.API_ENDPOINT}/user/profile/avatar`),
+    avatarChg: (data: AvatarData) => request.put(`${process.env.API_ENDPOINT}/user/profile/avatar`, {
+        data,
+    }),
 
 };

@@ -1,6 +1,6 @@
 import {Dispatch} from "../core";
 import Router from "../core/Router/Router";
-import {userAPI} from "../api/user";
+import {AvatarData, userAPI} from "../api/user";
 import {hasError} from "../asserts/utils/apiHasError";
 import {logout} from "./auth";
 import {UserData} from "../api/user";
@@ -19,10 +19,10 @@ export const userChg = async (
 
     console.log(response);
 
-    if (hasError(response)) {
-        dispatch(logout);
-        return;
-    }
+    // if (hasError(response)) {
+    //     dispatch(logout);
+    //     return;
+    // }
 
     dispatch({user: response});
 
@@ -42,10 +42,29 @@ export const passwordChg = async (
 
     console.log(response);
 
-    if (hasError(response)) {
-        dispatch(logout);
-        return;
-    }
+    // if (hasError(response)) {
+    //     dispatch(logout);
+    //     return;
+    // }
 
     router.navigate('/profile');
 };
+
+export const avatarChg = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: AvatarData,
+) => {
+    const router = Router.instance();
+
+    dispatch({isLoading: true});
+
+    const response = (await userAPI.avatarChg(action)).responseJSON();
+
+    console.log(response);
+
+    dispatch({user: response});
+
+    router.navigate('/profile');
+};
+

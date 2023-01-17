@@ -7,7 +7,7 @@ import {Store} from "core/Store";
 import {registration} from '../../services/auth'
 
 
-export class Page extends Block {
+export class RegPage extends Block {
     static componentName = 'SignUpPage';
     private form: HTMLCollection | undefined;
     private formElems: Record<string, HTMLElement> | undefined;
