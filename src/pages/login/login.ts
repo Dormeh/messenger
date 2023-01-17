@@ -1,4 +1,4 @@
-import Block from 'core/Block';
+import {Block, IBlockProps} from 'core';
 
 import form from 'data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
@@ -7,18 +7,23 @@ import {Store} from "core/Store";
 import {withStore} from '../../asserts/utils'
 import {login} from '../../services/auth'
 
+type LoginPageProps = {
+    store: Store<AppState>;
+    onSubmit: (event: MouseEvent) => void;
+    form: Record<string, []>;
+};
 
-export class LoginPage extends Block {
+export class LoginPage extends Block<LoginPageProps & IBlockProps> {
     static componentName = 'LoginPage';
     private form: HTMLCollection | object | undefined;
     private formElems: Record<string, HTMLInputElement> | undefined;
     private formRefs: { [p: string]: Block; } | undefined;
 
-    constructor() {
-        super();
+    constructor(props: LoginPageProps | undefined) {
+        super(props);
         this.setProps({
-            store: Store.instance(),
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            // store: Store.instance(),
+            onSubmit: (event: MouseEvent) => this.onSubmit(event),
             form,
         })
         // const router = Router.instance();// тест управления роутером
@@ -28,6 +33,7 @@ export class LoginPage extends Block {
 
     onSubmit(event: MouseEvent): void {
         console.log('Submit')
+        console.log(this.formElems)
         event.preventDefault();
 
         const rules = Object.keys(this.formElems as object).map(key => {
@@ -47,7 +53,7 @@ export class LoginPage extends Block {
         }, {})
 
         console.log(formValues);
-        this.props.store.dispatch(login, formValues);
+        this.props.store.dispatch(login, formValues).then();
     }
 
     componentDidMount() {
@@ -75,4 +81,4 @@ export class LoginPage extends Block {
     `;
     }
 }
-// export default withStore(LoginPage);
+export default withStore(LoginPage);

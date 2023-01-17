@@ -6,8 +6,8 @@ import ProfilePage from "../../pages/profile-page";
 import ServicePage from "../../pages/service-page";
 import {renderDOM} from '../../core';
 import {NavPage} from "../../pages/testPage/testPage";
-import {Store} from '../Store'
 
+console.log(LoginPage)
 
 type Page = {
     page: Record<string, Block>
@@ -65,8 +65,8 @@ export default async function (path: string, match?: string[]): Promise<Block> {
 
     // const { default: Page } = await import(/* webpackChunkName: "[request]" */`../pages/${path}/index.js`);
 
-    const page = routes[path].arg ? new routes[path].Page(routes[path].arg) : new routes[path].Page;
-
+    const page = routes[path].arg ? new routes[path].Page(routes[path].arg) : new routes[path].Page({});
+    console.log(page)
 
     renderDOM(page);
     document.title = `App / ${routes[path].Page.componentName}`

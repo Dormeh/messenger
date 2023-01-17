@@ -5,7 +5,7 @@ import {userDataToForm} from '../../asserts/utils'
 import form from 'data/profile.json';
 import formPassword from 'data/password.json';
 import {Store} from "core/Store";
-import {passwordChg, userChg} from '../../services/user'
+import {passwordChg, userChg, avatarChg} from '../../services/user'
 
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import svg from 'images/icons_sprite.svg';
@@ -33,10 +33,16 @@ export class ProfilePage extends Block {
             form: userDataToForm(userData, form),
             store: Store.instance(),
             svg,
+            photo: `https://ya-praktikum.tech/api/v2/resources${Store.instance().getState().user.avatar}`,
+            userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: true,
             events: {
                 click: {
                     fn: this.onClick.bind(this),
+                    options: false
+                },
+                change: {
+                    fn: this.onChange.bind(this),
                     options: false
                 }
             }
@@ -46,6 +52,8 @@ export class ProfilePage extends Block {
     }
 
     onClick(event: Event): void {
+        const link = event.target.closest('a');
+        if (!link) return;
         event.preventDefault();
 
         if (event.target?.tagName !== "A") return;
@@ -64,6 +72,17 @@ export class ProfilePage extends Block {
         }
     }
 
+    onChange(event:Event) {
+        const input = event.target as HTMLInputElement
+        if (!input.type || input.type !== 'file' || !input.files) return;
+        console.log(input.files[0])
+        const formData = new FormData();
+        formData.append("avatar", input.files[0]);
+
+        this.props.store.dispatch(avatarChg, formData);
+        //https://ya-praktikum.tech/api/v2/resources/ урл запроса аватара
+
+    }
 
     onSubmit(event: MouseEvent): void {
         this.componentDidMount();
@@ -86,8 +105,9 @@ export class ProfilePage extends Block {
             acc[key] = item.value;
             return acc;
         }, {})
-        console.log(formValues)
-        if (delete formValues.newPassword_confirm) {
+        console.log('formValues', formValues)
+        if (formValues.newPassword_confirm) {
+            delete formValues.newPassword_confirm;
             this.props.store.dispatch(passwordChg, formValues);
         } else {
             this.props.store.dispatch(userChg, formValues);
@@ -101,6 +121,7 @@ export class ProfilePage extends Block {
             return acc
         }, {})
         this.formRefs = this.refs.form.refs
+        document.getElementById('input').addEventListener('change', () => this.onClick.bind(this))
 
     }
 
@@ -119,12 +140,18 @@ export class ProfilePage extends Block {
                     </div>
                     <div class="profile__preview {{#if profileMainPage}}profile__preview_inactive{{/if}}">
                         <div class="container container_profile">
+
+                                <label class="profile__avatar-change-container">
+                                    <input class="profile__avatar-input" type="file" id="input" multiple>
+                                </label>
                             <div class="profile__avatar-preview">
                                 {{{Avatar avatarClass="profile__avatar-container profile__avatar-container_chng"
                                           svg=svg
+                                          photo=photo
                                 }}}
-                                <h3 class="profile__user-title">User</h3>
+                                <h3 class="profile__user-title">{{userName}}</h3>
                             </div>
+
                             {{{Form
                                     ref="form"
                                     form=form
