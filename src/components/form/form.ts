@@ -11,14 +11,16 @@ interface FormProps {
     onInput: any;
     onChange: any;
     loginValue: string;
+    errorAddClass?: string;
+    file?: boolean;
     profileMainPage?: boolean;
 }
 
 export class Form extends Block {
     static componentName = 'Form';
 
-        constructor({form, onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage}: FormProps) {
-        super({form, onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage});
+    constructor({...props}: FormProps) {
+        super({...props});
     }
 
     protected render(): string {
@@ -39,19 +41,29 @@ export class Form extends Block {
                                      formLabel=this.label
                                      profileInput=../form.profileInput
                                      value=value
+                                     file=../file
                             }}}
                         {{/each}}
 
                     </fieldset>
+                    {{#if file}}
+                        <div class="modal__container profile__avatar-container">
+
+                            <img src="#" alt="your image" style="display: none" class="avatar__img">
+                        </div>
+                    {{/if}}
                     {{#unless profileMainPage}}
-                        {{{Button formAction="chat.html"
-                                  buttonTitle=form.buttonTitle
-                                  buttonClass=form.buttonClass
-                                  onClick=onSubmit 
+                        {{{Button
+                                ref="button"
+                                buttonTitle=form.buttonTitle
+                                buttonClass=form.buttonClass
+                                onClick=onSubmit
                         }}}
                     {{/unless}}
+                {{{ErrorComponent ref="error" errorAddClass=errorAddClass}}}
                 </form>
                 <a href="{{form.backLink}}" class="form__change-form-link">{{form.backLinkTitle}}</a>
+
             </div>
         `
     }

@@ -64,6 +64,7 @@ export class ChatFeed extends Block {
                                      name="message"
                                      messageInput=true
                                      eventBlurOff=true
+                                     errorAddClass="input_message-error"
                             }}}
                             {{{ButtonSVG svg=svg
                                           buttonSvgClass="button-svg_round button-svg_primary"

@@ -6,12 +6,17 @@ import chats from 'data/chats.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import avatar from 'images/avatar.png'
+import {Store} from "core/Store";
+import { logout } from '../../services/auth';
+
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
 
     constructor() {
         super();
+        const store = Store.instance();
+
         chats.forEach((elem: {
             avatarUrl?: string
         }) => {
@@ -24,6 +29,7 @@ export class Chat_layout extends Block {
             svg,
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            onLogout: () => store.dispatch(logout),
         })
 
     }
@@ -100,7 +106,13 @@ export class Chat_layout extends Block {
             <div class="chat-layout">
                 <div class="chat-layout__list-header">
                     <nav class="chat-layout__navbar">
-                        <a class="chat-layout__link" href="/auth">Сменить аккаунт</a>
+<!--                        <a class="chat-layout__link" href="/auth">Сменить аккаунт</a>-->
+                        {{{
+                            Button
+                                buttonTitle="Сменить аккаунт"
+                                buttonClass="button_simple"
+                                onClick=onLogout
+                        }}}
                         <a class="chat-layout__link" href="/profile">
                             <span>Профиль</span>
                             <svg class="chat-layout__nav-icon">

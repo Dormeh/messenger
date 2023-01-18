@@ -2,9 +2,12 @@ import Block from 'core/Block';
 
 import form from 'data/reg.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import {Store} from "core/Store";
+
+import {registration} from '../../services/auth'
 
 
-export class Page extends Block {
+export class RegPage extends Block {
     static componentName = 'SignUpPage';
     private form: HTMLCollection | undefined;
     private formElems: Record<string, HTMLElement> | undefined;
@@ -40,6 +43,9 @@ export class Page extends Block {
             return acc;
         }, {})
         console.log(formValues)
+        const store = Store.instance();
+        store.dispatch(registration, formValues)
+
     }
 
     componentDidMount() {

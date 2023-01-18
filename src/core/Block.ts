@@ -2,11 +2,12 @@ import EventBus from './EventBus';
 import {nanoid} from 'nanoid';
 import Handlebars from 'handlebars';
 
-interface IBlockProps {
+export interface IBlockProps {
   events?: Record<string, IListener>
+  componentName?: string;
 }
 
-interface BlockMeta<P = any> {
+export interface BlockMeta<P = any> {
   props: P;
 }
 

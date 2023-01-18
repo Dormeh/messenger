@@ -10,7 +10,7 @@ export interface RouterInterface {
 
     navigate(path: string): void
 
-    addRoute(pattern: RegExp, path: string): void
+    addRoute(pattern: RegExp, path: string, auth: boolean): void
 
     setNotFoundPagePath(path: string): void
 

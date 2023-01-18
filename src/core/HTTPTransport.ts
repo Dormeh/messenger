@@ -13,7 +13,7 @@ type RequestOptions = {
     data?: unknown
 };
 
-import {isJson} from '../asserts/utils/jsonStringJson'
+import {isJson} from '../asserts/utils'
 
 type RequestData = Record<string, string | number>;
 
@@ -41,6 +41,7 @@ class HTTPTransport {
     };
 
     public put = (url: string, options = {}) => {
+        console.log('put-data', options.data)
         return this.request(url, {...options, method: METHODS.PUT});
     };
 
@@ -87,8 +88,11 @@ class HTTPTransport {
 
                 if (method === METHODS.GET || !data) {
                     xhr.send();
+                } else if (data instanceof FormData) {
+                    xhr.send(data);
                 } else {
                     xhr.send(JSON.stringify(data));
+                    console.log('dataSend', JSON.stringify(data))
                 }
             }
         );
