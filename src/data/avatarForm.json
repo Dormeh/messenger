@@ -1,0 +1,14 @@
+{
+  "inputs": [
+    {
+      "type": "file",
+      "name": "file",
+      "ref": "fileInput"
+    }
+  ],
+  "inputAddClass": "input_file",
+  "title": "Изменить аватар",
+  "addFormClass": "modal_form-avatar",
+  "buttonClass": "button_primary button_set-big-btn profile__button-container",
+  "buttonTitle": "Установить фотографию"
+}

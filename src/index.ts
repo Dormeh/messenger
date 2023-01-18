@@ -1,4 +1,5 @@
 import Router from 'core/Router/Router'
+import {Store} from 'core/Store'
 
 import './asserts/css/main.css';
 
@@ -8,19 +9,38 @@ import {initApp} from './services/initApp'
 
 regAll();
 
-const router = Router.instance();
+(async function appStart() {
 
-router
-    .addRoute(/^$/, 'nav')
-    .addRoute(/^auth$/, 'auth')
-    .addRoute(/^registration$/, 'registration')
-    .addRoute(/^chat$/, 'chat')
-    .addRoute(/^profile$/, 'profile')
-    // .addRoute(/^profile\/pswd-change$/, 'profile/pswd-change')//todo пока не решил делать ли отдельные роуты для изменения профиля
-    // .addRoute(/^profile\/change$/, 'profile/change')
-    .addRoute(/^404\/?$/, '404')
-    .addRoute(/^500\/?$/, '500')
-    .setNotFoundPagePath('404')
-    .listen();
+    const router = Router.instance();
+    const store = Store.instance();
 
-initApp();
+    await store.dispatch(initApp);
+
+    store.on('changed', (prevState, nextState) => {
+        if (process.env.DEBUG) {
+            console.log(
+                '%cstore updated',
+                'background: #222; color: #bada55',
+                nextState,
+            );
+        }
+    });
+
+    router
+        .addRoute(/^$/, 'nav', false)
+        .addRoute(/^auth$/, 'auth', false)
+        .addRoute(/^registration$/, 'registration', false)
+        .addRoute(/^chat$/, 'chat', true)
+        .addRoute(/^profile$/, 'profile', true)
+        .addRoute(/^profile\/(password)$/, 'profile')//todo пока не решил делать ли отдельные роуты для изменения профиля
+        .addRoute(/^profile\/(edit)$/, 'profile')
+        .addRoute(/^404\/?$/, '404', false)
+        .addRoute(/^500\/?$/, '500', false)
+        .setNotFoundPagePath('404')
+        .setAuthPagePath('auth')
+        .listen();
+
+})()
+
+
+

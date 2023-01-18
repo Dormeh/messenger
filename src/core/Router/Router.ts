@@ -2,11 +2,14 @@ import Block from 'core/Block';
 import renderPage from './render-page'
 
 import {RouterInterface} from './RouterInterface'
+import {Store} from "../Store";
 
-export default class Router implements RouterInterface{
+export default class Router implements RouterInterface {
     private routes = [];
     private page: Block<{}> | undefined;
     private notFoundPagePath: string = '';
+    private authPagePath: string = '';
+
 
     constructor() {
 
@@ -36,28 +39,36 @@ export default class Router implements RouterInterface{
             )
 
         }
-        this.counter = this.counter ? ++this.counter: 1;
-        console.log('обращение к роутеру', this.counter)
+        // this.counter = this.counter ? ++this.counter : 1;
+        // console.log('обращение к роутеру', this.counter)
         return this._instance;
     }
 
     async route() {
+
         let strippedPath = decodeURI(window.location.pathname)
             .replace(/^\/|\/$/, '');
         console.log('текущий Location', strippedPath)
 
         let match: string[] | undefined | null;
-
+        const store = Store.instance();
+        const auth = await store.getState() && store.getState().user;
         for (let route of this.routes) {
             match = strippedPath.match(route.pattern);
 
             if (match) {
-                this.page = await this.changePage(route.path, match);
+            console.log('match', route)
+                if (!route.auth || auth) {
+                    this.page = await this.changePage(route.path, match);
+                } else {
+                    history.replaceState(null, null, this.authPagePath)
+                    this.page = await this.changePage(this.authPagePath)
+                }
                 break;
             }
         }
-
         if (!match) {
+        console.log('notFoundPagePath')
             this.page = await this.changePage(this.notFoundPagePath);
         }
 
@@ -81,13 +92,18 @@ export default class Router implements RouterInterface{
         this.route();
     }
 
-    addRoute(pattern: RegExp, path: string) {
-        this.routes.push({pattern, path});
+    addRoute(pattern: RegExp, path: string, auth: boolean) {
+        this.routes.push({pattern, path, auth});
         return this;
     }
 
     setNotFoundPagePath(path: string) {
         this.notFoundPagePath = path;
+        return this;
+    }
+
+    setAuthPagePath(path: string) {
+        this.authPagePath = path;
         return this;
     }
 

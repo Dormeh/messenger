@@ -1,21 +1,29 @@
-import Block from 'core/Block';
+import {Block, IBlockProps} from 'core';
 
 import form from 'data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import Router from "../../core/Router/Router";
-import {auth} from '../../services/auth'
+import Router from "core/Router/Router";
+import {Store} from "core/Store";
+import {withStore} from '../../asserts/utils'
+import {login} from '../../services/auth'
 
+type LoginPageProps = {
+    store: Store<AppState>;
+    onSubmit: (event: MouseEvent) => void;
+    form: Record<string, []>;
+};
 
-export class LoginPage extends Block {
+export class LoginPage extends Block<LoginPageProps & IBlockProps> {
     static componentName = 'LoginPage';
     private form: HTMLCollection | object | undefined;
-    private formElems: Record<string, HTMLElement> | undefined;
+    private formElems: Record<string, HTMLInputElement> | undefined;
     private formRefs: { [p: string]: Block; } | undefined;
 
-    constructor() {
-        super();
+    constructor(props: LoginPageProps | undefined) {
+        super(props);
         this.setProps({
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            // store: Store.instance(),
+            onSubmit: (event: MouseEvent) => this.onSubmit(event),
             form,
         })
         // const router = Router.instance();// тест управления роутером
@@ -25,6 +33,7 @@ export class LoginPage extends Block {
 
     onSubmit(event: MouseEvent): void {
         console.log('Submit')
+        console.log(this.formElems)
         event.preventDefault();
 
         const rules = Object.keys(this.formElems as object).map(key => {
@@ -38,13 +47,13 @@ export class LoginPage extends Block {
 
         Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
 
-        const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
+        const formValues: Record<string, string> = Object.entries(this.formElems).reduce((acc, [key, item]) => {
             acc[key] = item.value;
             return acc;
         }, {})
 
-        console.log(formValues)
-        auth(formValues);
+        console.log(formValues);
+        this.props.store.dispatch(login, formValues).then();
     }
 
     componentDidMount() {
@@ -72,3 +81,4 @@ export class LoginPage extends Block {
     `;
     }
 }
+export default withStore(LoginPage);

@@ -10,6 +10,7 @@ interface InputProps {
     onChange?: () => void;
     onFocus: () => void;
     onBlur: () => void;
+    onClick: () => void;
     eventBlurOff?: boolean;
     eventFocusOff?: boolean;
     type?: 'text' | 'password' | 'email';
@@ -18,14 +19,19 @@ interface InputProps {
     errorName?: string;
     messageInput?: boolean;
     inputAddClass: string;
+    errorAddClass?: string
     name: string;
     svg?: any;
+    file?: boolean;
 }
 
 export class Input extends Block {
     static componentName = 'Input';
-        constructor({eventBlurOff, eventFocusOff, ...props}: InputProps) {
-        super({eventBlurOff, eventFocusOff, ...props});
+        constructor({eventBlurOff, eventFocusOff, file, ...props}: InputProps) {
+        super({eventBlurOff, eventFocusOff, file,...props});
+
+        if (file) eventBlurOff = eventFocusOff = true;
+
         const newProps = {
             events: {
             } as {
@@ -66,21 +72,31 @@ export class Input extends Block {
         // language=hbs
         return `
             <div class="input {{inputAddClass}}">
-                <label class="input__label">{{label}}</label>
-                <div class="input__container">
-                    <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text" name="{{name}}"
-                           value="{{value}}">
-                    {{#if profileInput}}
-                        <span class="input__profile-label">{{formLabel}}</span>
-                    {{/if}}
-                    {{#if searchInput}}
-                        <svg class="chat-layout__search-icon">
-                            <use href="{{svg}}#search"></use>
-                        </svg>
-                    {{else}}
-                        {{{ErrorComponent ref="error" messageInput=messageInput}}}
-                    {{/if}}
-                </div>
+                {{#if file}}
+                    <label class="input__avatar-change-container button button_alternate">
+                        <span class="input__avatar-change-text">Выбрать файл</span>
+                        <input name="file" class="input__avatar-input" type="file" id="input" multiple>
+                    </label>
+                {{else}}
+                    <label class="input__label">{{label}}
+                    </label>
+                    <div class="input__container">
+                        <input type="{{type}}" placeholder="{{placeholder}}" class="input__input-text" name="{{name}}"
+                               value="{{value}}">
+                        {{#if profileInput}}
+                            <span class="input__profile-label">{{formLabel}}</span>
+                        {{/if}}
+
+                        {{#if searchInput}}
+                            <svg class="chat-layout__search-icon">
+                                <use href="{{svg}}#search"></use>
+                            </svg>
+                        {{else}}
+                            {{{ErrorComponent ref="error" errorAddClass=errorAddClass}}}
+                        {{/if}}
+                    </div>
+                {{/if}}
+
             </div>
         `
     }
