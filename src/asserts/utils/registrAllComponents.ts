@@ -10,6 +10,7 @@ import Chat_layout from "../../components/chat-layout";
 import ChatFeed from "../../components/chat-feed";
 import Message from "../../components/message";
 import MessageFeed from "../../components/message-feed";
+import Modal from "../../components/modal"
 
 export function regAll() {
     registerComponent(Button);
@@ -24,4 +25,6 @@ export function regAll() {
     registerComponent(ChatFeed);
     registerComponent(Message);
     registerComponent(MessageFeed);
+    registerComponent(Modal);
+
 }

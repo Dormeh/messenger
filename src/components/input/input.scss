@@ -19,6 +19,18 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
+  &__avatar-input {
+    visibility: hidden;
+  }
+  &__avatar-change-container {
+    position: relative;
+    & .input__avatar-change-text {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 
   &__input-text {
     box-sizing: border-box;
@@ -54,6 +66,10 @@
         text-align: right;
         color: var(--grey-3);
       }
+    }
+
+    &:last-child .input__input-text {
+      border-bottom: none;
     }
 
     & .input__label {

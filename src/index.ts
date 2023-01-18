@@ -32,8 +32,8 @@ regAll();
         .addRoute(/^registration$/, 'registration', false)
         .addRoute(/^chat$/, 'chat', true)
         .addRoute(/^profile$/, 'profile', true)
-        // .addRoute(/^profile\/pswd-change$/, 'profile/pswd-change')//todo пока не решил делать ли отдельные роуты для изменения профиля
-        // .addRoute(/^profile\/change$/, 'profile/change')
+        .addRoute(/^profile\/(password)$/, 'profile')//todo пока не решил делать ли отдельные роуты для изменения профиля
+        .addRoute(/^profile\/(edit)$/, 'profile')
         .addRoute(/^404\/?$/, '404', false)
         .addRoute(/^500\/?$/, '500', false)
         .setNotFoundPagePath('404')
