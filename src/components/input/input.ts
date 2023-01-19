@@ -75,7 +75,7 @@ export class Input extends Block {
                 {{#if file}}
                     <label class="input__avatar-change-container button button_alternate">
                         <span class="input__avatar-change-text">Выбрать файл</span>
-                        <input name="file" class="input__avatar-input" type="file" id="input" multiple>
+                        <input name="file" class="input__avatar-input" type="file" id="input" accept="image/png, image/jpeg">
                     </label>
                 {{else}}
                     <label class="input__label">{{label}}

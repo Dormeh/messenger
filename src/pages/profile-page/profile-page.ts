@@ -28,6 +28,7 @@ export class ProfilePage extends Block {
     private formRefs: { [p: string]: Block; } | undefined;
     private modalButton: HTMLButtonElement | undefined;
     private modalError: Block | undefined;
+    private formElem: HTMLFormElement | undefined;
 
     constructor(props) {
         super(props);
@@ -41,12 +42,12 @@ export class ProfilePage extends Block {
             store: Store.instance(),
             backLink: props.pageType ? '/profile' : '/chat',
             svg,
-            photo: `https://ya-praktikum.tech/api/v2/resources${Store.instance().getState().user.avatar}`,
+            photo: Store.instance().getState().user.avatar && `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
             userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: !props.pageType,
             events: {
                 click: {
-                    fn: this.onClick.bind(this),
+                    fn: this.modalOpen.bind(this),
                     options: false
                 },
                 change: {
@@ -59,7 +60,7 @@ export class ProfilePage extends Block {
 
     }
 
-    onClick(event: Event): void {
+    modalOpen(event: Event): void {
         const element = event.target as HTMLElement;
         if (!element.classList.contains('avatar')) return;
         console.log('модальное окно')
@@ -103,16 +104,23 @@ export class ProfilePage extends Block {
 
     }
 
-    async onSubmitFile (event: MouseEvent) {
-        event.preventDefault();
+    async onSubmitFile(event: MouseEvent) {
+        if (this.modalError && this.modalError.props.errorName) return;
         // console.log(this.refs.modal.refs.modalForm.element?.children[1])
-        const form = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement
-        // console.log(form.file.files[0])
-        const formData = new FormData();
-        formData.append("avatar", form.file.files[0]);
+        if (this.formElem && this.formElem.file.files) {
+            event.preventDefault();
+            const file = this.formElem.file.files[0];
+            if (!file && !file.size) {
+                this.modalError && this.modalError.setProps({errorName: 'файл не загружен'})
+                return;
+            }
+            // console.log(form.file.files[0])
+            const formData = new FormData();
+            formData.append("avatar", this.formElem.file.files[0]);
 
-        await this.props.store.dispatch(avatarChg, formData);
-        console.log('ОТПРАВКА ФАЙЛА')
+            await this.props.store.dispatch(avatarChg, formData);
+            console.log('ОТПРАВКА ФАЙЛА')
+        }
     }
 
     onSubmit(event: MouseEvent): void {
@@ -154,6 +162,7 @@ export class ProfilePage extends Block {
         this.formRefs = this.refs.form.refs
         this.modalError = this.refs.modal.refs.modalForm.refs.error;
         this.modalButton = this.refs.modal.refs.modalForm.refs.button.element as HTMLButtonElement;
+        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement;
         // document.getElementById('input').addEventListener('change', () => this.onClick.bind(this))
 
     }
@@ -163,6 +172,7 @@ export class ProfilePage extends Block {
         // language=hbs
         return `
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
+                <img src="../../asserts/images/icons_sprite.svg" alt="">
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
                         <a href="{{backLink}}">
@@ -171,14 +181,14 @@ export class ProfilePage extends Block {
                             </svg>
                         </a>
                     </div>
-                            {{{Modal
-                                    ref="modal"
-                                    svg=svg
-                                    form=formAvatar
-                                    onSubmit=onSubmitFile
-                                    errorAddClass="input_error modal__error"
-                                    file=true
-                            }}}
+                    {{{Modal
+                            ref="modal"
+                            svg=svg
+                            form=formAvatar
+                            onSubmit=onSubmitFile
+                            errorAddClass="input_error modal__error"
+                            file=true
+                    }}}
                     <div class="profile__preview {{#if profileMainPage}}profile__preview_inactive{{/if}}">
                         <div class="container container_profile">
 
