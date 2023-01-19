@@ -65,7 +65,6 @@ export default async function (path: string, match: string[]): Promise<Block> {
     // const { default: Page } = await import(/* webpackChunkName: "[request]" */`../pages/${path}/index.js`);
     const subUrl = match[1] ? {pageType: match[1]} : {}
     const page = routes[path].arg ? new routes[path].Page(routes[path].arg) : new routes[path].Page(subUrl);
-    console.log(page)
 
     renderDOM(page);
     document.title = `App / ${routes[path].Page.componentName}`

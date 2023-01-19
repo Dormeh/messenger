@@ -1,0 +1,16 @@
+{
+  "inputs": [
+    {
+      "placeholder": "Название чата",
+      "name": "chat-name",
+      "errorName": "",
+      "ref": "chatNameInput",
+      "value": ""
+    }
+  ],
+  "title": "Добавить чат",
+  "addFormClass": "modal_form-avatar",
+  "inputAddClass": "input_log-form",
+  "buttonClass": "button_primary button_set-big-btn profile__button-container",
+  "buttonTitle": "Добавить"
+}
