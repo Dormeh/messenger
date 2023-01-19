@@ -17,8 +17,8 @@ interface ChatFeedProps {
 export class ChatFeed extends Block {
     static componentName = 'ChatFeed';
 
-    constructor({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat}: ChatFeedProps) {
-        super({onSubmit, onFocus, onBlur, onInput, onChange, loginValue, profileMainPage, svg, selectedChat});
+    constructor({...props}: ChatFeedProps) {
+        super({...props});
     }
 
     protected render(): string {

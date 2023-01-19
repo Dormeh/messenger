@@ -57,7 +57,6 @@ export default class Router implements RouterInterface {
             match = strippedPath.match(route.pattern);
 
             if (match) {
-            console.log('match', route)
                 if (!route.auth || auth) {
                     this.page = await this.changePage(route.path, match);
                 } else {

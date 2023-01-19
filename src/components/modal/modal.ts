@@ -19,21 +19,26 @@ export class Modal extends Block {
         this.setProps({
             events: {
                 click: {
-                    fn: this.modalClose.bind(this),
+                    fn: this.modalCloseInit.bind(this),
                     options: false
                 }
-            }
+            },
+            modalClose: this.modalClose.bind(this)
         })
 
     }
 
-    modalClose(event: Event) {
+    modalCloseInit(event: Event) {
         const element = event.target as HTMLElement;
         if (element.classList.contains("modal")) {
-            this.element.style.display = 'none';
-            document.body.overflow = 'initial';
+            this.modalClose()
         }
     }
+    modalClose(){
+        this.element.style.display = 'none';
+        document.body.overflow = 'initial';
+    }
+
 
     protected render(): string {
 
