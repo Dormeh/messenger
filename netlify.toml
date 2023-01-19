@@ -6,3 +6,8 @@
   to = "/"
   status = 200
   force = false
+  [[redirects]]
+    from = "/profile/*"
+    to = "/"
+    status = 200
+    force = false
