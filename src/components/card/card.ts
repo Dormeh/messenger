@@ -37,7 +37,14 @@ export class Card extends Block {
         return `
                 <div class="card">
                     <div class="card__avatar">
-                        {{{Avatar svg=svg photo=photo svg=svg avatarClass="card__avatar-container" avatarSvgClass="avatar__svg_midi" avatarName="avatar"}}}
+                        {{{Avatar 
+                                svg=svg 
+                                photo=photo 
+                                svg=svg 
+                                avatarClass="card__avatar-container" 
+                                avatarSvgClass="avatar__svg_midi" 
+                                avatarName="avatar"
+                        }}}
                     </div>
                     <div class="card__preview">
                         <p class="card__user-name">{{userName}}</p>
