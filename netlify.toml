@@ -2,7 +2,7 @@
   command = "npm run build"
   publish = "dist"
   [[redirects]]
-  from = "/*/?*?"
+  from = "/*/*"
   to = "/"
   status = 200
   force = false
