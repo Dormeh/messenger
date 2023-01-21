@@ -11,6 +11,7 @@ import {formatBytes} from '../../asserts/utils'
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import svg from 'images/icons_sprite.svg';
 import {logout} from "../../services/auth";
+import type {SendData} from "../../components/form"
 
 interface Event {
     event: MouseEvent;
@@ -23,12 +24,12 @@ interface Event {
 
 export class ProfilePage extends Block {
     static componentName = 'ProfilePage';
-    private form: HTMLCollection | undefined;
-    private formElems: Record<string, HTMLElement> | undefined;
-    private formRefs: { [p: string]: Block; } | undefined;
-    private modalButton: HTMLButtonElement | undefined;
-    private modalError: Block | undefined;
-    private formElem: HTMLFormElement | undefined;
+    // private form: HTMLCollection | undefined;
+    // private formElems: Record<string, HTMLElement> | undefined;
+    // private formRefs: { [p: string]: Block; } | undefined;
+    // private modalButton: HTMLButtonElement | undefined;
+    // private modalError: Block | undefined;
+    // private formElem: HTMLFormElement | undefined;
 
     constructor(props) {
         super(props);
@@ -39,19 +40,13 @@ export class ProfilePage extends Block {
             onSubmitFile: (event: MouseEvent) => this.onSubmitFile(event),
             form: userDataToForm(userData, props.pageType && props.pageType === 'password' ? formPassword : form),
             formAvatar,
-            store: Store.instance(),
+            store: Store.instance() as Store<AppState>,
             backLink: props.pageType ? '/profile' : '/chat',
             svg,
             photo: Store.instance().getState().user.avatar && `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
             userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: !props.pageType,
-            events: {
 
-                change: {
-                    fn: this.onChange.bind(this),
-                    options: false
-                }
-            },
             modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
 
         })
@@ -60,98 +55,26 @@ export class ProfilePage extends Block {
     }
 
 
-    onChange(event: Event) { //todo перенести в модалку
-        const input = event.target as HTMLInputElement
-        if (!input.type || input.type !== 'file' || !input.files) return;
-        // console.log(input.files[0]);
-        let errorName = '';
-        this.modalError && this.modalError.props.errorName && this.modalError.setProps({errorName})
-        const form = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement
-
-        if (form.file.files && form.file.files[0]) {
-            const file = form.file.files[0];
-            const size = file.size;
-            if (size > 1048576) {
-                const sizeKb = formatBytes(size);
-                errorName = `размер файла ${sizeKb} допустимый не более 1Мб`
-                this.modalError && this.modalError.setProps({errorName})
-                return;
-            }
-            console.log(form.file.files[0])
-
-            const image = form.querySelector('img') as HTMLImageElement;
-            image.src = URL.createObjectURL(form.file.files[0])
-            image.style.display = "block"
-            if (this.modalButton) this.modalButton.disabled = false;
-        }
-
-    }
-
-    async onSubmitFile(event: MouseEvent) {
-        if (this.modalError && this.modalError.props.errorName) return;
-        // console.log(this.refs.modal.refs.modalForm.element?.children[1])
-        if (this.formElem && this.formElem.file.files) {
-            event.preventDefault();
-            const file = this.formElem.file.files[0];
-            if (!file && !file.size) {
-                this.modalError && this.modalError.setProps({errorName: 'файл не загружен'})
-                return;
-            }
-            // console.log(form.file.files[0])
+    async onSubmitFile({file}: Record<string, File>) {
+        if (file) {
             const formData = new FormData();
-            formData.append("avatar", this.formElem.file.files[0]);
+            formData.append("avatar", file);
 
             await this.props.store.dispatch(avatarChg, formData);
             console.log('ОТПРАВКА ФАЙЛА')
         }
     }
 
-    onSubmit(event: MouseEvent): void {
-        this.componentDidMount();
-        event.preventDefault();
-
-        const rules = Object.keys(this.formElems as object).map(key => {
-            const value2 = key === 'newPassword_confirm' && this.formElems && this.formElems['newPassword'].value;
-            return {
-                type: ValidateRuleType[key],
-                value: this.formElems[key].value,
-                value2
-            }
-        })
-
-        const errorMessage = validateForm(rules)
-
-        Object.keys(this.formRefs as object).forEach(key => {
-            if (this.formRefs[key].refs.error) {
-                this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]})
-            }
-            })
-
-
-        const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
-            acc[key] = item.value;
-            return acc;
-        }, {})
-        console.log('formValues', formValues)
-        if (formValues.newPassword_confirm) {
-            delete formValues.newPassword_confirm;
-            this.props.store.dispatch(passwordChg, formValues);
+    async onSubmit({data, form}: SendData): Promise<void> {
+        if (data.newPassword_confirm) {
+            delete data.newPassword_confirm;
+            await this.props.store.dispatch(passwordChg, data);
         } else {
-            this.props.store.dispatch(userChg, formValues);
+            await this.props.store.dispatch(userChg, data);
         }
     }
 
-    componentDidMount() {
-        this.form = this.refs.form.element?.children[1].elements;
-        this.formElems = Object.keys(this.form as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
-            acc[key] = this.form[key]
-            return acc
-        }, {})
-        this.formRefs = this.refs.form.refs
-        this.modalError = this.refs.modal.refs.modalForm.refs.error;
-        this.modalButton = this.refs.modal.refs.modalForm.refs.button.element as HTMLButtonElement;
-        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement;
-        // document.getElementById('input').addEventListener('change', () => this.onClick.bind(this))
+    elemInit() {
 
     }
 

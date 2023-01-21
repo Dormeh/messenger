@@ -1,7 +1,13 @@
 import Block from 'core/Block';
 
 import './form.scss';
-
+import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import {login} from "../../services/auth";
+import {formatBytes} from "../../asserts/utils";
+export type SendData = {
+    data: Record<string, string>
+    form: HTMLFormElement;
+}
 
 interface FormProps {
     form: {};
@@ -9,7 +15,6 @@ interface FormProps {
     onFocus: any;
     onBlur: any;
     onInput: any;
-    onChange: any;
     loginValue: string;
     errorAddClass?: string;
     file?: boolean;
@@ -18,9 +23,113 @@ interface FormProps {
 
 export class Form extends Block {
     static componentName = 'Form';
+    private formCollection: HTMLCollection | object | undefined;
+    private formElems: Record<string, HTMLInputElement> | undefined;
+    private formRefs: { [p: string]: Block; } | undefined;
+    private formButton: HTMLButtonElement | undefined;
+    private formError: Block | undefined;
+    private form: HTMLFormElement | undefined;
 
     constructor({...props}: FormProps) {
         super({...props});
+        this.setProps({
+            // store: Store.instance(),
+            onSubmitForm: (event: MouseEvent) => this.onSubmitForm(event),
+            events: {
+
+                change: {
+                    fn: this.onChangeFile.bind(this),
+                    options: false
+                }
+            }
+        })
+    }
+
+    onChangeFile(event: Event) {
+        this.elemInit();
+        const input = event.target as HTMLInputElement
+        if (!input.type || input.type !== 'file' || !input.files) return;
+
+        let errorName = '';
+        this.formError && this.formError.props.errorName && this.formError.setProps({errorName})
+
+        if (this.form && this.form.file.files && this.form.file.files[0]) {
+            const file = this.form.file.files[0];
+            const size = file.size;
+            if (size > 1048576) {
+                const sizeKb = formatBytes(size);
+                errorName = `размер файла ${sizeKb} допустимый не более 1Мб`
+                this.formError && this.formError.setProps({errorName})
+                if (this.formButton) this.formButton.disabled = true;
+                return;
+            }
+            console.log(file)
+
+            const image = this.form.querySelector('img') as HTMLImageElement;
+            image.src = URL.createObjectURL(this.form.file.files[0])
+            image.style.display = "block"
+            if (this.formButton) this.formButton.disabled = false;
+        }
+
+    }
+
+    onSubmitForm(event: MouseEvent): void {
+        console.log('Submit')
+        event.preventDefault();
+        this.elemInit();
+        console.log(this.formElems)
+
+        const rules = Object.keys(this.formElems as object).map(key => {
+            return {
+                type: ValidateRuleType[key],
+                value: this.formElems[key].value
+            }
+        })
+
+        const errorMessage = validateForm(rules) as object
+        let hasError;
+        let sendData;
+        if (!this.props.file) {
+            Object.keys(this.formRefs).forEach(key => {
+                if (this.formRefs && this.formRefs[key].refs.error && this.formRefs[key].props.name) {
+                    this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]});
+                    hasError = hasError || !!errorMessage[this.formRefs[key].props.name];
+                }
+            })
+            const formValues: Record<string, string> = Object.entries(this.formElems).reduce((acc, [key, item]) => {
+                acc[key] = item.value;
+                return acc;
+            }, {})
+            if (hasError) return;
+            sendData = {data: formValues, form: this.form};//todo сделать проверку была ли изменина форма
+
+            console.log(formValues);
+        } else {
+            const file = this.form && this.form.file.files[0];
+
+            if (!file && !file.size) {
+                this.formError && this.formError.setProps({errorName: 'файл не загружен'})
+            }
+            hasError = this.formError && !!this.formError.props.errorName
+            sendData = {file: file}
+            console.log(hasError)
+        }
+        if (hasError) return;
+        // @ts-ignore
+        this.props.onSubmit(sendData);
+    }
+
+    elemInit() {
+        this.form = this.element?.children[1] as HTMLFormElement
+        this.formCollection = this.element?.children[1].elements as HTMLCollection;
+        this.formElems = Object.keys(this.formCollection as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
+            acc[key] = this.form[key]
+            return acc
+        }, {})
+        this.formRefs = this.refs
+        this.formButton = this.refs.button.element as HTMLButtonElement;
+        this.formError = this.refs.error;
+
 
     }
 
@@ -58,10 +167,10 @@ export class Form extends Block {
                                 ref="button"
                                 buttonTitle=form.buttonTitle
                                 buttonClass=form.buttonClass
-                                onClick=onSubmit
+                                onClick=onSubmitForm
                         }}}
                     {{/unless}}
-                {{{ErrorComponent ref="error" errorAddClass=errorAddClass}}}
+                    {{{ErrorComponent ref="error" errorAddClass=errorAddClass}}}
                 </form>
                 <a href="{{form.backLink}}" class="form__change-form-link">{{form.backLinkTitle}}</a>
 

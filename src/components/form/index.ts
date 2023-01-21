@@ -1,1 +1,1 @@
-export { Form as default } from './form';
+export { Form, SendData } from './form';

@@ -9,6 +9,7 @@ import popupSvgConfigBottom from "../../data/popupSvgConfigBottom.json";
 import {chatsDelete, userAdd, userDel} from "../../services/chats";
 import {Store} from "../../core";
 import {userSearch} from '../../services/user'
+import type {SendData} from "../form"
 
 
 interface ChatFeedProps {
@@ -42,8 +43,7 @@ export class ChatFeed extends Block {
 
     }
 
-    async onSubmitModal(event: MouseEvent) { //todo  нужно сабмитить эту функцию из формы и посылать от туда данные
-        event.preventDefault();
+    async onSubmitModal({data, form}: SendData) { //todo  нужно сабмитить эту функцию из формы и посылать от туда данные
         const modalForm = this.props.modal().refs.modalForm
         if (event.target === modalForm.refs.button.element) {
             const actionName = modalForm.props.form.title
@@ -109,7 +109,7 @@ export class ChatFeed extends Block {
         if (form) {
             this.props.modal().setProps({
                 form: form,
-                onSubmit: (event: MouseEvent) => this.onSubmitModal(event)
+                onSubmit: ({data, form}: SendData) => this.onSubmitModal({data, form})
             })
 
             this.props.modal().modalOpen()
