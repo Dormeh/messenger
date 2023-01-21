@@ -1,6 +1,6 @@
 import {registerComponent} from "../../core";
 import {Button, ButtonSVG} from "../../components/button";
-import Form from "../../components/form";
+import {Form} from "../../components/form";
 import Input from "../../components/input";
 import Layout from "../../components/layout";
 import ErrorComponent from "../../components/error";
