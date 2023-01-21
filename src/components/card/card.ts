@@ -17,17 +17,8 @@ interface CardProps {
 export class Card extends Block {
     static componentName = 'Card';
 
-    constructor({userName, userMessage, messages, cardTime, cardMessCount, photo, svg, onClick}: CardProps) {
-        super({
-            userName,
-            userMessage,
-            messages,
-            cardTime,
-            cardMessCount,
-            svg,
-            photo,
-            events: {click: {fn: onClick, options: false}}
-        });
+    constructor({onClick, ...props}: CardProps) {
+        super({events: {click: {fn: onClick, options: false}}, ...props});
     }
 
     protected render(): string {

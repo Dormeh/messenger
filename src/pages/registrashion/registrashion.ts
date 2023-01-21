@@ -36,8 +36,11 @@ export class RegPage extends Block {
 
         const errorMessage = validateForm(rules)
 
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
-
+        Object.keys(this.formRefs as object).forEach(key => {
+            if (this.formRefs[key].refs.error) {
+                this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]})
+            }
+        })
         const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
             acc[key] = item.value;
             return acc;

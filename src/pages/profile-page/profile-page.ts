@@ -46,38 +46,21 @@ export class ProfilePage extends Block {
             userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: !props.pageType,
             events: {
-                click: {
-                    fn: this.modalOpen.bind(this),
-                    options: false
-                },
+
                 change: {
                     fn: this.onChange.bind(this),
                     options: false
                 }
-            }
+            },
+            modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
+
         })
         console.log('props', this.props)
 
     }
 
-    modalOpen(event: Event): void {
-        const element = event.target as HTMLElement;
-        if (!element.classList.contains('avatar')) return;
-        console.log('модальное окно')
-        const modal = document.getElementById('modal');
 
-        if (!modal) {
-            console.log('выход из модального')
-            return;
-        }
-        modal.style.display = 'block';
-        document.body.overflow = 'hidden';
-        console.log(this.refs.modal.refs.modalForm.refs.button)
-        this.modalButton.disabled = true;
-
-    }
-
-    onChange(event: Event) {
+    onChange(event: Event) { //todo перенести в модалку
         const input = event.target as HTMLInputElement
         if (!input.type || input.type !== 'file' || !input.files) return;
         // console.log(input.files[0]);
@@ -138,7 +121,12 @@ export class ProfilePage extends Block {
 
         const errorMessage = validateForm(rules)
 
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
+        Object.keys(this.formRefs as object).forEach(key => {
+            if (this.formRefs[key].refs.error) {
+                this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]})
+            }
+            })
+
 
         const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
             acc[key] = item.value;
@@ -188,14 +176,17 @@ export class ProfilePage extends Block {
                             onSubmit=onSubmitFile
                             errorAddClass="input_error modal__error"
                             file=true
+                            modalClass="modal_avatar"
                     }}}
                     <div class="profile__preview {{#if profileMainPage}}profile__preview_inactive{{/if}}">
                         <div class="container container_profile">
 
                             <div class="profile__avatar-preview">
-                                {{{Avatar avatarClass="profile__avatar-container profile__avatar-container_chng"
+                                {{{Avatar ref=profileAvatar
+                                          avatarClass="profile__avatar-container profile__avatar-container_chng"
                                           svg=svg
                                           photo=photo
+                                          onClick=modalOpen
                                 }}}
                                 <h3 class="profile__user-title">{{userName}}</h3>
                             </div>

@@ -11,6 +11,7 @@ import ChatFeed from "../../components/chat-feed";
 import Message from "../../components/message";
 import MessageFeed from "../../components/message-feed";
 import Modal from "../../components/modal"
+import Popup from "../../components/popup"
 
 export function regAll() {
     registerComponent(Button);
@@ -26,5 +27,5 @@ export function regAll() {
     registerComponent(Message);
     registerComponent(MessageFeed);
     registerComponent(Modal);
-
+    registerComponent(Popup);
 }

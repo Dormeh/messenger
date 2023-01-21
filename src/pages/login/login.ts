@@ -6,6 +6,7 @@ import Router from "core/Router/Router";
 import {Store} from "core/Store";
 import {withStore} from '../../asserts/utils'
 import {login} from '../../services/auth'
+import {chatsCreate} from "../../services/chats";
 
 type LoginPageProps = {
     store: Store<AppState>;
@@ -45,8 +46,11 @@ export class LoginPage extends Block<LoginPageProps & IBlockProps> {
 
         const errorMessage = validateForm(rules)
 
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
-
+        Object.keys(this.formRefs as object).forEach(key => { //todo onSubmit функция дублируется нужно вынести в форму!!!
+            if (this.formRefs[key].refs.error) {
+                this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]})
+            }
+        })
         const formValues: Record<string, string> = Object.entries(this.formElems).reduce((acc, [key, item]) => {
             acc[key] = item.value;
             return acc;

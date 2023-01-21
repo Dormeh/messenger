@@ -1,10 +1,8 @@
 import {Dispatch} from "../core";
 import Router from "../core/Router/Router";
-import {AvatarData, userAPI} from "../api/user";
+import {AvatarData, searchUser, PasswordData, UserData, userAPI} from "../api/user";
 import {hasError} from "../asserts/utils/apiHasError";
 import {logout} from "./auth";
-import {UserData} from "../api/user";
-import {PasswordData} from "../api/user";
 
 export const userChg = async (
     dispatch: Dispatch<AppState>,
@@ -68,3 +66,14 @@ export const avatarChg = async (
     router.navigate('/profile');
 };
 
+export const userSearch = async (
+    action: searchUser,
+) => {
+    const response = (await userAPI.userSearch(action)).responseJSON();
+
+    console.log(response);
+
+    return response;
+
+
+};
