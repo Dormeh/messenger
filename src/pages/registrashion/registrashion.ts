@@ -5,6 +5,7 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import {Store} from "core/Store";
 
 import {registration} from '../../services/auth'
+import type {SendData} from "../../components/form"
 
 
 export class RegPage extends Block {
@@ -16,47 +17,16 @@ export class RegPage extends Block {
     constructor() {
         super();
         this.setProps({
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            store: Store.instance() as Store<AppState>,
+            onSubmit: (formValues: Record<string, string>): any => this.onSubmit(formValues),
             form: form,
         })
     }
 
-    onSubmit(event: MouseEvent): void {
-        console.log('Submit')
-        event.preventDefault();
-
-        const rules = Object.keys(this.formElems as object).map(key => {
-            const value2 = key === 'password_confirm' && this.formElems['password'].value;
-            return {
-                type: ValidateRuleType[key],
-                value: this.formElems[key].value,
-                value2
-            }
-        })
-
-        const errorMessage = validateForm(rules)
-
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
-
-        const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
-            acc[key] = item.value;
-            return acc;
-        }, {})
-        console.log(formValues)
-        const store = Store.instance();
-        store.dispatch(registration, formValues)
-
+    async onSubmit({data, form}: SendData): Promise<void> {
+        await this.props.store.dispatch(registration, data);
     }
 
-    componentDidMount() {
-        this.form = this.refs.form.element?.children[1].elements as HTMLCollection;
-        this.formElems = Object.keys(this.form as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
-            acc[key] = this.form[key]
-            return acc
-        }, {})
-        this.formRefs = this.refs.form.refs
-
-    }
 
     render() {
 

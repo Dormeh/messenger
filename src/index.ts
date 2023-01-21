@@ -32,7 +32,7 @@ regAll();
         .addRoute(/^registration$/, 'registration', false)
         .addRoute(/^chat$/, 'chat', true)
         .addRoute(/^profile$/, 'profile', true)
-        .addRoute(/^profile\/(password)$/, 'profile')//todo пока не решил делать ли отдельные роуты для изменения профиля
+        .addRoute(/^profile\/(password)$/, 'profile')
         .addRoute(/^profile\/(edit)$/, 'profile')
         .addRoute(/^404\/?$/, '404', false)
         .addRoute(/^500\/?$/, '500', false)

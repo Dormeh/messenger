@@ -12,6 +12,12 @@ type ChatDelPayload = {
     chatId: number;
 };
 
+type UserDelPayload = {
+    chatId: number;
+    users: number[];
+};
+
+
 export const chatsCreate = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
@@ -29,28 +35,8 @@ export const chatsCreate = async (
     await sleep()
 
 
-    // if (hasError(response)) {
-    //     console.log(2222)
-    //     dispatch({ isLoading: false, loginFormError: response.reason });
-    //     return;
-    // }
+    await chatsGet(dispatch,state);
 
-    const responseChat = (await chatAPI.getChats()).responseJSON();
-
-    console.log('CHATresponseGET', responseChat)
-
-
-    // dispatch({ isLoading: false, loginFormError: null });
-    //
-    // if (hasError(response)) {
-    //     console.log(111)
-    //     dispatch(logout);
-    //     return;
-    // }
-    // console.log('responseUser', responseUser)
-    // dispatch({ user: responseUser});
-    //
-    // router.navigate('/chat');
 };
 
 export const chatsGet = async (
@@ -81,26 +67,45 @@ export const chatsDelete = async (
     await sleep()
 
 
-    // if (hasError(response)) {
-    //     console.log(2222)
-    //     dispatch({ isLoading: false, loginFormError: response.reason });
-    //     return;
-    // }
+    await chatsGet(dispatch,state);
 
-    const responseChat = (await chatAPI.getChats()).responseJSON();
+};
+export const userAdd = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: ChatPayload,
+) => {
+    const router = Router.instance();
 
-    console.log('CHATresponseGET', responseChat)
+    dispatch({isLoading: true});
+    console.log(action)
+
+    const response = (await chatAPI.userAddToChat(action)).responseJSON();
+    console.log('CHATresponsePUT', response)
 
 
-    // dispatch({ isLoading: false, loginFormError: null });
-    //
-    // if (hasError(response)) {
-    //     console.log(111)
-    //     dispatch(logout);
-    //     return;
-    // }
-    // console.log('responseUser', responseUser)
-    // dispatch({ user: responseUser});
-    //
-    // router.navigate('/chat');
+
+
+    await chatsGet(dispatch,state);
+
+};
+
+export const userDel = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: UserDelPayload,
+) => {
+    const router = Router.instance();
+
+    dispatch({isLoading: true});
+    console.log(action)
+
+    const response = (await chatAPI.userDelFromChat(action)).responseJSON();
+    console.log('CHATresponseDEL', response)
+
+
+
+
+    await chatsGet(dispatch,state);
+
 };

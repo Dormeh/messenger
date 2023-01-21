@@ -92,7 +92,7 @@ export default class Block<P  extends IBlockProps = {}> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    return true;
+    return true; //todo здесь зделать сравнение страрого и нового значений props
   }
 
   setProps = (nextProps: P) => {
@@ -156,7 +156,7 @@ export default class Block<P  extends IBlockProps = {}> {
       },
       set(target: Record<string, unknown>, prop: string, value: unknown) {
         target[prop] = value;
-
+// todo исправить ошибку проверки старого и нового значения
         // Запускаем обновление компоненты
         // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);

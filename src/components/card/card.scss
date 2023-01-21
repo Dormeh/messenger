@@ -10,12 +10,12 @@
   cursor: pointer;
 
   &:hover {
-    background: lighten(#343941, 5%);
+    background: lighten(#343941, 3%);
   }
 
   &_active,
   &_active:hover {
-    background: lighten(#343941, 10%);
+    background: lighten(#343941, 6%);
 
     & .card__message {
       font-weight: 300;

@@ -3,14 +3,13 @@ import Block from "core/Block";
 import './chat-layout.scss';
 
 import chats from 'data/chats.json';
-import modalForm from 'data/modalFormInput.json';
+import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import avatar from 'images/avatar.png'
 import {Store} from "core/Store";
 import {login, logout} from '../../services/auth';
 import {chatsCreate, chatsGet} from '../../services/chats';
-
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
@@ -32,37 +31,46 @@ export class Chat_layout extends Block {
 
         this.setProps({
             store: Store.instance(),
-            modalForm,
             svg,
+            form: chatAddForm,
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
             getChats: (): any => this.getChats(),
-            onLogout: () => store.dispatch(logout),
-            modalOpen: (event: MouseEvent): any => this.modalOpen(event),
-            events: {
-                input: {
-                    fn: this.onChange.bind(this),
-                    options: false
-                }
-            }
+            modalOpen: (): any => this.modalOpen(),
+            modal: () => this.refs.modal,
 
         })
+        // console.log('createChatForm', this.props.createChatForm)
 
         this.getChats()
 
 
     }
 
+    modalOpen(event: MouseEvent) {
+        this.refs.modal.setProps({
+            form: chatAddForm,
+            onSubmit: (event: MouseEvent): any => this.onSubmitChat(event)
+        })
+        console.log('refs.modal', this.refs.modal)
+        this.refs.modal.modalOpen()
+    }
+
+
     async onSubmitChat(event: MouseEvent) {
+        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement; //todo добавить функцию обновления всех требуемых компонентов
+
         event.preventDefault();
-        await this.props.store.dispatch(chatsCreate, {title: this.modalInputValue}).then();
-        this.refs.modal.props.modalClose()
-        await this.getChats();
+        console.log(this.formElem.title)
+        if (this.formElem && this.formElem.title.value) {
+            await this.props.store.dispatch(chatsCreate, {title: this.formElem.title.value}).then();
+            // await this.getChats();
+        }
 
     }
 
-    onSubmit(event: MouseEvent): void {
+    onSubmit(event: MouseEvent): void { //отправка сообщения
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
@@ -99,22 +107,18 @@ export class Chat_layout extends Block {
     onClick(event: MouseEvent) {
 
         const cardList: Block[] = [];
-        // const cardList2: Block[] = [];
 
         Object.keys(this.refs).forEach(key => {
             if (key.includes('card')) cardList.push(this.refs[key])
         })
-        // Object.keys(this.children).forEach(key => {
-        //     // console.log(this.children[key])
-        //     // if (this.children[key] ) cardList2.push(this.children[key])
-        // })
-        console.log('cardList', cardList)
+
+        // console.log('cardList', cardList)
         cardList.forEach(card => card.element?.classList.remove('card_active'))
 
         const card: HTMLElement = event.target.closest('.card');
         const cardRef = cardList.find(elem => elem.element === card);
         card.classList.add('card_active');
-        console.log(this)
+        // console.log(this)
         this.refs.chat_feed.setProps({
             selectedChat: cardRef
         })
@@ -122,57 +126,39 @@ export class Chat_layout extends Block {
 
             messages: cardRef.props.messages || []
         })
-        console.log(this.refs.chat_feed.refs.message_feed)
+        // console.log(this.refs.chat_feed.refs.message_feed)
 
     }
 
     async getChats() {
         await this.props.store.dispatch(chatsGet,).then();
-        console.log(this.props.store.getState().chats)
+        // console.log(this.props.store.getState().chats)
         this.chats = this.props.store.getState().chats;
         this.loadMessages(this.chats)
     }
 
-    onChange(event: Event) {
-        const input = event.target as HTMLInputElement
-        if (!input.name || input.name !== 'chat-name') return;
-        const inputValue = this.formElem['chat-name'].value
-        console.log(inputValue)
-        if (inputValue) {
-            this.modalButton.disabled = false;
-            this.modalInputValue = inputValue;
-        }
-    }
+    // onChange(event: Event) {
+    //     const input = event.target as HTMLInputElement
+    //     if (!input.name || input.name !== 'chat-name') return;
+    //     const inputValue = this.formElem['chat-name'].value
+    //     console.log(inputValue)
+    //     if (inputValue) {
+    //         this.modalButton.disabled = false;
+    //         this.modalInputValue = inputValue;
+    //     }
+    // }
 
-    modalOpen(event: Event): void {
-        const element = event.target as HTMLElement;
-        // if (!element.classList.contains('avatar')) return;
-        console.log('модальное окно')
-
-        const modal = document.getElementById('modal');
-
-        if (!modal) {
-            console.log('выход из модального')
-            return;
-        }
-        modal.style.display = 'block';
-        document.body.overflow = 'hidden';
-        console.log(this.refs.modal.refs.modalForm.refs.button)
-        this.modalButton.disabled = true;
-
-
-    }
 
     loadMessages = async (chats = []) => {
-        console.log(2222222)
+        // console.log(2222222)
         console.log('chats', chats)
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
         }
-        for (const chat of chats) {
-            chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
-        }
-        this.setProps({
+        // for (const chat of chats) {
+        //     chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
+        // }
+        await this.setProps({
             chats: chats.reverse()
         })
     }
@@ -181,7 +167,11 @@ export class Chat_layout extends Block {
         this.modalError = this.refs.modal.refs.modalForm.refs.error;
         this.modalButton = this.refs.modal.refs.modalForm.refs.button.element as HTMLButtonElement;
         this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement;
-        // document.getElementById('input').addEventListener('change', () => this.onClick.bind(this))
+        this.props.store.on('changed', (prevState, nextState) => {
+            const chats = nextState.chats
+            console.log('newChats', chats)
+            this.loadMessages(chats).then()
+        })
 
     }
 
@@ -208,7 +198,7 @@ export class Chat_layout extends Block {
                     {{{Modal
                             ref="modal"
                             svg=svg
-                            form=modalForm
+                            form=form
                             onSubmit=onSubmitChat
                             errorAddClass="input_error modal__error"
                     }}}
@@ -235,6 +225,7 @@ export class Chat_layout extends Block {
                                 cardTime=time
                                 cardMessCount=unread_count
                                 onClick=../onClick
+                                chatId=id
                                 svg=../svg
                         }}}
                         <div class="chat-layout__card-splitter"></div>
@@ -244,6 +235,8 @@ export class Chat_layout extends Block {
                 {{{ChatFeed ref="chat_feed"
                             svg=svg
                             onSubmit=onSubmit
+                            modal=modal
+                            modalForm=modalForm
                 }}}
             </div>
         `;

@@ -46,5 +46,6 @@
   "addFormClass": "profile__user-info",
   "buttonClass": "button_primary button_set-big-btn profile__button-container",
   "buttonTitle": "Сохранить",
-  "profileInput": true
+  "profileInput": true,
+  "buttonRef": "button"
 }

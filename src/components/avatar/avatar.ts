@@ -8,14 +8,16 @@ interface AvatarProps {
     avatarSvgClass: string;
     photo: string;
     svg: string;
+    onClick?: () => void;
+
 
 }
 
 export class Avatar extends Block {
     static componentName = 'Avatar';
 
-    constructor({avatarClass, avatarSvgClass, photo, svg}: AvatarProps) {
-        super({avatarClass, avatarSvgClass, photo, svg});
+    constructor({avatarClass, avatarSvgClass, photo, svg, onClick}: AvatarProps) {
+        super({avatarClass, avatarSvgClass, photo, svg, events: {click: {fn: onClick, options: false}}});
 
     }
 
