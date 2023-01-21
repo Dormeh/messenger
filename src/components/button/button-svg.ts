@@ -10,22 +10,22 @@ interface ButtonProps {
     svgName: string;
     formAction: string;
     svg: string;
-    onClick: () => void;
+    popupAdd: boolean;
+    popupTitle?: string
+    popupClass?: string
+    popupModalOpen?: any;
+    clickProps?: any;
+    submitButton?: string;
+    popupSvgConfig?: any
+    onClick: (clickProps?: any) => void;
 }
 
 export class ButtonSVG extends Block {
     static componentName = 'ButtonSVG';
 
-    constructor({buttonTitle, buttonSvgClass, formAction, svg, svgClass, svgName, onClick}: ButtonProps) {
-        super({
-            buttonTitle,
-            buttonSvgClass,
-            formAction,
-            svg,
-            svgClass,
-            svgName,
-            events: {click: {fn: onClick, options: false}}
-        });
+    constructor({onClick, ... props}: ButtonProps) {
+        super({events: {click: {fn: onClick, options: false}}, ...props});
+        // console.log(this.props)
 
     }
 
@@ -33,10 +33,24 @@ export class ButtonSVG extends Block {
 
         // language=hbs
         return `
-            <button class="button-svg {{buttonSvgClass}}">
-                <svg class="button-svg__svg-elem {{svgClass}}">
-                    <use href="{{svg}}#{{svgName}}"></use>
-                </svg>
-            </button>`;
+            <div class="button-svg {{buttonSvgClass}}">
+                <button class="button-svg__button">
+                    <svg class="button-svg__svg-elem {{svgClass}}">
+                        <use href="{{svg}}#{{svgName}}"></use>
+                    </svg>
+                    <span class="button-svg__title">{{buttonTitle}}</span>
+                </button>
+                {{#if popupAdd}}
+                    {{{Popup
+                            ref="popup"
+                            title=popupTitle
+                            addClass=popupClass
+                            popupModalOpen=popupModalOpen
+                            submitButton=submitButton
+                            popupSvgConfig=popupSvgConfig
+                    }}}
+                {{/if}}
+            </div>
+        `;
     }
 }

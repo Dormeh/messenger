@@ -1,0 +1,12 @@
+[
+  {
+    "ref": "button1",
+    "buttonSvgClass": "button-svg_round",
+    "buttonTitle": "Добавить пользователя"
+  },
+  {
+    "ref": "button2",
+    "buttonSvgClass": "button-svg_round",
+    "buttonTitle": "Удалить пользователя"
+  }
+]

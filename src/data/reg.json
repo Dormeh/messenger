@@ -51,5 +51,6 @@
   "buttonClass": "button_primary button_set-big-btn profile__button-container",
   "buttonTitle": "Зарегистрироваться",
   "backLink": "/auth",
-  "backLinkTitle": "Войти"
+  "backLinkTitle": "Войти",
+  "buttonRef": "button"
 }
