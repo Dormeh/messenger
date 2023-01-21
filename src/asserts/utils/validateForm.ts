@@ -32,7 +32,7 @@ export function validateForm(rules: ValidateRule[]): object {
 
     for (const {type, value, value2} of rules) {
 
-        errorMessage[type] = validateByType.initByType[type](value, value2) || '';
+        errorMessage[type] = validateByType.initByType(type, value, value2) || '';
     }
 
 

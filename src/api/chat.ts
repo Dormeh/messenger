@@ -22,6 +22,12 @@ export const chatAPI = {
     deleteChat: (data: ChatData) =>
         request.delete(`${process.env.API_ENDPOINT}/chats`, {data, headers: { 'Content-Type': 'application/json' }}),
 
+    userAddToChat: (data: ChatData) =>
+        request.put(`${process.env.API_ENDPOINT}/chats/users`, {data, headers: { 'Content-Type': 'application/json' }}),
+
+    userDelFromChat: (data: ChatData) =>
+        request.delete(`${process.env.API_ENDPOINT}/chats/users`, {data, headers: { 'Content-Type': 'application/json' }}),
+
     // profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {
     //     data,
     //     headers: {'Content-Type': 'application/json'}

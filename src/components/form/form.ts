@@ -21,6 +21,7 @@ export class Form extends Block {
 
     constructor({...props}: FormProps) {
         super({...props});
+
     }
 
     protected render(): string {

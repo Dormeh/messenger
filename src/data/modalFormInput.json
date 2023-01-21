@@ -1,16 +1,11 @@
 {
   "inputs": [
-    {
-      "placeholder": "Название чата",
-      "name": "chat-name",
-      "errorName": "",
-      "ref": "chatNameInput",
-      "value": ""
-    }
+
   ],
-  "title": "Добавить чат",
-  "addFormClass": "modal_form-avatar",
+  "title": "Удалить чат ?",
+  "addFormClass": "modal_form",
   "inputAddClass": "input_log-form",
-  "buttonClass": "button_primary button_set-big-btn profile__button-container",
-  "buttonTitle": "Добавить"
+  "buttonClass": "button_alert-red button_set-big-btn profile__button-container",
+  "buttonTitle": "Удалить",
+  "buttonRef": "button"
 }

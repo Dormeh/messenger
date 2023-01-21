@@ -1,5 +1,5 @@
 export class ValidateComponent {
-    initByType = {
+    private _type: Record<string, Function> = {
         login: this.loginCheck,
         password: this.passwordCheck,
         password_confirm: this.passwordCheck,
@@ -13,6 +13,9 @@ export class ValidateComponent {
         display_name: this.displayNameCheck,
         message: this.messageCheck,
     };
+    initByType(type: string, value: string, value2?: string) {
+        return this._type[type] && this._type[type](value, value2)
+    }
 
     loginCheck(value: string) {
         if (value.length === 0) {
