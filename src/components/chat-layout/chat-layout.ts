@@ -40,7 +40,6 @@ export class Chat_layout extends Block {
             form: chatAddForm,
             onSubmit: (event: MouseEvent): any => this.onSubmitChat(event)
         })
-        console.log('refs.modal', this.refs.modal)
         this.refs.modal.modalOpen()
     }
 
@@ -64,30 +63,12 @@ export class Chat_layout extends Block {
         console.log({
             message: inputElem.value
         })
-        // console.log(this.props.store.getState().socket)
-        // this.props.store.getState().socket.send(JSON.stringify({
-        //     content: inputElem.value,
-        //     type: 'message',
-        //
-        // }));
+
         if (inputElem.value) {
 
-            // const newMessage = {
-            //     "content": inputElem.value,
-            // }
-            // const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages || []; //todo демо верстки отправки сообщиения
-            // oldMessages.push(newMessage);
-            // this.refs.chat_feed.refs.message_feed.setProps({
-            //     messages: oldMessages
-            // })
             await sendMessageService({message: inputElem.value})
             inputElem.value = '';
             inputElem.focus();
-            const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview') // прокрутка страницы
-            if (feed) {
-                const feedScroll = feed.scrollHeight;
-                feed.scroll(0, feedScroll);
-            }
         }
     }
 
@@ -103,41 +84,29 @@ export class Chat_layout extends Block {
             if (key.includes('card')) cardList.push(this.refs[key])
         })
 
-        // console.log('cardList', cardList)
         cardList.forEach(card => card.element?.classList.remove('card_active'))
 
         const card: HTMLElement = event.target.closest('.card');
         const cardRef = cardList.find(elem => elem.element === card);
         card.classList.add('card_active');
-        console.log('cardRef', cardRef)
         this.refs.chat_feed.setProps({
             selectedChat: cardRef
         })
         await this.props.store.dispatch({selectedChatId: cardRef.props.chatId})
         await connectToChatService();
-        // const chatId = cardRef.props.chatId;
-        // const userId = this.props.store.getState().user.id;
-        // await this.props.socket(userId, chatId)
-        // console.log('socket', this.props.store.getState().socket)
-        console.log('messages', this.props.store.getState().activeChatMessages)
-        // this.refs.chat_feed.refs.message_feed.setProps({
-        //
-        //     messages: this.props.store.getState().activeChatMessages
-        // })
 
     }
 
     async getChats() {
         await this.props.store.dispatch(chatsGet).then();
-        // console.log(this.props.store.getState().chats)
+
         this.chats = this.props.store.getState().chats;
         this.loadMessages(this.chats)
     }
 
 
     loadMessages = async (chats = []) => {
-        // console.log(2222222)
-        console.log('chats', chats)
+
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
         }
@@ -151,14 +120,24 @@ export class Chat_layout extends Block {
         this.props.store.on('changed', (prevState, nextState) => { //todo подписка на обновление store
             const chats = nextState.chats
 
-            if(this.refs.chat_feed.props.selectedChat) {
+            if (this.refs.chat_feed.props.selectedChat) {
                 this.refs.chat_feed.refs.message_feed.setProps({
 
                     messages: this.props.store.getState().activeChatMessages
                 })
+
+                setTimeout(() => this.feedScroll(), 0)
             }
         })
 
+    }
+
+    feedScroll() {
+        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview') // прокрутка страницы
+        if (feed) {
+            const feedScroll = feed.scrollHeight;
+            feed.scroll(0, feedScroll);
+        }
     }
 
     render() {
@@ -167,7 +146,6 @@ export class Chat_layout extends Block {
             <div class="chat-layout">
                 <div class="chat-layout__list-header">
                     <nav class="chat-layout__navbar">
-                        <!--                        <a class="chat-layout__link" href="/auth">Сменить аккаунт</a>-->
                         {{{
                         Button
                                 buttonTitle="Добавить чат"

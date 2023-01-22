@@ -46,7 +46,6 @@ export default class Router implements RouterInterface {
 
         let strippedPath = decodeURI(window.location.pathname)
             .replace(/^\/|\/$/, '');
-        console.log('текущий Location', strippedPath)
 
         let match: string[] | undefined | null;
         const store = Store.instance();
@@ -65,7 +64,6 @@ export default class Router implements RouterInterface {
             }
         }
         if (!match) {
-        console.log('notFoundPagePath')
             this.page = await this.changePage(this.notFoundPagePath);
         }
 

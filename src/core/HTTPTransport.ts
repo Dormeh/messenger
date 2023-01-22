@@ -36,12 +36,11 @@ class HTTPTransport {
     };
 
     public post = (url: string, options = {}) => {
-        console.log(options)
+
         return this.request(url, {...options, method: METHODS.POST});
     };
 
     public put = (url: string, options = {}) => {
-        console.log('put-data', options.data)
         return this.request(url, {...options, method: METHODS.PUT});
     };
 
@@ -92,7 +91,6 @@ class HTTPTransport {
                     xhr.send(data);
                 } else {
                     xhr.send(JSON.stringify(data));
-                    console.log('dataSend', JSON.stringify(data))
                 }
             }
         );

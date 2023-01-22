@@ -25,7 +25,6 @@ export class ButtonSVG extends Block {
 
     constructor({onClick, ... props}: ButtonProps) {
         super({events: {click: {fn: onClick, options: false}}, ...props});
-        // console.log(this.props)
 
     }
 

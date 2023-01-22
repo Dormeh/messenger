@@ -63,7 +63,6 @@ export class Form extends Block {
                 if (this.formButton) this.formButton.disabled = true;
                 return;
             }
-            console.log(file)
 
             const image = this.form.querySelector('img') as HTMLImageElement;
             image.src = URL.createObjectURL(this.form.file.files[0])
@@ -77,7 +76,6 @@ export class Form extends Block {
         console.log('Submit')
         event.preventDefault();
         this.elemInit();
-        console.log(this.formElems)
 
         const rules = Object.keys(this.formElems as object).map(key => {
             return {

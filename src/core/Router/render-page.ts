@@ -7,8 +7,6 @@ import ServicePage from "../../pages/service-page";
 import {renderDOM} from '../../core';
 import {NavPage} from "../../pages/testPage/testPage";
 
-console.log(LoginPage)
-
 type Page = {
     page: Record<string, Block>
     arg?: Record<string, number | string>
