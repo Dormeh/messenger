@@ -46,8 +46,6 @@ export class ButtonSVG extends Block {
             [newProp]: true,
         })
 
-        console.log('svgName' ,this.props[svgName], svgName)
-
     }
 
     protected render(): string {
