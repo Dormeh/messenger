@@ -37,10 +37,8 @@ export default class Router implements RouterInterface {
                 '%cновый роутер',
                 'background: #222; color: #bada55',
             )
-
         }
-        // this.counter = this.counter ? ++this.counter : 1;
-        // console.log('обращение к роутеру', this.counter)
+
         return this._instance;
     }
 
@@ -48,7 +46,6 @@ export default class Router implements RouterInterface {
 
         let strippedPath = decodeURI(window.location.pathname)
             .replace(/^\/|\/$/, '');
-        console.log('текущий Location', strippedPath)
 
         let match: string[] | undefined | null;
         const store = Store.instance();
@@ -67,7 +64,6 @@ export default class Router implements RouterInterface {
             }
         }
         if (!match) {
-        console.log('notFoundPagePath')
             this.page = await this.changePage(this.notFoundPagePath);
         }
 

@@ -7,8 +7,6 @@ import ServicePage from "../../pages/service-page";
 import {renderDOM} from '../../core';
 import {NavPage} from "../../pages/testPage/testPage";
 
-console.log(LoginPage)
-
 type Page = {
     page: Record<string, Block>
     arg?: Record<string, number | string>
@@ -63,7 +61,7 @@ export default async function (path: string, match: string[]): Promise<Block> {
     console.log('render-page')
 
     // const { default: Page } = await import(/* webpackChunkName: "[request]" */`../pages/${path}/index.js`);
-    const subUrl = match[1] ? {pageType: match[1]} : {}
+    const subUrl = match && match[1] ? {pageType: match[1]} : {}
     const page = routes[path].arg ? new routes[path].Page(routes[path].arg) : new routes[path].Page(subUrl);
 
     renderDOM(page);

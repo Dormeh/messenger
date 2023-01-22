@@ -4,3 +4,5 @@ export { isJson } from './jsonStringJson';
 export { hasError as apiHasError } from './apiHasError';
 export { userDataToForm } from './userDataToForm';
 export {formatBytes} from './formatBytes'
+export { default as cloneDeep} from './cloneDeep'
+export { default as isEqual} from './isEqual'

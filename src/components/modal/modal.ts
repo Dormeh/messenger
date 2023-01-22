@@ -38,24 +38,20 @@ export class Modal extends Block {
         this.modalButton = this.refs.modalForm.refs.button.element as HTMLButtonElement;
 
         if (input !== this.inputModalElem) return;
-        // const inputValue = this.formElem['chat-name'].value
+
         const inputValue = input.value
 
-        console.log(inputValue)
         if (inputValue) {
             this.modalButton.disabled = false;
-            // this.modalInputValue = inputValue;
         }
     }
 
     modalOpen(): void {
-        console.log(this.refs)
         console.log('модальное окно')
 
         const modal = document.getElementById('modal');
 
         if (!modal) {
-            console.log('выход из модального')
             return;
         }
         this.element.style.display = 'block';
@@ -63,9 +59,8 @@ export class Modal extends Block {
         this.inputModalElem =  this.refs.modalForm.refs.modalInput? this.refs.modalForm.refs.modalInput.element?.children[1].children[0]: null as HTMLInputElement| null;
         this.inputFile = this.refs.modalForm.refs.fileInput? this.refs.modalForm.refs.fileInput.element?.children[0].children[1] : null;
 
-        // console.log('dfsdfsd',this.inputModalElem)
         if (this.inputFile && !this.inputFile.files[0] || this.inputModalElem && !this.inputModalElem.value) {
-            // console.log(this.modalButton)
+
             this.refs.modalForm.refs.button.element.disabled = true;
             this.inputModalElem && this.inputModalElem.focus()
         }
@@ -83,17 +78,6 @@ export class Modal extends Block {
         this.element.style.display = 'none';
         document.body.overflow = 'initial';
     }
-
-    componentDidMount() {
-        // console.log(this.refs.modalForm.refs)
-        // this.modalButton = this.refs.modalForm.refs.button.element as HTMLButtonElement;
-        // this.formElem = this.refs.modalForm.element?.children[1] as HTMLFormElement;
-        // // console.log(this.refs.modalForm.refs)
-        // this.inputModalElem =  this.refs.modalForm.refs.modalInput? this.refs.modalForm.refs.modalInput.element?.children[1].children[0]: null as HTMLInputElement| null;
-        // this.inputFile = this.refs.modalForm.refs.fileInput? this.refs.modalForm.refs.fileInput.element?.children[0].children[1] : null;
-
-    }
-
 
     protected render(): string {
 

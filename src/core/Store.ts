@@ -1,7 +1,7 @@
 import EventBus from './EventBus';
 import { defaultState } from '../store';
 
-export type Dispatch<State> = (
+export type     Dispatch<State> = (
     nextStateOrAction: Partial<State> | Action<State>,
     payload?: any,
 ) => void;
@@ -28,10 +28,8 @@ export class Store<State extends Record<string, any>> extends EventBus {
                 '%cновый Store',
                 'background: #222; color: #bada11',
             )
-
         }
-        // this.counter = this.counter ? ++this.counter: 1;
-        // console.log('обращение к Store', this.counter)
+
         return this._instance;
     }
 

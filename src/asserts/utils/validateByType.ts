@@ -12,6 +12,7 @@ export class ValidateComponent {
         phone: this.phoneCheck,
         display_name: this.displayNameCheck,
         message: this.messageCheck,
+        title: this.defaultCheck
     };
     initByType(type: string, value: string, value2?: string) {
         return this._type[type] && this._type[type](value, value2)
@@ -107,6 +108,11 @@ export class ValidateComponent {
     messageCheck(value: string) {
         if (!value || value.length === 0) {
             return 'Сообщение не может быть пустым';
+        }
+    }
+    defaultCheck(value: string) {
+        if (!value || value.length === 0) {
+            return 'Поле не может быть пустым';
         }
     }
 }

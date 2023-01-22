@@ -30,7 +30,7 @@ export class Popup extends Block {
     }
 
     popupOpen(event: Event): void {
-        console.log('open popup')
+
         if (this.element) this.element.style.display = 'flex';
         document.addEventListener('click', this.popupCloseInit)
     }
@@ -38,7 +38,7 @@ export class Popup extends Block {
     popupCloseInit = (event: Event) => {
         const element = event.target as HTMLElement;
         if (!element.closest(".button-svg")) {
-            console.log('close popup')
+
             if (this.element) this.element.style.display = 'none';
             document.removeEventListener('click', this.popupCloseInit)
         }

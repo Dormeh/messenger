@@ -11,7 +11,6 @@ import {Store} from "../../core";
 import {userSearch} from '../../services/user'
 import type {SendData} from "../form"
 
-
 interface ChatFeedProps {
     onSubmit: any;
     onFocus: any;
@@ -21,8 +20,9 @@ interface ChatFeedProps {
     loginValue: string;
     profileMainPage?: boolean;
     modalForm: {};
-    modal: Block;
+    modal: () => Block;
     svg: string;
+    store: Store<AppState>
     selectedChat: Block;
 }
 
@@ -43,54 +43,41 @@ export class ChatFeed extends Block {
 
     }
 
-    async onSubmitModal({data, form}: SendData) { //todo  нужно сабмитить эту функцию из формы и посылать от туда данные
-        const modalForm = this.props.modal().refs.modalForm
-        if (event.target === modalForm.refs.button.element) {
-            const actionName = modalForm.props.form.title
-            console.log('!!!!!')
-            let value, response
-            switch (actionName) {
-                case "Добавить пользователя" :
-                    //Добавить пользователя
-                    value = modalForm.element?.children[1].login.value
-                    response = await userSearch({login: value})
-                    console.log('userResponse', response)
-                    if (response && response[0].id) {
-                        const user = response[0].id
-                        await this.props.store.dispatch(userAdd, {
-                            chatId: this.props.selectedChat.props.chatId,
-                            users: [user]
-                        })
-                    }
+    async initUserSearch(data: Record<string, string>) {
+        const response = await userSearch(data);
+        return response instanceof Array && response[0] && response[0].id;
+    }
 
-                    break;
-                case "Удалить пользователя" :
-                    //Удалить пользователя
+    async onSubmitModal({data, form}: SendData) {
+        const chatId = this.props.selectedChat.props.chatId;
 
-                    value = modalForm.element?.children[1].login.value
-                    response = await userSearch({login: value})
-                    console.log('userResponse', response)
-                    if (response && response[0].id) {
-                        const user = response[0].id
-                        await this.props.store.dispatch(userDel, {
-                            chatId: this.props.selectedChat.props.chatId,
-                            users: [user]
-                        })
-                    }
-                    break;
-                case "Удалить чат ?" :
-                    console.log(actionName)
-                    //Удалить чат?
-                    console.log(this.props.selectedChat.props.chatId)
-                    await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
-                    break
-            }
+        let user;
+        if (form.title !== "Удалить чат ?") {
+            user = await this.initUserSearch(data)
+            if (!user) return 'Пользователь не найден'
         }
-        // if( this.formElem && this.formElem.title.value) {
-        //     await this.props.store.dispatch(chatsCreate, {title: this.formElem.title.value}).then();
-        //     await this.getChats();
-        // }
+        switch (form.title) {
+            case "Удалить чат ?" :
+                await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
+                break
 
+            case "Добавить пользователя" :
+                await this.props.store.dispatch(userAdd, {
+                    chatId,
+                    users: [user]
+                })
+                break;
+
+            case "Удалить пользователя" :
+                await this.props.store.dispatch(userDel, {
+                    chatId,
+                    users: [user]
+                })
+
+                break;
+        }
+
+        this.props.modal().modalClose(); // todo временная заглушка
     }
 
     modalOpen(event: MouseEvent) {
@@ -115,6 +102,7 @@ export class ChatFeed extends Block {
             this.props.modal().modalOpen()
         }
     }
+
 
     protected render(): string {
         const {selectedChat} = this.props;
@@ -142,7 +130,7 @@ export class ChatFeed extends Block {
                                          svg=svg
                                          buttonSvgClass="button-svg_round"
                                          svgClass="button-svg__svg-elem_tree-dots"
-                                         svgName="tree-dots"
+                                         svgName="treedots"
                                          onClick=popupOpenTop
                                          popupClass='popup_top'
                                          popupAdd=true
@@ -182,7 +170,7 @@ export class ChatFeed extends Block {
                                           buttonSvgClass="button-svg_round button-svg_primary"
                                           svgClass="button-svg__svg-elem_arrow-back"
                                           onClick=onSubmit
-                                          svgName="arrow-back"
+                                          svgName="arrowback"
                               }}}
 
                         </div>

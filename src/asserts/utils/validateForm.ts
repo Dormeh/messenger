@@ -12,7 +12,8 @@ export enum ValidateRuleType {
     second_name = 'second_name',
     phone = 'phone',
     display_name = 'display_name',
-    message = 'message'
+    message = 'message',
+    title = 'title'
 }
 
 type ValidateRule = {

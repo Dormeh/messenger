@@ -7,8 +7,6 @@ import formPassword from 'data/password.json';
 import formAvatar from 'data/avatarForm.json';
 import {Store} from "core/Store";
 import {passwordChg, userChg, avatarChg} from '../../services/user'
-import {formatBytes} from '../../asserts/utils'
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import svg from 'images/icons_sprite.svg';
 import {logout} from "../../services/auth";
 import type {SendData} from "../../components/form"
@@ -50,7 +48,6 @@ export class ProfilePage extends Block {
             modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
 
         })
-        console.log('props', this.props)
 
     }
 
@@ -63,6 +60,7 @@ export class ProfilePage extends Block {
             await this.props.store.dispatch(avatarChg, formData);
             console.log('ОТПРАВКА ФАЙЛА')
         }
+        return this.props.store.getState().FormError
     }
 
     async onSubmit({data, form}: SendData): Promise<void> {
@@ -72,6 +70,7 @@ export class ProfilePage extends Block {
         } else {
             await this.props.store.dispatch(userChg, data);
         }
+        return this.props.store.getState().FormError
     }
 
     elemInit() {
@@ -87,8 +86,8 @@ export class ProfilePage extends Block {
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
                         <a href="{{backLink}}">
-                            <svg class="profile__svg">
-                                <use href="{{svg}}#arrow-back"></use>
+                            <svg  fill="none" viewBox="0 0 448 512" class="profile__svg">
+                                <path xmlns="http://www.w3.org/2000/svg" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" fill="currentColor"/>
                             </svg>
                         </a>
                     </div>
@@ -120,6 +119,7 @@ export class ProfilePage extends Block {
                                     onSubmit=onSubmit
                                     errorName=errorName
                                     profileMainPage=profileMainPage
+                                    errorAddClass="input_error form__error"
                             }}}
                             {{#if profileMainPage}}
                                 <div class="profile__change-controls">

@@ -3,50 +3,35 @@ import {authAPI} from '../api/auth';
 import type {Dispatch} from 'core/Store';
 import Router from "../core/Router/Router";
 import {RegRequestData} from '../api/auth'
+import {unknownError} from '../api/constant'
 import {hasError} from '../asserts/utils/apiHasError';
 
 type LoginPayload = {
     login: string;
     password: string;
 };
-
+let response: Record<string, string> | string;
 
 export const login = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     action: LoginPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await authAPI.login(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
-
-    const response = (await authAPI.login(action)).responseJSON();
-    console.log('loginresponse', response)
-
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
 
     if (hasError(response)) {
-        console.log(2222)
-        dispatch({ isLoading: false, loginFormError: response.reason });
+        dispatch({FormError: response.reason})
         return;
     }
 
-    const responseUser = (await authAPI.me()).responseJSON();
-
-    dispatch({ isLoading: false, loginFormError: null });
-
-    if (hasError(response)) {
-        console.log(111)
-        dispatch(logout);
-        return;
-    }
-    console.log('responseUser', responseUser)
-    dispatch({ user: responseUser});
-
-    router.navigate('/chat');
+    await authUserGet(dispatch, state);
 };
 
 export const registration = async (
@@ -54,49 +39,62 @@ export const registration = async (
     state: AppState,
     action: RegRequestData,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await authAPI.registration(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
-
-    const response = (await authAPI.registration(action)).responseJSON();;
-    console.log(response)
-
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
 
     if (hasError(response)) {
-        dispatch({ isLoading: false, loginFormError: response.reason });
+        dispatch({FormError: response.reason});
         return;
     }
 
-    const responseUser = (await authAPI.me()).responseJSON();;
-    console.log(responseUser)
+    await authUserGet(dispatch, state);
 
-    dispatch({ isLoading: false, loginFormError: null });
-
-    if (hasError(response)) {
-        dispatch(logout);
-        return;
-    }
-
-    dispatch({ user: responseUser});
-
-    router.navigate('/chat');
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
     const router = Router.instance();
+    try {
+        await authAPI.logout();
 
-    dispatch({ isLoading: true });
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    await authAPI.logout();
-
-    dispatch({ isLoading: false, user: null });
+    dispatch({isLoading: false, user: null});
 
     router.navigate('/auth');
 };
+
+const authUserGet = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+) => {
+    const router = Router.instance();
+    try {
+        response = (await authAPI.me()).responseJSON();
+
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
+
+    if (hasError(response)) {
+        console.log('Ошбка получения авторизации')
+        dispatch(logout);
+        return;
+    }
+
+    dispatch({user: response, FormError: null});
+
+    router.navigate('/chat');
+}
 
 
 
