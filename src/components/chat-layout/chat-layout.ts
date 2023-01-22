@@ -1,50 +1,35 @@
 import Block from "core/Block";
 
 import './chat-layout.scss';
-
-import chats from 'data/chats.json';
 import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import avatar from 'images/avatar.png'
 import {Store} from "core/Store";
-import {login, logout} from '../../services/auth';
 import {chatsCreate, chatsGet} from '../../services/chats';
+import type {SendData} from "../form"
+import {connectToChatService, sendMessageService} from "../../services/soket";
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
-    private modalButton: HTMLButtonElement | undefined;
-    private modalError: Block | undefined;
-    private formElem: HTMLFormElement | undefined;
 
     constructor() {
         super();
         const store = Store.instance();
-
-        chats.forEach((elem: {
-            avatarUrl?: string
-        }) => {
-            elem['avatarUrl'] = elem['avatarUrl'] ? avatar : ''
-        })
-
-        // this.loadMessages(chats);
 
         this.setProps({
             store: Store.instance(),
             svg,
             form: chatAddForm,
             onClick: (event: MouseEvent): any => this.onClick(event),
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
             getChats: (): any => this.getChats(),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
 
         })
-        // console.log('createChatForm', this.props.createChatForm)
 
         this.getChats()
-
 
     }
 
@@ -53,24 +38,16 @@ export class Chat_layout extends Block {
             form: chatAddForm,
             onSubmit: (event: MouseEvent): any => this.onSubmitChat(event)
         })
-        console.log('refs.modal', this.refs.modal)
         this.refs.modal.modalOpen()
     }
 
 
-    async onSubmitChat(event: MouseEvent) {
-        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement; //todo добавить функцию обновления всех требуемых компонентов
-
-        event.preventDefault();
-        console.log(this.formElem.title)
-        if (this.formElem && this.formElem.title.value) {
-            await this.props.store.dispatch(chatsCreate, {title: this.formElem.title.value}).then();
-            // await this.getChats();
-        }
-
+    async onSubmitChat({data, form}: SendData) {
+        await this.props.store.dispatch(chatsCreate, data);
+        // await this.getChats(); //todo завязал на обновление store
     }
 
-    onSubmit(event: MouseEvent): void { //отправка сообщения
+    async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
@@ -84,27 +61,20 @@ export class Chat_layout extends Block {
         console.log({
             message: inputElem.value
         })
+
         if (inputElem.value) {
 
-            const newMessage = {
-                "text": inputElem.value,
-            }
-            const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages || [];
-            oldMessages.push(newMessage);
-            this.refs.chat_feed.refs.message_feed.setProps({
-                messages: oldMessages
-            })
+            await sendMessageService({message: inputElem.value})
             inputElem.value = '';
             inputElem.focus();
-            const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview')
-            if (feed) {
-                const feedScroll = feed.scrollHeight;
-                feed.scroll(0, feedScroll);
-            }
         }
     }
 
-    onClick(event: MouseEvent) {
+    async socketConnect(chatId: string) {
+
+    }
+
+    async onClick(event: MouseEvent) {
 
         const cardList: Block[] = [];
 
@@ -112,67 +82,60 @@ export class Chat_layout extends Block {
             if (key.includes('card')) cardList.push(this.refs[key])
         })
 
-        // console.log('cardList', cardList)
         cardList.forEach(card => card.element?.classList.remove('card_active'))
 
         const card: HTMLElement = event.target.closest('.card');
         const cardRef = cardList.find(elem => elem.element === card);
         card.classList.add('card_active');
-        // console.log(this)
         this.refs.chat_feed.setProps({
             selectedChat: cardRef
         })
-        this.refs.chat_feed.refs.message_feed.setProps({
-
-            messages: cardRef.props.messages || []
-        })
-        // console.log(this.refs.chat_feed.refs.message_feed)
+        await this.props.store.dispatch({selectedChatId: cardRef.props.chatId})
+        await connectToChatService();
 
     }
 
     async getChats() {
-        await this.props.store.dispatch(chatsGet,).then();
-        // console.log(this.props.store.getState().chats)
+        await this.props.store.dispatch(chatsGet).then();
+
         this.chats = this.props.store.getState().chats;
         this.loadMessages(this.chats)
     }
 
-    // onChange(event: Event) {
-    //     const input = event.target as HTMLInputElement
-    //     if (!input.name || input.name !== 'chat-name') return;
-    //     const inputValue = this.formElem['chat-name'].value
-    //     console.log(inputValue)
-    //     if (inputValue) {
-    //         this.modalButton.disabled = false;
-    //         this.modalInputValue = inputValue;
-    //     }
-    // }
-
 
     loadMessages = async (chats = []) => {
-        // console.log(2222222)
-        console.log('chats', chats)
+
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
         }
-        // for (const chat of chats) {
-        //     chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
-        // }
+
         await this.setProps({
             chats: chats.reverse()
         })
     }
 
     componentDidMount() {
-        this.modalError = this.refs.modal.refs.modalForm.refs.error;
-        this.modalButton = this.refs.modal.refs.modalForm.refs.button.element as HTMLButtonElement;
-        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement;
-        this.props.store.on('changed', (prevState, nextState) => {
+        this.props.store.on('changed', (prevState, nextState) => { //todo подписка на обновление store
             const chats = nextState.chats
-            console.log('newChats', chats)
-            this.loadMessages(chats).then()
+
+            if (this.refs.chat_feed.props.selectedChat) {
+                this.refs.chat_feed.refs.message_feed.setProps({
+
+                    messages: this.props.store.getState().activeChatMessages
+                })
+
+                setTimeout(() => this.feedScroll(), 0)
+            }
         })
 
+    }
+
+    feedScroll() {
+        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview') // прокрутка страницы
+        if (feed) {
+            const feedScroll = feed.scrollHeight;
+            feed.scroll(0, feedScroll);
+        }
     }
 
     render() {
@@ -181,7 +144,6 @@ export class Chat_layout extends Block {
             <div class="chat-layout">
                 <div class="chat-layout__list-header">
                     <nav class="chat-layout__navbar">
-                        <!--                        <a class="chat-layout__link" href="/auth">Сменить аккаунт</a>-->
                         {{{
                         Button
                                 buttonTitle="Добавить чат"
@@ -190,9 +152,10 @@ export class Chat_layout extends Block {
                         }}}
                         <a class="chat-layout__link" href="/profile">
                             <span>Профиль</span>
-                            <svg class="chat-layout__nav-icon">
-                                <use href="{{svg}}#arrow"></use>
+                            <svg class="chat-layout__nav-icon" fill="none">
+                                <path d="M1 9L5 5L1 1" stroke="currentColor"/>
                             </svg>
+
                         </a>
                     </nav>
                     {{{Modal
@@ -234,7 +197,7 @@ export class Chat_layout extends Block {
                 </div>
                 {{{ChatFeed ref="chat_feed"
                             svg=svg
-                            onSubmit=onSubmit
+                            onSubmit=onSubmitMessage
                             modal=modal
                             modalForm=modalForm
                 }}}

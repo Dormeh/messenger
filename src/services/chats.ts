@@ -1,9 +1,7 @@
 import {chatAPI} from '../api/chat';
-// import { UserDTO } from 'api/types';
 import type {Dispatch} from 'core/Store';
-import Router from "../core/Router/Router";
-import {RegRequestData} from '../api/auth'
-import {hasError} from '../asserts/utils/apiHasError';
+import {unknownError} from '../api/constant'
+import {hasError} from "../asserts/utils/apiHasError";
 
 type ChatPayload = {
     title: string;
@@ -17,37 +15,50 @@ type UserDelPayload = {
     users: number[];
 };
 
+let response: Record<string, string> | string;
+
 
 export const chatsCreate = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     action: ChatPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.createChat(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    const response = (await chatAPI.createChat(action)).responseJSON();
-    console.log('CHATresponsePOST', response)
+    if (hasError(response)) {
+        dispatch({FormError: response.reason})
+        return;
+    }
 
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
 
-
-    await chatsGet(dispatch,state);
+    await chatsGet(dispatch, state);
 
 };
 
 export const chatsGet = async (
     dispatch: Dispatch<AppState>,
     state: AppState,) => {
-    const responseChat = (await chatAPI.getChats()).responseJSON();
+    try {
+        response = (await chatAPI.getChats()).responseJSON();
 
-    console.log('CHATresponseGET', responseChat)
-    dispatch( { chats: responseChat})
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    return responseChat;
+    if (hasError(response)) {
+        dispatch({FormError: response.reason})
+        return;
+    }
+
+    dispatch({chats: response, FormError: null}) //todo нужно внести в пользователя
+
 }
 
 export const chatsDelete = async (
@@ -55,19 +66,20 @@ export const chatsDelete = async (
     state: AppState,
     action: ChatDelPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.deleteChat(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    const response = (await chatAPI.deleteChat(action)).responseJSON();
-    console.log('CHATresponseDEL', response)
+    if (hasError(response)) {
+        dispatch({FormError: response.reason})
+        return;
+    }
 
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
-
-
-    await chatsGet(dispatch,state);
+    await chatsGet(dispatch, state);
 
 };
 export const userAdd = async (
@@ -75,18 +87,19 @@ export const userAdd = async (
     state: AppState,
     action: ChatPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.userAddToChat(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
-
-    const response = (await chatAPI.userAddToChat(action)).responseJSON();
-    console.log('CHATresponsePUT', response)
-
-
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
 
-    await chatsGet(dispatch,state);
+    if (hasError(response)) {
+        dispatch({FormError: response.reason})
+        return;
+    }
 
 };
 
@@ -95,17 +108,22 @@ export const userDel = async (
     state: AppState,
     action: UserDelPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.userDelFromChat(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
-
-    const response = (await chatAPI.userDelFromChat(action)).responseJSON();
-    console.log('CHATresponseDEL', response)
-
-
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
 
-    await chatsGet(dispatch,state);
+    if (hasError(response)) {
+        dispatch({FormError: response.reason})
+        return;
+    }
+
+
+    await chatsGet(dispatch, state);
 
 };
+
