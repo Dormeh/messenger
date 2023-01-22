@@ -1,9 +1,6 @@
 import {chatAPI} from '../api/chat';
-// import { UserDTO } from 'api/types';
 import type {Dispatch} from 'core/Store';
-import Router from "../core/Router/Router";
-import {RegRequestData} from '../api/auth'
-import {apiHasError} from '../asserts/utils';
+import {unknownError} from '../api/constant'
 import {hasError} from "../asserts/utils/apiHasError";
 
 type ChatPayload = {
@@ -18,20 +15,24 @@ type UserDelPayload = {
     users: number[];
 };
 
+let response: Record<string, string> | string;
+
 
 export const chatsCreate = async (
     dispatch: Dispatch<AppState>,
     state: AppState,
     action: ChatPayload,
 ) => {
-    dispatch({isLoading: true});
-    console.log(action)
+    try {
+        response = (await chatAPI.createChat(action)).responseJSON();
 
-    const response = (await chatAPI.createChat(action)).responseJSON();
-    console.log('CHATresponsePOST', response)
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
     if (hasError(response)) {
-        dispatch({ FormError: response.reason })
+        dispatch({FormError: response.reason})
         return;
     }
 
@@ -43,14 +44,20 @@ export const chatsCreate = async (
 export const chatsGet = async (
     dispatch: Dispatch<AppState>,
     state: AppState,) => {
-    const response = (await chatAPI.getChats()).responseJSON();
+    try {
+        response = (await chatAPI.getChats()).responseJSON();
+
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
     if (hasError(response)) {
-        dispatch({ FormError: response.reason })
+        dispatch({FormError: response.reason})
         return;
     }
 
-    dispatch({chats: response, FormError: null }) //todo нужно внести в пользователя
+    dispatch({chats: response, FormError: null}) //todo нужно внести в пользователя
 
 }
 
@@ -59,11 +66,16 @@ export const chatsDelete = async (
     state: AppState,
     action: ChatDelPayload,
 ) => {
+    try {
+        response = (await chatAPI.deleteChat(action)).responseJSON();
 
-    const response = (await chatAPI.deleteChat(action)).responseJSON();
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
     if (hasError(response)) {
-        dispatch({ FormError: response.reason })
+        dispatch({FormError: response.reason})
         return;
     }
 
@@ -75,14 +87,17 @@ export const userAdd = async (
     state: AppState,
     action: ChatPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.userAddToChat(action)).responseJSON();
 
-    console.log(action)
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    const response = (await chatAPI.userAddToChat(action)).responseJSON();
 
     if (hasError(response)) {
-        dispatch({ FormError: response.reason })
+        dispatch({FormError: response.reason})
         return;
     }
 
@@ -93,30 +108,22 @@ export const userDel = async (
     state: AppState,
     action: UserDelPayload,
 ) => {
-    const router = Router.instance();
+    try {
+        response = (await chatAPI.userDelFromChat(action)).responseJSON();
 
-    dispatch({isLoading: true});
-    console.log(action)
+    } catch (e) {
+        console.log(unknownError)
+        dispatch({FormError: unknownError})
+    }
 
-    const response = (await chatAPI.userDelFromChat(action)).responseJSON();
 
     if (hasError(response)) {
-        dispatch({ FormError: response.reason })
+        dispatch({FormError: response.reason})
         return;
     }
 
 
     await chatsGet(dispatch, state);
-
-};
-
-export const tokenGet = async (
-    action: string,
-) => {
-
-    return (await chatAPI.getToken(action)).responseJSON();
-
-
 
 };
 
