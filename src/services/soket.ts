@@ -49,7 +49,7 @@ export const connectToChatService = async () => {
     }
     const userId = (user as UserT).id;
     const chatId = store.getState().selectedChatId as number;
-    console.log('chatId', chatId)
+
     const {token} = await tokenGet(chatId);
     if (!token) {
         await store.dispatch({chatError: 'Token error'});

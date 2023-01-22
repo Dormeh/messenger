@@ -8,7 +8,6 @@ declare global {
     }
 }
 export function withStore<P extends WithStateProps>(WrappedBlock: IBlockProps) {
-    console.log(1111111111111111111111111)
     // @ts-expect-error No base constructor has the specified
     return class extends WrappedBlock<P> {
         public static componentName = WrappedBlock.componentName;

@@ -10,7 +10,6 @@ import {chatsDelete, userAdd, userDel} from "../../services/chats";
 import {Store} from "../../core";
 import {userSearch} from '../../services/user'
 import type {SendData} from "../form"
-import {socketInit} from '../../services/soket'
 
 interface ChatFeedProps {
     onSubmit: any;
@@ -34,7 +33,6 @@ export class ChatFeed extends Block {
         super({...props});
         this.setProps({
             store: Store.instance(),
-            socket:() => socketInit,
             popupOpenTop: (event: MouseEvent): any => this.refs.buttonSvgTop.refs.popup.popupOpen(event),
             popupOpenBottom: (event: MouseEvent): any => this.refs.buttonSvgBottom.refs.popup.popupOpen(event),
             modalOpen: (event: MouseEvent): any => this.modalOpen(event),
@@ -47,14 +45,12 @@ export class ChatFeed extends Block {
 
     async initUserSearch(data: Record<string, string>) {
         const response = await userSearch(data);
-        console.log('userResponse', response)
         return response instanceof Array && response[0] && response[0].id;
     }
 
     async onSubmitModal({data, form}: SendData) {
         const chatId = this.props.selectedChat.props.chatId;
-        console.log(form.title)
-        console.log('!!!!!')
+
         let user;
         if (form.title !== "Удалить чат ?") {
             user = await this.initUserSearch(data)
@@ -62,8 +58,6 @@ export class ChatFeed extends Block {
         }
         switch (form.title) {
             case "Удалить чат ?" :
-                console.log(form.title)
-                console.log(this.props.selectedChat.props.chatId)
                 await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
                 break
 
@@ -109,20 +103,6 @@ export class ChatFeed extends Block {
         }
     }
 
-   // componentDidUpdate() {
-   //      if (this.props.selectedChat) {
-   //          const chatId = this.props.selectedChat.props.chatId;
-   //          const userId = this.props.store.getState().user.id;
-   //          const connect = this.props.socket(userId, chatId)
-   //          console.log(connect)
-   //          connect.send(JSON.stringify({
-   //              // content: 'Моё первое сообщение миру!',
-   //              type: 'ping',
-   //          }));
-   //
-   //      }
-   //      return true;
-   //  }
 
     protected render(): string {
         const {selectedChat} = this.props;
