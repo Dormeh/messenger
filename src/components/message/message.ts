@@ -14,7 +14,6 @@ export class Message extends Block {
     static componentName = 'Message';
         constructor({message, onClick}: MessageProps) {
         super({message, events: {click: {fn: onClick, options: false}}});
-        const userId = store.getState().user.id;
             if (store.getState().user) {
                 const userId = store.getState().user.id;
                 if (message && userId === message.user_id) {
