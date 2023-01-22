@@ -130,7 +130,7 @@ export class ChatFeed extends Block {
                                          svg=svg
                                          buttonSvgClass="button-svg_round"
                                          svgClass="button-svg__svg-elem_tree-dots"
-                                         svgName="tree-dots"
+                                         svgName="treedots"
                                          onClick=popupOpenTop
                                          popupClass='popup_top'
                                          popupAdd=true
@@ -170,7 +170,7 @@ export class ChatFeed extends Block {
                                           buttonSvgClass="button-svg_round button-svg_primary"
                                           svgClass="button-svg__svg-elem_arrow-back"
                                           onClick=onSubmit
-                                          svgName="arrow-back"
+                                          svgName="arrowback"
                               }}}
 
                         </div>
