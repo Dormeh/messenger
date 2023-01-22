@@ -1,3 +1,5 @@
+import {Store} from "../src/core";
+
 declare global {
   export type Nullable<T> = T | null;
 
@@ -10,8 +12,9 @@ declare global {
     appIsInited: boolean;
     screen: Screens | null;
     isLoading: boolean;
-    loginFormError: string | null;
+    FormError: string | null;
     user: User | null;
+    chats: Array<[Record<any, any>]> | null;
   };
 }
 

@@ -24,6 +24,7 @@ export class LoginPage extends Block {
 
     async onSubmit({data, form}: SendData): Promise<void> {
         await this.props.store.dispatch(login, data);
+        return this.props.store.getState().FormError
     }
 
     render() {
@@ -36,6 +37,7 @@ export class LoginPage extends Block {
                         form=form
                         onSubmit=onSubmit
                         errorName=errorName
+                        errorAddClass="input_error form__error"
                 }}}
             {{/Layout}}
     `;

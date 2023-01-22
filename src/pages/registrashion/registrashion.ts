@@ -38,6 +38,7 @@ export class RegPage extends Block {
                         form=form
                         onSubmit=onSubmit
                         errorName=errorName
+                        errorAddClass="input_error form__error"
                 }}}
             {{/Layout}}
     `;

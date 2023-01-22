@@ -3,7 +3,8 @@ import {chatAPI} from '../api/chat';
 import type {Dispatch} from 'core/Store';
 import Router from "../core/Router/Router";
 import {RegRequestData} from '../api/auth'
-import {hasError} from '../asserts/utils/apiHasError';
+import {apiHasError} from '../asserts/utils';
+import {hasError} from "../asserts/utils/apiHasError";
 
 type ChatPayload = {
     title: string;
@@ -23,31 +24,34 @@ export const chatsCreate = async (
     state: AppState,
     action: ChatPayload,
 ) => {
-    const router = Router.instance();
-
     dispatch({isLoading: true});
     console.log(action)
 
     const response = (await chatAPI.createChat(action)).responseJSON();
     console.log('CHATresponsePOST', response)
 
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
 
-    await chatsGet(dispatch,state);
+    await chatsGet(dispatch, state);
 
 };
 
 export const chatsGet = async (
     dispatch: Dispatch<AppState>,
     state: AppState,) => {
-    const responseChat = (await chatAPI.getChats()).responseJSON();
+    const response = (await chatAPI.getChats()).responseJSON();
 
-    console.log('CHATresponseGET', responseChat)
-    dispatch( { chats: responseChat})
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
-    return responseChat;
+    dispatch({chats: response, FormError: null }) //todo нужно внести в пользователя
+
 }
 
 export const chatsDelete = async (
@@ -55,19 +59,15 @@ export const chatsDelete = async (
     state: AppState,
     action: ChatDelPayload,
 ) => {
-    const router = Router.instance();
-
-    dispatch({isLoading: true});
-    console.log(action)
 
     const response = (await chatAPI.deleteChat(action)).responseJSON();
-    console.log('CHATresponseDEL', response)
 
-    const sleep = (ms: number = 300) => new Promise((res) => setTimeout(res, ms));
-    await sleep()
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
-
-    await chatsGet(dispatch,state);
+    await chatsGet(dispatch, state);
 
 };
 export const userAdd = async (
@@ -77,16 +77,14 @@ export const userAdd = async (
 ) => {
     const router = Router.instance();
 
-    dispatch({isLoading: true});
     console.log(action)
 
     const response = (await chatAPI.userAddToChat(action)).responseJSON();
-    console.log('CHATresponsePUT', response)
 
-
-
-
-    await chatsGet(dispatch,state);
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
 };
 
@@ -101,11 +99,24 @@ export const userDel = async (
     console.log(action)
 
     const response = (await chatAPI.userDelFromChat(action)).responseJSON();
-    console.log('CHATresponseDEL', response)
+
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
 
-
-
-    await chatsGet(dispatch,state);
+    await chatsGet(dispatch, state);
 
 };
+
+export const tokenGet = async (
+    action: string,
+) => {
+
+    return (await chatAPI.getToken(action)).responseJSON();
+
+
+
+};
+
