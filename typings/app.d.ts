@@ -15,6 +15,9 @@ declare global {
     FormError: string | null;
     user: User | null;
     chats: Array<[Record<any, any>]> | null;
+    selectedChatId: number | null;
+    chatError: string | null;
+    activeChatMessages: Array<[unknown]>
   };
 }
 

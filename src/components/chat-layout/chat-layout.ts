@@ -6,36 +6,22 @@ import chats from 'data/chats.json';
 import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import avatar from 'images/avatar.png'
 import {Store} from "core/Store";
-import {login, logout} from '../../services/auth';
 import {chatsCreate, chatsGet} from '../../services/chats';
 import type {SendData} from "../form"
-import {socketInit} from "../../services/soket";
+import {connectToChatService, sendMessageService} from "../../services/soket";
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
-    private modalButton: HTMLButtonElement | undefined;
-    private modalError: Block | undefined;
-    private formElem: HTMLFormElement | undefined;
 
     constructor() {
         super();
         const store = Store.instance();
 
-        chats.forEach((elem: {
-            avatarUrl?: string
-        }) => {
-            elem['avatarUrl'] = elem['avatarUrl'] ? avatar : ''
-        })
-
-        // this.loadMessages(chats);
-
         this.setProps({
             store: Store.instance(),
             svg,
             form: chatAddForm,
-            socket: socketInit,
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
@@ -44,7 +30,6 @@ export class Chat_layout extends Block {
             modal: () => this.refs.modal,
 
         })
-        // console.log('createChatForm', this.props.createChatForm)
 
         this.getChats()
 
@@ -65,7 +50,7 @@ export class Chat_layout extends Block {
         // await this.getChats(); //todo завязал на обновление store
     }
 
-    onSubmitMessage(event: MouseEvent): void { //отправка сообщения
+    async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
@@ -79,25 +64,26 @@ export class Chat_layout extends Block {
         console.log({
             message: inputElem.value
         })
-        console.log(this.props.store.getState().socket)
-        this.props.store.getState().socket.send(JSON.stringify({
-            content: inputElem.value,
-            type: 'message',
-
-        }));
+        // console.log(this.props.store.getState().socket)
+        // this.props.store.getState().socket.send(JSON.stringify({
+        //     content: inputElem.value,
+        //     type: 'message',
+        //
+        // }));
         if (inputElem.value) {
 
-            const newMessage = {
-                "text": inputElem.value,
-            }
-            const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages || [];
-            oldMessages.push(newMessage);
-            this.refs.chat_feed.refs.message_feed.setProps({
-                messages: oldMessages
-            })
+            // const newMessage = {
+            //     "content": inputElem.value,
+            // }
+            // const oldMessages = this.refs.chat_feed.refs.message_feed.props.messages || []; //todo демо верстки отправки сообщиения
+            // oldMessages.push(newMessage);
+            // this.refs.chat_feed.refs.message_feed.setProps({
+            //     messages: oldMessages
+            // })
+            await sendMessageService({message: inputElem.value})
             inputElem.value = '';
             inputElem.focus();
-            const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview')
+            const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview') // прокрутка страницы
             if (feed) {
                 const feedScroll = feed.scrollHeight;
                 feed.scroll(0, feedScroll);
@@ -123,19 +109,21 @@ export class Chat_layout extends Block {
         const card: HTMLElement = event.target.closest('.card');
         const cardRef = cardList.find(elem => elem.element === card);
         card.classList.add('card_active');
-        // console.log(this)
+        console.log('cardRef', cardRef)
         this.refs.chat_feed.setProps({
             selectedChat: cardRef
         })
-        const chatId = cardRef.props.chatId;
-        const userId = this.props.store.getState().user.id;
-        await this.props.socket(userId, chatId)
-        console.log('socket', this.props.store.getState().socket)
-
-        this.refs.chat_feed.refs.message_feed.setProps({
-
-            messages: cardRef.props.messages || []
-        })
+        await this.props.store.dispatch({selectedChatId: cardRef.props.chatId})
+        await connectToChatService();
+        // const chatId = cardRef.props.chatId;
+        // const userId = this.props.store.getState().user.id;
+        // await this.props.socket(userId, chatId)
+        // console.log('socket', this.props.store.getState().socket)
+        console.log('messages', this.props.store.getState().activeChatMessages)
+        // this.refs.chat_feed.refs.message_feed.setProps({
+        //
+        //     messages: this.props.store.getState().activeChatMessages
+        // })
 
     }
 
@@ -153,9 +141,7 @@ export class Chat_layout extends Block {
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
         }
-        // for (const chat of chats) {
-        //     chat.messages = await import('data/messages.json')// parcel не импортирует данные по переменным в дальнейшем метод будет получать историю переписки
-        // }
+
         await this.setProps({
             chats: chats.reverse()
         })
@@ -164,15 +150,13 @@ export class Chat_layout extends Block {
     componentDidMount() {
         this.props.store.on('changed', (prevState, nextState) => { //todo подписка на обновление store
             const chats = nextState.chats
-            console.log('newChats', chats)
-            // if (this.props.store.getState().socket) {
-            //     this.props.store.getState().socket.send(JSON.stringify({
-            //         content: 'TEST',
-            //         type: 'message',
-            //
-            //     }));
-            // }
-            // this.loadMessages(chats).then()
+
+            if(this.refs.chat_feed.props.selectedChat) {
+                this.refs.chat_feed.refs.message_feed.setProps({
+
+                    messages: this.props.store.getState().activeChatMessages
+                })
+            }
         })
 
     }
