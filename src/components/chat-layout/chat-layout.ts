@@ -10,6 +10,8 @@ import avatar from 'images/avatar.png'
 import {Store} from "core/Store";
 import {login, logout} from '../../services/auth';
 import {chatsCreate, chatsGet} from '../../services/chats';
+import type {SendData} from "../form"
+import {socketInit} from "../../services/soket";
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
@@ -33,8 +35,9 @@ export class Chat_layout extends Block {
             store: Store.instance(),
             svg,
             form: chatAddForm,
+            socket: socketInit,
             onClick: (event: MouseEvent): any => this.onClick(event),
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
             getChats: (): any => this.getChats(),
             modalOpen: (): any => this.modalOpen(),
@@ -44,7 +47,6 @@ export class Chat_layout extends Block {
         // console.log('createChatForm', this.props.createChatForm)
 
         this.getChats()
-
 
     }
 
@@ -58,19 +60,12 @@ export class Chat_layout extends Block {
     }
 
 
-    async onSubmitChat(event: MouseEvent) {
-        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement; //todo добавить функцию обновления всех требуемых компонентов
-
-        event.preventDefault();
-        console.log(this.formElem.title)
-        if (this.formElem && this.formElem.title.value) {
-            await this.props.store.dispatch(chatsCreate, {title: this.formElem.title.value}).then();
-            // await this.getChats();
-        }
-
+    async onSubmitChat({data, form}: SendData) {
+        await this.props.store.dispatch(chatsCreate, data);
+        // await this.getChats(); //todo завязал на обновление store
     }
 
-    onSubmit(event: MouseEvent): void { //отправка сообщения
+    onSubmitMessage(event: MouseEvent): void { //отправка сообщения
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
@@ -84,6 +79,12 @@ export class Chat_layout extends Block {
         console.log({
             message: inputElem.value
         })
+        console.log(this.props.store.getState().socket)
+        this.props.store.getState().socket.send(JSON.stringify({
+            content: inputElem.value,
+            type: 'message',
+
+        }));
         if (inputElem.value) {
 
             const newMessage = {
@@ -104,7 +105,11 @@ export class Chat_layout extends Block {
         }
     }
 
-    onClick(event: MouseEvent) {
+    async socketConnect(chatId: string) {
+
+    }
+
+    async onClick(event: MouseEvent) {
 
         const cardList: Block[] = [];
 
@@ -122,31 +127,24 @@ export class Chat_layout extends Block {
         this.refs.chat_feed.setProps({
             selectedChat: cardRef
         })
+        const chatId = cardRef.props.chatId;
+        const userId = this.props.store.getState().user.id;
+        await this.props.socket(userId, chatId)
+        console.log('socket', this.props.store.getState().socket)
+
         this.refs.chat_feed.refs.message_feed.setProps({
 
             messages: cardRef.props.messages || []
         })
-        // console.log(this.refs.chat_feed.refs.message_feed)
 
     }
 
     async getChats() {
-        await this.props.store.dispatch(chatsGet,).then();
+        await this.props.store.dispatch(chatsGet).then();
         // console.log(this.props.store.getState().chats)
         this.chats = this.props.store.getState().chats;
         this.loadMessages(this.chats)
     }
-
-    // onChange(event: Event) {
-    //     const input = event.target as HTMLInputElement
-    //     if (!input.name || input.name !== 'chat-name') return;
-    //     const inputValue = this.formElem['chat-name'].value
-    //     console.log(inputValue)
-    //     if (inputValue) {
-    //         this.modalButton.disabled = false;
-    //         this.modalInputValue = inputValue;
-    //     }
-    // }
 
 
     loadMessages = async (chats = []) => {
@@ -164,13 +162,17 @@ export class Chat_layout extends Block {
     }
 
     componentDidMount() {
-        this.modalError = this.refs.modal.refs.modalForm.refs.error;
-        this.modalButton = this.refs.modal.refs.modalForm.refs.button.element as HTMLButtonElement;
-        this.formElem = this.refs.modal.refs.modalForm.element?.children[1] as HTMLFormElement;
-        this.props.store.on('changed', (prevState, nextState) => {
+        this.props.store.on('changed', (prevState, nextState) => { //todo подписка на обновление store
             const chats = nextState.chats
             console.log('newChats', chats)
-            this.loadMessages(chats).then()
+            // if (this.props.store.getState().socket) {
+            //     this.props.store.getState().socket.send(JSON.stringify({
+            //         content: 'TEST',
+            //         type: 'message',
+            //
+            //     }));
+            // }
+            // this.loadMessages(chats).then()
         })
 
     }
@@ -234,7 +236,7 @@ export class Chat_layout extends Block {
                 </div>
                 {{{ChatFeed ref="chat_feed"
                             svg=svg
-                            onSubmit=onSubmit
+                            onSubmit=onSubmitMessage
                             modal=modal
                             modalForm=modalForm
                 }}}

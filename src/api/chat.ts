@@ -16,6 +16,8 @@ export type ChatData = {
 export const chatAPI = {
     getChats: () => request.get(`${process.env.API_ENDPOINT}/chats` ),
 
+    getUsers: (chatId: string) => request.get(`${process.env.API_ENDPOINT}/chats/${chatId}/users`),
+
     createChat: (data: ChatData) =>
         request.post(`${process.env.API_ENDPOINT}/chats`, {data, headers: { 'Content-Type': 'application/json' }}),
 
@@ -28,6 +30,8 @@ export const chatAPI = {
     userDelFromChat: (data: ChatData) =>
         request.delete(`${process.env.API_ENDPOINT}/chats/users`, {data, headers: { 'Content-Type': 'application/json' }}),
 
+
+    getToken: (chatId: string) => request.post(`${process.env.API_ENDPOINT}/chats/token/${chatId}` ),
     // profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {
     //     data,
     //     headers: {'Content-Type': 'application/json'}

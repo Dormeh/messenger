@@ -10,7 +10,7 @@ import {chatsDelete, userAdd, userDel} from "../../services/chats";
 import {Store} from "../../core";
 import {userSearch} from '../../services/user'
 import type {SendData} from "../form"
-
+import {socketInit} from '../../services/soket'
 
 interface ChatFeedProps {
     onSubmit: any;
@@ -21,8 +21,9 @@ interface ChatFeedProps {
     loginValue: string;
     profileMainPage?: boolean;
     modalForm: {};
-    modal: Block;
+    modal: () => Block;
     svg: string;
+    store: Store<AppState>
     selectedChat: Block;
 }
 
@@ -33,6 +34,7 @@ export class ChatFeed extends Block {
         super({...props});
         this.setProps({
             store: Store.instance(),
+            socket:() => socketInit,
             popupOpenTop: (event: MouseEvent): any => this.refs.buttonSvgTop.refs.popup.popupOpen(event),
             popupOpenBottom: (event: MouseEvent): any => this.refs.buttonSvgBottom.refs.popup.popupOpen(event),
             modalOpen: (event: MouseEvent): any => this.modalOpen(event),
@@ -43,54 +45,45 @@ export class ChatFeed extends Block {
 
     }
 
-    async onSubmitModal({data, form}: SendData) { //todo  нужно сабмитить эту функцию из формы и посылать от туда данные
-        const modalForm = this.props.modal().refs.modalForm
-        if (event.target === modalForm.refs.button.element) {
-            const actionName = modalForm.props.form.title
-            console.log('!!!!!')
-            let value, response
-            switch (actionName) {
-                case "Добавить пользователя" :
-                    //Добавить пользователя
-                    value = modalForm.element?.children[1].login.value
-                    response = await userSearch({login: value})
-                    console.log('userResponse', response)
-                    if (response && response[0].id) {
-                        const user = response[0].id
-                        await this.props.store.dispatch(userAdd, {
-                            chatId: this.props.selectedChat.props.chatId,
-                            users: [user]
-                        })
-                    }
+    async initUserSearch(data: Record<string, string>) {
+        const response = await userSearch(data);
+        console.log('userResponse', response)
+        return response instanceof Array && response[0] && response[0].id;
+    }
 
-                    break;
-                case "Удалить пользователя" :
-                    //Удалить пользователя
-
-                    value = modalForm.element?.children[1].login.value
-                    response = await userSearch({login: value})
-                    console.log('userResponse', response)
-                    if (response && response[0].id) {
-                        const user = response[0].id
-                        await this.props.store.dispatch(userDel, {
-                            chatId: this.props.selectedChat.props.chatId,
-                            users: [user]
-                        })
-                    }
-                    break;
-                case "Удалить чат ?" :
-                    console.log(actionName)
-                    //Удалить чат?
-                    console.log(this.props.selectedChat.props.chatId)
-                    await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
-                    break
-            }
+    async onSubmitModal({data, form}: SendData) {
+        const chatId = this.props.selectedChat.props.chatId;
+        console.log(form.title)
+        console.log('!!!!!')
+        let user;
+        if (form.title !== "Удалить чат ?") {
+            user = await this.initUserSearch(data)
+            if (!user) return 'Пользователь не найден'
         }
-        // if( this.formElem && this.formElem.title.value) {
-        //     await this.props.store.dispatch(chatsCreate, {title: this.formElem.title.value}).then();
-        //     await this.getChats();
-        // }
+        switch (form.title) {
+            case "Удалить чат ?" :
+                console.log(form.title)
+                console.log(this.props.selectedChat.props.chatId)
+                await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
+                break
 
+            case "Добавить пользователя" :
+                await this.props.store.dispatch(userAdd, {
+                    chatId,
+                    users: [user]
+                })
+                break;
+
+            case "Удалить пользователя" :
+                await this.props.store.dispatch(userDel, {
+                    chatId,
+                    users: [user]
+                })
+
+                break;
+        }
+
+        this.props.modal().modalClose(); // todo временная заглушка
     }
 
     modalOpen(event: MouseEvent) {
@@ -115,6 +108,21 @@ export class ChatFeed extends Block {
             this.props.modal().modalOpen()
         }
     }
+
+   // componentDidUpdate() {
+   //      if (this.props.selectedChat) {
+   //          const chatId = this.props.selectedChat.props.chatId;
+   //          const userId = this.props.store.getState().user.id;
+   //          const connect = this.props.socket(userId, chatId)
+   //          console.log(connect)
+   //          connect.send(JSON.stringify({
+   //              // content: 'Моё первое сообщение миру!',
+   //              type: 'ping',
+   //          }));
+   //
+   //      }
+   //      return true;
+   //  }
 
     protected render(): string {
         const {selectedChat} = this.props;

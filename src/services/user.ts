@@ -2,7 +2,6 @@ import {Dispatch} from "../core";
 import Router from "../core/Router/Router";
 import {AvatarData, searchUser, PasswordData, UserData, userAPI} from "../api/user";
 import {hasError} from "../asserts/utils/apiHasError";
-import {logout} from "./auth";
 
 export const userChg = async (
     dispatch: Dispatch<AppState>,
@@ -15,14 +14,12 @@ export const userChg = async (
 
     const response = (await userAPI.profileChg(action)).responseJSON();
 
-    console.log(response);
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
-    // if (hasError(response)) {
-    //     dispatch(logout);
-    //     return;
-    // }
-
-    dispatch({user: response});
+    dispatch({user: response, FormError: null });
 
     router.navigate('/profile');
 };
@@ -34,16 +31,14 @@ export const passwordChg = async (
 ) => {
     const router = Router.instance();
 
-    dispatch({isLoading: true});
-
     const response = (await userAPI.passwordChg(action)).responseJSON();
 
-    console.log(response);
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
+    dispatch({ isLoading: false, FormError: null });
 
-    // if (hasError(response)) {
-    //     dispatch(logout);
-    //     return;
-    // }
 
     router.navigate('/profile');
 };
@@ -59,9 +54,12 @@ export const avatarChg = async (
 
     const response = (await userAPI.avatarChg(action)).responseJSON();
 
-    console.log(response);
+    if (hasError(response)) {
+        dispatch({ FormError: response.reason })
+        return;
+    }
 
-    dispatch({user: response});
+    dispatch({user: response, FormError: null });
 
     router.navigate('/profile');
 };
@@ -74,6 +72,5 @@ export const userSearch = async (
     console.log(response);
 
     return response;
-
 
 };

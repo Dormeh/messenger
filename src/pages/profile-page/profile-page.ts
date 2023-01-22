@@ -7,8 +7,6 @@ import formPassword from 'data/password.json';
 import formAvatar from 'data/avatarForm.json';
 import {Store} from "core/Store";
 import {passwordChg, userChg, avatarChg} from '../../services/user'
-import {formatBytes} from '../../asserts/utils'
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import svg from 'images/icons_sprite.svg';
 import {logout} from "../../services/auth";
 import type {SendData} from "../../components/form"
@@ -50,7 +48,6 @@ export class ProfilePage extends Block {
             modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
 
         })
-        console.log('props', this.props)
 
     }
 
@@ -63,6 +60,7 @@ export class ProfilePage extends Block {
             await this.props.store.dispatch(avatarChg, formData);
             console.log('ОТПРАВКА ФАЙЛА')
         }
+        return this.props.store.getState().FormError
     }
 
     async onSubmit({data, form}: SendData): Promise<void> {
@@ -72,6 +70,7 @@ export class ProfilePage extends Block {
         } else {
             await this.props.store.dispatch(userChg, data);
         }
+        return this.props.store.getState().FormError
     }
 
     elemInit() {
@@ -120,6 +119,7 @@ export class ProfilePage extends Block {
                                     onSubmit=onSubmit
                                     errorName=errorName
                                     profileMainPage=profileMainPage
+                                    errorAddClass="input_error form__error"
                             }}}
                             {{#if profileMainPage}}
                                 <div class="profile__change-controls">

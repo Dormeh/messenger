@@ -6,7 +6,7 @@ import {login} from "../../services/auth";
 import {formatBytes} from "../../asserts/utils";
 export type SendData = {
     data: Record<string, string>
-    form: HTMLFormElement;
+    form: Record<string, string | Array<[Record<string, string>]>>
 }
 
 interface FormProps {
@@ -73,7 +73,7 @@ export class Form extends Block {
 
     }
 
-    onSubmitForm(event: MouseEvent): void {
+   async onSubmitForm(event: MouseEvent): void {
         console.log('Submit')
         event.preventDefault();
         this.elemInit();
@@ -101,7 +101,7 @@ export class Form extends Block {
                 return acc;
             }, {})
             if (hasError) return;
-            sendData = {data: formValues, form: this.form};//todo сделать проверку была ли изменина форма
+            sendData = {data: formValues, form: this.props.form};//todo сделать проверку была ли изменина форма
 
             console.log(formValues);
         } else {
@@ -116,7 +116,10 @@ export class Form extends Block {
         }
         if (hasError) return;
         // @ts-ignore
-        this.props.onSubmit(sendData);
+        const response = await this.props.onSubmit(sendData);
+        if (response && typeof response === 'string') {
+            this.formError && this.formError.setProps({errorName: response})
+        }
     }
 
     elemInit() {
