@@ -15,7 +15,7 @@ const getNewReconnectInterval = () => {
     return chatReconnectInterval;
 };
 
-const chatSocket = new ChatSocket();
+const chatSocket = ChatSocket.instance();
 
 let connectTimer: ReturnType<typeof setTimeout> | null = null;
 
