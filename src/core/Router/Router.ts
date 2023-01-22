@@ -1,8 +1,10 @@
 import Block from 'core/Block';
 import renderPage from './render-page'
-
 import {RouterInterface} from './RouterInterface'
 import {Store} from "../Store";
+import {ChatSocket} from "../../api/ChatSocket";
+
+const chatSocket = ChatSocket.instance();
 
 export default class Router implements RouterInterface {
     private routes = [];
@@ -46,6 +48,7 @@ export default class Router implements RouterInterface {
 
         let strippedPath = decodeURI(window.location.pathname)
             .replace(/^\/|\/$/, '');
+        chatSocket.close();
 
         let match: string[] | undefined | null;
         const store = Store.instance();
