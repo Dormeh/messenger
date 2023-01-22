@@ -1,8 +1,6 @@
 import Block from "core/Block";
 
 import './chat-layout.scss';
-
-import chats from 'data/chats.json';
 import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
@@ -154,9 +152,10 @@ export class Chat_layout extends Block {
                         }}}
                         <a class="chat-layout__link" href="/profile">
                             <span>Профиль</span>
-                            <svg class="chat-layout__nav-icon">
-                                <use href="{{svg}}#arrow"></use>
+                            <svg class="chat-layout__nav-icon" fill="none">
+                                <path d="M1 9L5 5L1 1" stroke="currentColor"/>
                             </svg>
+
                         </a>
                     </nav>
                     {{{Modal
