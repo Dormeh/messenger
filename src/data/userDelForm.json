@@ -8,6 +8,7 @@
     }
   ],
   "title": "Удалить пользователя",
+  "type": "remove-user",
   "buttonTitle": "Удалить",
   "addFormClass": "modal_form",
   "inputAddClass": "input_log-form",

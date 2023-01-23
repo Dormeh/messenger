@@ -9,6 +9,8 @@ export type SendData = {
     form: Record<string, string | Array<[Record<string, string>]>>
 }
 
+const MAX_FILE_SIZE = 1048576
+
 interface FormProps {
     form: {};
     onSubmit: any;
@@ -51,12 +53,18 @@ export class Form extends Block {
         if (!input.type || input.type !== 'file' || !input.files) return;
 
         let errorName = '';
-        this.formError && this.formError.props.errorName && this.formError.setProps({errorName})
 
-        if (this.form && this.form.file.files && this.form.file.files[0]) {
+        const hasError = this.formError && this.formError.props.errorName
+        if (hasError) {
+            this.formError.setProps({errorName})
+        }
+
+        const hasFiles = this.form && this.form.file.files && this.form.file.files[0]
+
+        if (hasFiles) {
             const file = this.form.file.files[0];
             const size = file.size;
-            if (size > 1048576) {
+            if (size > MAX_FILE_SIZE) {
                 const sizeKb = formatBytes(size);
                 errorName = `размер файла ${sizeKb} допустимый не более 1Мб`
                 this.formError && this.formError.setProps({errorName})

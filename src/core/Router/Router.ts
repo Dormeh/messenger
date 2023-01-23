@@ -78,9 +78,6 @@ export default class Router implements RouterInterface {
     }
 
     async changePage(path: string, match?: string[]) {
-        // if (this.page && this.page.destroy) { //todo Проверить удаление обработчиков в Block
-        //     this.page.destroy();
-        // }
 
         return await renderPage(path, match);
     }

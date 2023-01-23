@@ -7,7 +7,7 @@ interface ModalProps {
     onSubmit: () => void;
     errorAddClass?: string;
     file?: boolean;
-    form: {};
+    form: object;
     svg: string
 }
 
