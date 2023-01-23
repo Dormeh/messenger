@@ -10,7 +10,7 @@ import {chatsDelete, userAdd, userDel} from "../../services/chats";
 import {Store} from "../../core";
 import {userSearch} from '../../services/user'
 import type {SendData} from "../form"
-
+import PopupProps  from '../popup'
 interface ChatFeedProps {
     onSubmit: any;
     onFocus: any;
@@ -28,6 +28,7 @@ interface ChatFeedProps {
 
 export class ChatFeed extends Block {
     static componentName = 'ChatFeed';
+    private popupRefs: { [p: string]: Block } | undefined
 
     constructor({...props}: ChatFeedProps) {
         super({...props});
@@ -52,23 +53,23 @@ export class ChatFeed extends Block {
         const chatId = this.props.selectedChat.props.chatId;
 
         let user;
-        if (form.title !== "Удалить чат ?") {
+        if (form.type !== "remove-chat") {
             user = await this.initUserSearch(data)
             if (!user) return 'Пользователь не найден'
         }
-        switch (form.title) {
-            case "Удалить чат ?" :
+        switch (form.type) {
+            case "remove-chat" :
                 await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
                 break
 
-            case "Добавить пользователя" :
+            case "add-user" :
                 await this.props.store.dispatch(userAdd, {
                     chatId,
                     users: [user]
                 })
                 break;
 
-            case "Удалить пользователя" :
+            case "remove-user" :
                 await this.props.store.dispatch(userDel, {
                     chatId,
                     users: [user]
@@ -81,18 +82,25 @@ export class ChatFeed extends Block {
     }
 
     modalOpen(event: MouseEvent) {
-        if (!event.target.closest('.button-svg')) return;
+        if (!event.target || !event.target.closest('.button-svg')) return;
+        this.elemInit();
         let form;
-        if (this.refs.buttonSvgTop.refs.popup.refs.button1.element === event.target.closest('.button-svg')) {
-            form = userAddForm;
-        }
-        if (this.refs.buttonSvgTop.refs.popup.refs.button2.element === event.target.closest('.button-svg')) {
-            form = userDelForm;
+        if (!this.popupRefs) return;
+        switch (event.target.closest('.button-svg, .button')) {
+            case this.popupRefs.button1.element:
+                form = userAddForm;
 
+                break;
+            case this.popupRefs.button2.element:
+                form = userDelForm;
+
+                break;
+            case this.popupRefs.buttonDel.element:
+                form = chatDelForm;
+
+                break;
         }
-        if (this.refs.buttonSvgTop.refs.popup.refs.buttonDel.element === event.target.closest('.button')) {
-            form = chatDelForm;
-        }
+
         if (form) {
             this.props.modal().setProps({
                 form: form,
@@ -102,7 +110,9 @@ export class ChatFeed extends Block {
             this.props.modal().modalOpen()
         }
     }
-
+    elemInit() {
+        this.popupRefs = this.refs.buttonSvgTop && this.refs.buttonSvgTop.refs.popup.refs
+    }
 
     protected render(): string {
         const {selectedChat} = this.props;

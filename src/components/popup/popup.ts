@@ -3,7 +3,7 @@ import Block from 'core/Block';
 import './popup.scss';
 
 
-interface PopupProps {
+export interface PopupProps {
     onClick: any;
     addClass: string
     popupModalOpen: string;

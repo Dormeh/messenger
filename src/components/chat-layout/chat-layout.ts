@@ -23,13 +23,13 @@ export class Chat_layout extends Block {
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
-            getChats: (): any => this.getChats(),
+            loadChats: (): any => this.loadChats(),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
 
         })
 
-        this.getChats()
+        this.loadChats()
 
     }
 
@@ -44,7 +44,6 @@ export class Chat_layout extends Block {
 
     async onSubmitChat({data, form}: SendData) {
         await this.props.store.dispatch(chatsCreate, data);
-        // await this.getChats(); //todo завязал на обновление store
     }
 
     async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
@@ -70,9 +69,6 @@ export class Chat_layout extends Block {
         }
     }
 
-    async socketConnect(chatId: string) {
-
-    }
 
     async onClick(event: MouseEvent) {
 
@@ -95,15 +91,15 @@ export class Chat_layout extends Block {
 
     }
 
-    async getChats() {
+    async loadChats() {
         await this.props.store.dispatch(chatsGet).then();
 
         this.chats = this.props.store.getState().chats;
-        this.loadMessages(this.chats)
+        this.chatsAddRefsProps(this.chats)
     }
 
 
-    loadMessages = async (chats = []) => {
+    chatsAddRefsProps = async (chats = []) => {
 
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
