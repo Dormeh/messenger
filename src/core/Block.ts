@@ -1,12 +1,14 @@
 import EventBus from './EventBus';
 import {nanoid} from 'nanoid';
 import Handlebars from 'handlebars';
+import {cloneDeep, isEqual} from "../asserts/utils";
 
-interface IBlockProps {
+export interface IBlockProps {
   events?: Record<string, IListener>
+  componentName?: string;
 }
 
-interface BlockMeta<P = any> {
+export interface BlockMeta<P = any> {
   props: P;
 }
 
@@ -85,13 +87,15 @@ export default class Block<P  extends IBlockProps = {}> {
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
+      console.log('Пропсы не изменились')
       return;
     }
     this._render();
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    return true;
+
+    return !isEqual(oldProps, newProps);
   }
 
   setProps = (nextProps: P) => {
@@ -154,11 +158,10 @@ export default class Block<P  extends IBlockProps = {}> {
         return typeof value === 'function' ? value.bind(target) : value;
       },
       set(target: Record<string, unknown>, prop: string, value: unknown) {
+        const oldProps = cloneDeep(target);
         target[prop] = value;
 
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
         return true;
       },
       deleteProperty() {

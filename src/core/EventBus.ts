@@ -21,7 +21,7 @@ export default class EventBus<E extends string = string, M extends { [K in E]: u
     );
   }
 
-  emit(event: E, ...args: M[E]) {
+  emit(event: E, ...args: (M[E] | null)[]) {
     if (!this.listeners[event]) {
       return;
       // throw new error(`Нет события: ${event}`);

@@ -1,12 +1,15 @@
 import Block from 'core/Block';
 
 import '../../components/profile/profile.scss';
-
+import {userDataToForm} from '../../asserts/utils'
 import form from 'data/profile.json';
 import formPassword from 'data/password.json';
-
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import formAvatar from 'data/avatarForm.json';
+import {Store} from "core/Store";
+import {passwordChg, userChg, avatarChg} from '../../services/user'
 import svg from 'images/icons_sprite.svg';
+import {logout} from "../../services/auth";
+import type {SendData} from "../../components/form"
 
 interface Event {
     event: MouseEvent;
@@ -18,81 +21,59 @@ interface Event {
 }
 
 export class ProfilePage extends Block {
-    static componentName = 'Profile';
-    private form: HTMLCollection | undefined;
-    private formElems: Record<string, HTMLElement> | undefined;
-    private formRefs: { [p: string]: Block; } | undefined;
+    static componentName = 'ProfilePage';
+    // private form: HTMLCollection | undefined;
+    // private formElems: Record<string, HTMLElement> | undefined;
+    // private formRefs: { [p: string]: Block; } | undefined;
+    // private modalButton: HTMLButtonElement | undefined;
+    // private modalError: Block | undefined;
+    // private formElem: HTMLFormElement | undefined;
 
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        const userData = Store.instance().getState().user;
         this.setProps({
             onSubmit: (event: MouseEvent): any => this.onSubmit(event),
-
-            form,
+            onLogout: () => Store.instance().dispatch(logout),
+            onSubmitFile: (event: MouseEvent) => this.onSubmitFile(event),
+            form: userDataToForm(userData, props.pageType && props.pageType === 'password' ? formPassword : form),
+            formAvatar,
+            store: Store.instance() as Store<AppState>,
+            backLink: props.pageType ? '/profile' : '/chat',
             svg,
-            profileMainPage: true,
-            events: {
-                click: {
-                    fn: this.onClick.bind(this),
-                    options: false
-                }
-            }
+            photo: Store.instance().getState().user.avatar && `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
+            userName: Store.instance().getState().user.display_name || 'User',
+            profileMainPage: !props.pageType,
+
+            modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
+
         })
 
     }
 
-    onClick(event: Event): void {
-        event.preventDefault();
 
-        if (event.target?.tagName !== "A") return;
-        const navPath = event.target.attributes.href.value.split('.')[0]
+    async onSubmitFile({file}: Record<string, File>) {
+        if (file) {
+            const formData = new FormData();
+            formData.append("avatar", file);
 
-        if (navPath === 'profile-chng-data') {
-            this.setProps({
-                profileMainPage: false
-            })
+            await this.props.store.dispatch(avatarChg, formData);
+            console.log('ОТПРАВКА ФАЙЛА')
         }
-        if (navPath === 'profile-chng-pswd') {
-            this.setProps({
-                profileMainPage: false,
-                form: formPassword
-            })
-        }
+        return this.props.store.getState().FormError
     }
 
-
-    onSubmit(event: MouseEvent): void {
-        this.componentDidMount();
-        event.preventDefault();
-
-        const rules = Object.keys(this.formElems as object).map(key => {
-            const value2 = key === 'newPassword_confirm' && this.formElems && this.formElems['newPassword'].value;
-            return {
-                type: ValidateRuleType[key],
-                value: this.formElems[key].value,
-                value2
-            }
-        })
-
-        const errorMessage = validateForm(rules)
-
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
-
-        const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
-            acc[key] = item.value;
-            return acc;
-        }, {})
-        console.log(formValues)
+    async onSubmit({data, form}: SendData): Promise<void> {
+        if (data.newPassword_confirm) {
+            delete data.newPassword_confirm;
+            await this.props.store.dispatch(passwordChg, data);
+        } else {
+            await this.props.store.dispatch(userChg, data);
+        }
+        return this.props.store.getState().FormError
     }
 
-    componentDidMount() {
-        this.form = this.refs.form.element?.children[1].elements;
-        this.formElems = Object.keys(this.form as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
-            acc[key] = this.form[key]
-            return acc
-        }, {})
-        this.formRefs = this.refs.form.refs
+    elemInit() {
 
     }
 
@@ -101,39 +82,59 @@ export class ProfilePage extends Block {
         // language=hbs
         return `
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
+                <img src="../../asserts/images/icons_sprite.svg" alt="">
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
-                        <a href="chat">
-                            <svg class="profile__svg">
-                                <use href="{{svg}}#arrow-back"></use>
+                        <a href="{{backLink}}">
+                            <svg  fill="none" viewBox="0 0 448 512" class="profile__svg">
+                                <path xmlns="http://www.w3.org/2000/svg" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" fill="currentColor"/>
                             </svg>
                         </a>
                     </div>
+                    {{{Modal
+                            ref="modal"
+                            svg=svg
+                            form=formAvatar
+                            onSubmit=onSubmitFile
+                            errorAddClass="input_error modal__error"
+                            file=true
+                            modalClass="modal_avatar"
+                    }}}
                     <div class="profile__preview {{#if profileMainPage}}profile__preview_inactive{{/if}}">
                         <div class="container container_profile">
+
                             <div class="profile__avatar-preview">
-                                {{{Avatar avatarClass="profile__avatar-container profile__avatar-container_chng"
+                                {{{Avatar ref=profileAvatar
+                                          avatarClass="profile__avatar-container profile__avatar-container_chng"
                                           svg=svg
+                                          photo=photo
+                                          onClick=modalOpen
                                 }}}
-                                <h3 class="profile__user-title">User</h3>
+                                <h3 class="profile__user-title">{{userName}}</h3>
                             </div>
+
                             {{{Form
                                     ref="form"
                                     form=form
                                     onSubmit=onSubmit
                                     errorName=errorName
                                     profileMainPage=profileMainPage
+                                    errorAddClass="input_error form__error"
                             }}}
                             {{#if profileMainPage}}
                                 <div class="profile__change-controls">
                                     <div class="profile__string">
-                                        <a href="profile-chng-data.hbs" class="profile__link">Изменить данные</a>
+                                        <a href="/profile/edit" class="profile__link">Изменить данные</a>
                                     </div>
                                     <div class="profile__string">
-                                        <a href="profile-chng-pswd.hbs" class="profile__link">Изменить пароль</a>
+                                        <a href="/profile/password" class="profile__link">Изменить пароль</a>
                                     </div>
                                     <div class="profile__string">
-                                        <a href="index.hbs" class="profile__link profile__link_red">Выйти</a>
+                                        {{{Button
+                                                buttonTitle="Выйти"
+                                                buttonClass="button_simple profile__link_red"
+                                                onClick=onLogout
+                                        }}}
                                     </div>
                                 </div>
                             {{/if}}

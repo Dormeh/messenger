@@ -1,0 +1,18 @@
+{
+  "inputs": [
+    {
+      "placeholder": "Логин",
+      "name": "login",
+      "ref": "modalInput",
+      "errorName": ""
+    }
+  ],
+  "title": "Добавить пользователя",
+  "type": "add-user",
+  "buttonTitle": "Добавить",
+  "addFormClass": "modal_form",
+  "inputAddClass": "input_log-form",
+  "buttonClass": "button_primary button_set-big-btn profile__button-container",
+  "buttonRef": "userAddButton"
+}
+

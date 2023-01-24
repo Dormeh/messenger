@@ -18,8 +18,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel src/index.html --no-source-maps --no-cache --port 3000 --open",
-    "build": "parcel build src/index.html",
-    "start": "parcel build src/index.html && node server.js"
+    "build": "parcel build src/index.html --no-source-maps --no-cache --public-url /",
+    "start": "npm run build && node server.js"
   },
   "alias": {
     "core": "./src/core",
@@ -43,6 +43,7 @@
     "@babel/core": "7.17.8",
     "@parcel/transformer-inline-string": "2.8.2",
     "@parcel/transformer-sass": "2.8.2",
+    "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.47.1",
     "@typescript-eslint/parser": "5.47.1",
     "eslint": "8.22.0",
@@ -50,9 +51,9 @@
     "parcel-packager-svg-sprite": "2.0.0",
     "parcel-plugin-clean-easy": "1.0.2",
     "parcel-transformer-svg-sprite": "2.0.0",
-    "prettier": "^2.8.1",
+    "prettier": "2.8.1",
     "stylelint": "14.16.0",
-    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-prettier-scss": "0.0.1",
     "stylelint-config-standard-scss": "6.1.0",
     "typescript": "4.9.4"
   },

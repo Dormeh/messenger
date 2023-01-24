@@ -17,13 +17,37 @@
   border-radius: 0.5em;
   transition: opacity 200ms ease-in-out, background 200ms ease-in-out, border 200ms ease-in-out, transform 100ms ease-in-out;
 
+  &_simple {
+    @include text(12px, 12px, 500, normal, var(--grey-6));
+    padding: 0;
+  }
+
   &_primary {
     color: var(--font-color-light);
     background: var(--ligth-blue);
   }
+  &_alert-red {
+    color: var(--font-color-light);
+    background-color: var(--red);
+    :hover {
+      background: var(--dark-red);
+    }
+  }
 
   &_primary:hover {
     background: var(--primary);
+  }
+
+  &_alternate {
+    box-sizing: border-box;
+    color: var(--active-text-color);
+    background: transparent;
+    border-color: var(--grey-3);
+    border-style: solid;
+    border-width: 1px;
+    &:hover {
+      border-color: var(--active-text-color);
+    }
   }
 
   &:disabled {

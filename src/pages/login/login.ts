@@ -1,53 +1,30 @@
-import Block from 'core/Block';
+import {Block, IBlockProps} from 'core';
 
 import form from 'data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import Router from "core/Router/Router";
+import {Store} from "core/Store";
+import {login} from '../../services/auth'
+import {chatsCreate} from "../../services/chats";
+import type {SendData} from "../../components/form"
 
 
 export class LoginPage extends Block {
-    private form: HTMLCollection | object | undefined;
-    private formElems: Record<string, HTMLElement> | undefined;
-    private formRefs: { [p: string]: Block; } | undefined;
+    static componentName = 'LoginPage';
 
     constructor() {
         super();
         this.setProps({
-            onSubmit: (event: MouseEvent): any => this.onSubmit(event),
+            store: Store.instance() as Store<AppState>,
+            onSubmit: (formValues: Record<string, string>) => this.onSubmit(formValues),
             form,
         })
 
     }
 
-    onSubmit(event: MouseEvent): void {
-        console.log('Submit')
-        event.preventDefault();
-
-        const rules = Object.keys(this.formElems as object).map(key => {
-            return {
-                type: ValidateRuleType[key],
-                value: this.formElems[key].value
-            }
-        })
-
-        const errorMessage = validateForm(rules)
-
-        Object.keys(this.formRefs as object).forEach(key => this.formRefs[key].refs.error.setProps({errorName: errorMessage[this.formRefs[key].props.name]}))
-
-        const formValues = Object.entries(this.formElems).reduce((acc, [key, item]) => {
-            acc[key] = item.value;
-            return acc;
-        }, {})
-        console.log(formValues)
-    }
-
-    componentDidMount() {
-        this.form = this.refs.form.element?.children[1].elements as HTMLCollection;
-        this.formElems = Object.keys(this.form as object).filter((key: any) => isNaN(+key)).reduce((acc, key) => {
-            acc[key] = this.form[key]
-            return acc
-        }, {})
-        this.formRefs = this.refs.form.refs
-
+    async onSubmit({data, form}: SendData): Promise<void> {
+        await this.props.store.dispatch(login, data);
+        return this.props.store.getState().FormError
     }
 
     render() {
@@ -60,6 +37,7 @@ export class LoginPage extends Block {
                         form=form
                         onSubmit=onSubmit
                         errorName=errorName
+                        errorAddClass="input_error form__error"
                 }}}
             {{/Layout}}
     `;

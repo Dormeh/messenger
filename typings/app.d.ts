@@ -1,3 +1,5 @@
+import {Store} from "../src/core";
+
 declare global {
   export type Nullable<T> = T | null;
 
@@ -6,7 +8,19 @@ declare global {
   interface ImportMeta {
     url: string;
   }
+  export type AppState = {
+    appIsInited: boolean;
+    screen: Screens | null;
+    isLoading: boolean;
+    FormError: string | null;
+    user: User | null;
+    chats: Array<[Record<any, any>]> | null;
+    selectedChatId: number | null;
+    chatError: string | null;
+    activeChatMessages: Array<[unknown]>
+  };
 }
+
 // declare module '*.hbs';
 // declare module '*.jpg';
 // declare module '*.jpeg';
