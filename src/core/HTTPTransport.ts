@@ -13,7 +13,15 @@ type RequestOptions = {
     data?: unknown
 };
 
+import {isJson} from '../asserts/utils'
+
 type RequestData = Record<string, string | number>;
+
+Object.defineProperty(XMLHttpRequest.prototype, 'responseJSON', {
+    value: function () {
+        return (typeof this.response === 'string' && isJson(this.response) ? JSON.parse(this.response) : this.response);
+    }, writable: false, enumerable: false
+});
 
 function queryStringify(data: RequestData) {
     if (!data) return '';
@@ -28,6 +36,7 @@ class HTTPTransport {
     };
 
     public post = (url: string, options = {}) => {
+
         return this.request(url, {...options, method: METHODS.POST});
     };
 
@@ -59,6 +68,7 @@ class HTTPTransport {
                 if (method === METHODS.GET && data) {
                     xhr.open(method, `${url}${queryStringify(data as RequestData)}`);
                 } else {
+
                     xhr.open(method, url)
                 }
 
@@ -73,9 +83,12 @@ class HTTPTransport {
 
                 xhr.timeout = timeout;
                 xhr.ontimeout = reject;
+                xhr.withCredentials = true;
 
                 if (method === METHODS.GET || !data) {
                     xhr.send();
+                } else if (data instanceof FormData) {
+                    xhr.send(data);
                 } else {
                     xhr.send(JSON.stringify(data));
                 }

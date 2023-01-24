@@ -12,7 +12,8 @@ export enum ValidateRuleType {
     second_name = 'second_name',
     phone = 'phone',
     display_name = 'display_name',
-    message = 'message'
+    message = 'message',
+    title = 'title'
 }
 
 type ValidateRule = {
@@ -32,7 +33,7 @@ export function validateForm(rules: ValidateRule[]): object {
 
     for (const {type, value, value2} of rules) {
 
-        errorMessage[type] = validateByType.initByType[type](value, value2) || '';
+        errorMessage[type] = validateByType.initByType(type, value, value2) || '';
     }
 
 

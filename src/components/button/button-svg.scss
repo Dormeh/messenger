@@ -1,16 +1,27 @@
 @import "../../partials/mixins";
 
 .button-svg {
-  @include flex-center;
 
   border: none;
   outline: none;
   position: relative;
+  cursor: pointer;
   background: transparent;
-  padding: 15px;
-  transition: background 200ms ease-in-out, transform 100ms ease-in-out;
 
-  &_primary {
+
+
+  &__button {
+    @include flex-center(row);
+    position: relative;
+    background: transparent;
+    cursor: pointer;
+
+    border: none;
+    padding: 15px;
+    transition: background 200ms ease-in-out, transform 100ms ease-in-out;
+
+  }
+  &_primary &__button {
     color: var(--font-color-light);
     background: var(--ligth-blue);
 
@@ -19,7 +30,16 @@
     }
   }
 
-  &_round {
+  &__title {
+    position: absolute;
+    white-space: nowrap;
+    right: -10%;
+    transform: translateX(100%);
+    @include text(11px, 11px, 500, false, var(--main-font-color));
+    margin: 0;
+  }
+
+  &_round &__button{
     border-radius: 50%;
     padding: 17px;
   }
@@ -46,11 +66,12 @@
     }
   }
 
-  &:hover &__svg-elem {
+  &__button:hover &__svg-elem {
     color: var(--active-text-color);
   }
 
-  &:active {
+  &__button:active {
+    background-color: var(--grey-5);
     transform: translate(1%, 1%);
   }
 }

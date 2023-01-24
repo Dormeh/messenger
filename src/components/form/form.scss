@@ -4,6 +4,7 @@
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
+  position: relative;
 
   &_login-view {
     padding: 50px 30px 30px;
@@ -47,5 +48,10 @@
     margin-top: 14px;
     text-decoration: none;
     text-align: center;
+  }
+
+  & &__error {
+    align-self: center;
+    font-size: 12px;
   }
 }
