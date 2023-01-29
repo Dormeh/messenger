@@ -2,8 +2,8 @@ import Block from 'core/Block';
 
 import './form.scss';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import {login} from "../../services/auth";
 import {formatBytes} from "../../asserts/utils";
+
 export type SendData = {
     data: Record<string, string>
     form: Record<string, string | Array<[Record<string, string>]>>
@@ -54,15 +54,14 @@ export class Form extends Block {
 
         let errorName = '';
 
-        const hasError = this.formError && this.formError.props.errorName
+        const hasError = this.formError?.props.errorName
         if (hasError) {
-            this.formError.setProps({errorName})
+            this.formError?.setProps({errorName})
         }
 
-        const hasFiles = this.form && this.form.file.files && this.form.file.files[0]
+        const file = this.form?.file.files && this.form.file.files[0]
 
-        if (hasFiles) {
-            const file = this.form.file.files[0];
+        if (file) {
             const size = file.size;
             if (size > MAX_FILE_SIZE) {
                 const sizeKb = formatBytes(size);
@@ -72,15 +71,15 @@ export class Form extends Block {
                 return;
             }
 
-            const image = this.form.querySelector('img') as HTMLImageElement;
-            image.src = URL.createObjectURL(this.form.file.files[0])
+            const image = this.form?.querySelector('img') as HTMLImageElement;
+            image.src = URL.createObjectURL(file)
             image.style.display = "block"
             if (this.formButton) this.formButton.disabled = false;
         }
 
     }
 
-   async onSubmitForm(event: MouseEvent): void {
+   async onSubmitForm(event: MouseEvent): Promise<void> {
         console.log('Submit')
         event.preventDefault();
         this.elemInit();
