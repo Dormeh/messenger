@@ -1,5 +1,5 @@
 import Router from 'core/Router/Router'
-import {Store} from 'core/Store'
+import {Store} from 'core'
 
 import './asserts/css/main.css';
 

@@ -7,7 +7,7 @@ import formPassword from 'data/password.json';
 import formAvatar from 'data/avatarForm.json';
 import {Store} from "core/Store";
 import {passwordChg, userChg, avatarChg} from '../../services/user'
-import svg from 'images/icons_sprite.svg';
+import svg from '../../asserts/images/icons_sprite.svg';
 import {logout} from "../../services/auth";
 import type {SendData} from "../../components/form"
 
@@ -82,7 +82,7 @@ export class ProfilePage extends Block {
         // language=hbs
         return `
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
-                <img src="../../asserts/images/icons_sprite.svg" alt="">
+<!--                <img src="../../asserts/images/icons_sprite.svg" alt="">-->
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
                         <a href="{{backLink}}">
