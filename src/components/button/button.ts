@@ -20,6 +20,6 @@ export class Button extends Block {
 
     protected render(): string {
 
-        return template;
+        return `<button class="button {{buttonClass}}">{{buttonTitle}}</button>`;
     }
 }
