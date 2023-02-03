@@ -11,6 +11,14 @@ module.exports = merge(common, {
     compress: true,
     hot: true,
     historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, '../dist'),
+    },
+    devMiddleware: {
+      index: true,
+      publicPath: '/',
+      writeToDisk: true,
+    }
   },
   plugins: [
     new CleanWebpackPlugin({
