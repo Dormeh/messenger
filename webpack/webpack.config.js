@@ -65,15 +65,15 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: '**/*',
-          context: path.resolve(__dirname, '../src/asserts'),
-          to: './asserts',
-        },
-      ],
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     {
+    //       from: '**/*',
+    //       context: path.resolve(__dirname, '../src/asserts/images'),
+    //       to: './asserts/images',
+    //     },
+    //   ],
+    // }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
     }),
