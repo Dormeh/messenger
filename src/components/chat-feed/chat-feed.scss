@@ -75,6 +75,10 @@
       background-color: #222a32;
     }
   }
+  &__message-form {
+    display: flex;
+    width: 100%;
+  }
 
   &__footer {
     padding: 11px 0;

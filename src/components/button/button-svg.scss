@@ -66,8 +66,13 @@
     }
   }
 
-  &__button:hover &__svg-elem {
-    color: var(--active-text-color);
+  &__button:hover {
+    & .button-svg__svg-elem {
+      color: var(--active-text-color);
+    }
+    & .button-svg__title {
+      color: var(--active-text-color);
+    }
   }
 
   &__button:active {

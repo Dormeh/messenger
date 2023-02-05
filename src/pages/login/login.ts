@@ -22,7 +22,7 @@ export class LoginPage extends Block {
 
     }
 
-    async onSubmit({data, form}: SendData): Promise<void> {
+    async onSubmit({data, form}: SendData): Promise<AppState> {
         await this.props.store.dispatch(login, data);
         return this.props.store.getState().FormError
     }

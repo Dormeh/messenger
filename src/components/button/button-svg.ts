@@ -30,21 +30,6 @@ export class ButtonSVG extends Block {
             treedots: true,
             arrowback: true
         }
-        let newProp;
-        switch (svgName) {  // временное решение до webpack (parcel обнуляет svg-sprite в продакшен)
-            case 'clip':
-                newProp = svgName
-                break;
-            case 'arrowback':
-                newProp = svgName
-                break;
-            case 'treedots':
-                newProp = svgName
-                break;
-        }
-        this.setProps({
-            [newProp]: true,
-        })
 
     }
 
@@ -68,6 +53,7 @@ export class ButtonSVG extends Block {
                             popupModalOpen=popupModalOpen
                             submitButton=submitButton
                             popupSvgConfig=popupSvgConfig
+                            svg=svg
                     }}}
                 {{/if}}
             </div>

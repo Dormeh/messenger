@@ -41,7 +41,6 @@ const tokenGet = async (
 };
 
 export const connectToChatService = async () => {
-    await chatSocket.close();
     const user: UserT | null | unknown = store.getState().user;
     if (!user || !('id' in user)) {
         await store.dispatch({chatError: 'user no ID'});

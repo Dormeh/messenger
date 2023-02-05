@@ -4,25 +4,26 @@ import './card.scss';
 
 
 interface CardProps {
-    userName: string;
+    chatName: string;
     userMessage: string;
     cardTime: string;
     cardMessCount: string;
     photo: string;
     onClick: () => void;
-    messages: []
+    lastMessage: object | null;
     svg: string;
 }
 
 export class Card extends Block {
     static componentName = 'Card';
 
-    constructor({onClick, ...props}: CardProps) {
-        super({events: {click: {fn: onClick, options: false}}, ...props});
+    constructor({lastMessage,onClick, ...props}: CardProps) {
+        super({lastMessage, events: {click: {fn: onClick, options: false}}, ...props});
+
     }
 
     protected render(): string {
-        const lastMessage = this.props.messages ? this.props.messages[this.props.messages.length - 1].text.slice(0, 29) + '...' : ''
+
         // language=hbs
 
         return `
@@ -38,12 +39,14 @@ export class Card extends Block {
                         }}}
                     </div>
                     <div class="card__preview">
-                        <p class="card__user-name">{{userName}}</p>
-                        <p class="card__message">${lastMessage}</p>
+                        <p class="card__user-name">{{chatName}}</p>
+                        <p class="card__message">{{lastMessage.content}}</p>
                     </div>
                     <div class="card__info">
-                        <p class="card__time">{{cardTime}}</p>
+                        <p class="card__time">{{lastMessage.time}}</p>
+                        {{#if cardMessCount}}
                         <p class="card__unr-message-count">{{cardMessCount}}</p>
+                        {{/if}}
                     </div>
                 </div>
         `;

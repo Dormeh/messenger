@@ -7,14 +7,14 @@ import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import {Store} from "core/Store";
 import {chatsCreate, chatsGet} from '../../services/chats';
 import type {SendData} from "../form"
-import {connectToChatService, sendMessageService} from "../../services/soket";
+import {connectToChatService, sendMessageService} from "../../services/soсket";
+import {timeTransform, cloneDeep} from "../../asserts/utils";
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
 
     constructor() {
         super();
-        const store = Store.instance();
 
         this.setProps({
             store: Store.instance(),
@@ -23,13 +23,14 @@ export class Chat_layout extends Block {
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
-            loadChats: (): any => this.loadChats(),
+            // loadChats: (): any => this.loadChats(),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
 
         })
 
-        this.loadChats()
+        // setInterval(() => this.loadChats().then(), 5000)
+        this.loadChats().then();
 
     }
 
@@ -47,6 +48,8 @@ export class Chat_layout extends Block {
     }
 
     async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
+        event.preventDefault();
+
         console.log('Submit')
         const messageInput = this.refs.chat_feed.refs.messageInput
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
@@ -57,6 +60,7 @@ export class Chat_layout extends Block {
 
         const errorMessage = validateForm(rules)
         messageInput.refs.error.setProps({errorName: errorMessage['message']})
+        setTimeout(() => messageInput.refs.error.setProps({errorName: ''}), 3000)
         console.log({
             message: inputElem.value
         })
@@ -92,20 +96,30 @@ export class Chat_layout extends Block {
     }
 
     async loadChats() {
-        await this.props.store.dispatch(chatsGet).then();
+        await this.props.store.dispatch(chatsGet);
 
-        this.chats = this.props.store.getState().chats;
-        this.chatsAddRefsProps(this.chats)
+        const chats = this.props.store.getState().chats;
+        this.chatsMapProps(chats)
     }
 
 
-    chatsAddRefsProps = async (chats = []) => {
+    chatsMapProps = (chats: Record<string, any>[] | [] = []) => {
 
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
+            let lastMessage = chats[i].last_message
+            if (lastMessage?.content) {
+                lastMessage.content = lastMessage.content.length > 30
+                    ? lastMessage.content.slice(0, 30) + '...'
+                    : lastMessage.content;
+
+                lastMessage.time = timeTransform(lastMessage.time)
+
+            }
+
         }
 
-        await this.setProps({
+        this.setProps({
             chats: chats.reverse()
         })
     }
@@ -115,9 +129,13 @@ export class Chat_layout extends Block {
             const chats = nextState.chats
 
             if (this.refs.chat_feed.props.selectedChat) {
+                let messages = cloneDeep(this.props.store.getState().activeChatMessages)
+                    .map(message => {
+                        message.time = timeTransform(message.time)
+                        return message
+                    })
                 this.refs.chat_feed.refs.message_feed.setProps({
-
-                    messages: this.props.store.getState().activeChatMessages
+                    messages
                 })
 
                 setTimeout(() => this.feedScroll(), 0)
@@ -178,9 +196,9 @@ export class Chat_layout extends Block {
                     <div class="chat-layout__card-splitter"></div>
                     {{#each chats}}
                         {{{Card ref=ref
-                                messages=messages
+                                lastMessage=last_message
                                 photo=avatarUrl
-                                userName=title
+                                chatName=title
                                 cardTime=time
                                 cardMessCount=unread_count
                                 onClick=../onClick

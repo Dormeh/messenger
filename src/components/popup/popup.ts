@@ -9,6 +9,7 @@ export interface PopupProps {
     popupModalOpen: string;
     submitButton?: string;
     popupSvgConfig: any
+    svg?: string
 
 }
 
@@ -54,9 +55,11 @@ export class Popup extends Block {
                         {{{ButtonSVG
                                 ref=ref
                                 buttonSvgClass=buttonSvgClass
-                                svgClass="button-svg__svg-elem_tree-dots"
+                                svgClass="button-svg__svg-elem_arrow-back"
                                 onClick=../popupModalOpen
                                 buttonTitle=buttonTitle
+                                svgName=svgName
+                                svg=../svg
                         }}}
                     {{/each}}
                     {{#if submitButton}}
