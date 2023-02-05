@@ -17,7 +17,7 @@ declare global {
     chats: Array<[Record<any, any>]> | null;
     selectedChatId: number | null;
     chatError: string | null;
-    activeChatMessages: Array<[unknown]>
+    activeChatMessages: Record<string, any>[] | []
   };
 }
 

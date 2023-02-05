@@ -2,7 +2,8 @@
   {
     "ref": "button1",
     "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Добавить пользователя"
+    "buttonTitle": "Добавить пользователя",
+    "svgName": "plus-icon"
   },
   {
     "ref": "button2",

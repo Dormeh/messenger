@@ -5,7 +5,7 @@ import './message.scss';
 import {Store} from '../../core'
 
 interface MessageProps {
-    message: {};
+    message: Record<string, any>;
     onClick: () => void;
 }
 const store = Store.instance();
@@ -33,6 +33,7 @@ export class Message extends Block {
                     <p class="message__text">
                         {{message.content}}
                     </p>
+                    <p class="message__time">{{message.time}}</p>
                 </div>
         `;
     }

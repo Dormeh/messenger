@@ -94,7 +94,7 @@ export default class Block<P  extends IBlockProps = {}> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-
+    // console.log('isEqual', !isEqual(oldProps, newProps), oldProps, newProps)
     return !isEqual(oldProps, newProps);
   }
 

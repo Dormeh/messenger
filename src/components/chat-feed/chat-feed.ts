@@ -118,7 +118,7 @@ export class ChatFeed extends Block {
         const {selectedChat} = this.props;
 
         const photo = selectedChat && selectedChat.props.photo ? selectedChat.props.photo : '';
-        const name = selectedChat ? selectedChat.props.userName : '';
+        const name = selectedChat ? selectedChat.props.chatName : '';
 
         // language=hbs
         return `
@@ -168,20 +168,23 @@ export class ChatFeed extends Block {
 
 
                              }}}
-                            {{{Input ref="messageInput"
-                                     inputAddClass="chat-feed__message-input"
-                                     placeholder="Сообщение"
-                                     name="message"
-                                     messageInput=true
-                                     eventBlurOff=true
-                                     errorAddClass="input_message-error"
-                            }}}
-                            {{{ButtonSVG svg=svg
-                                          buttonSvgClass="button-svg_round button-svg_primary"
-                                          svgClass="button-svg__svg-elem_arrow-back"
-                                          onClick=onSubmit
-                                          svgName="arrow-back"
-                              }}}
+                             <form class="chat-feed__message-form">
+                                    {{{Input ref="messageInput"
+                                             inputAddClass="chat-feed__message-input"
+                                             placeholder="Сообщение"
+                                             name="message"
+                                             messageInput=true
+                                             eventBlurOff=true
+                                             errorAddClass="input_message-error"
+                                    }}}
+                                    {{{ButtonSVG svg=svg
+                                                  buttonSvgClass="button-svg_round button-svg_primary"
+                                                  svgClass="button-svg__svg-elem_arrow-back"
+                                                  onClick=onSubmit
+                                                  svgName="arrow-back"
+                                      }}}
+                             
+                            </form>
 
                         </div>
                     {{else}}

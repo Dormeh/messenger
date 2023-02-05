@@ -3,7 +3,7 @@ import Block from 'core/Block';
 import './message-feed.scss';
 
 interface MessageFeedProps {
-    messages:[]
+    messages:Record<string, any>[]
 }
 export class MessageFeed extends Block {
     static componentName = 'MessageFeed';

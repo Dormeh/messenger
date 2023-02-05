@@ -52,7 +52,9 @@
       outline: none;
       padding: 6px 30px;
 
-      &:focus ~ .chat-layout__search-icon {
+      &:focus ~ .chat-layout__search-icon,
+      &:not(:placeholder-shown) ~ .chat-layout__search-icon
+      {
         left: 6%;
       }
 
@@ -60,6 +62,7 @@
         color: var(--grey-6);
         text-align: center;
       }
+
     }
   }
 
@@ -82,7 +85,7 @@
   &__list {
     display: flex;
     border-bottom-left-radius: 5px;
-    width: 310px;
+    width: 320px;
     flex-direction: column;
     justify-content: flex-start;
     grid-area: chats-list;
@@ -107,12 +110,4 @@
     margin: 2px 10px;
   }
 
-  //&__feed {
-  //  @include text(12px, 12px, 500, normal, var(--grey-3));
-  //  background-color: var(--main-bg-color);
-  //  font-family: 'Inter', sans-serif;
-  //  @include flex-center;
-  //  grid-area: chat-tape;
-  //  border-radius: 0 5px 5px 0;
-  //}
 }

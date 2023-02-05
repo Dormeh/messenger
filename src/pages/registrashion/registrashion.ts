@@ -23,8 +23,9 @@ export class RegPage extends Block {
         })
     }
 
-    async onSubmit({data, form}: SendData): Promise<void> {
+    async onSubmit({data, form}: SendData): Promise<AppState> {
         await this.props.store.dispatch(registration, data);
+        return this.props.store.getState().FormError
     }
 
 
