@@ -30,11 +30,14 @@ export default class Block<P  extends IBlockProps = {}> {
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
-  readonly props: P;
+  props: P;
   protected children: {[id: string]: Block} = {};
 
   eventBus: () => EventBus<Events>;
 
+  /**
+   *  @deprecated Не использовать, использовать this.props
+   */
   protected state: any = {};
   refs: {[key: string]: Block} = {};
 
@@ -47,7 +50,8 @@ export default class Block<P  extends IBlockProps = {}> {
 
     this.getStateFromProps(props)
 
-    this.props = this._makePropsProxy(props || {} as P);
+    this.props = props || ({} as P);
+
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
@@ -68,6 +72,9 @@ export default class Block<P  extends IBlockProps = {}> {
     this._element = this._createDocumentElement('div');
   }
 
+  /**
+   * @deprecated
+   */
   protected getStateFromProps(props: any): void {
     this.state = {};
   }
@@ -103,12 +110,16 @@ export default class Block<P  extends IBlockProps = {}> {
 
   }
 
-  setProps = (nextProps: P) => {
+  setProps = (nextProps: Partial<P>) => {
     if (!nextProps) {
       return;
     }
+    const oldProps = cloneDeep(this.props);
+    const newProps = {...this.props, ...nextProps};
+    this.props = newProps;
 
-    Object.assign(this.props, nextProps);
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, newProps);
+
   };
 
   setState = (nextState: any) => {

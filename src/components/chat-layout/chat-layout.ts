@@ -23,7 +23,6 @@ export class Chat_layout extends Block {
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
-            // loadChats: (): any => this.loadChats(),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
 
@@ -47,7 +46,7 @@ export class Chat_layout extends Block {
         this.refs.modal.modalClose()
     }
 
-    async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
+    async onSubmitMessage(event: MouseEvent): Promise<void> {
         event.preventDefault();
 
         console.log('Submit')
@@ -91,7 +90,7 @@ export class Chat_layout extends Block {
     async onClick(event: MouseEvent) {
 
         const chatList = this.refs.chat_list
-        const card: HTMLElement = event.target.closest('.card');
+        const card: HTMLElement = event.target?.closest('.card');
         const cardRef = Object.values(chatList.refs).find(ref => ref.element === card);
         if (cardRef) {
 
@@ -100,7 +99,7 @@ export class Chat_layout extends Block {
         }
     }
 
-    async loadChats() { // todo проверить инициализацию сокета почему происходит обрыв в самом начале
+    async loadChats() {
         await this.props.store.dispatch(chatsGet);
 
         const chats = this.props.store.getState().chats;
@@ -158,7 +157,6 @@ export class Chat_layout extends Block {
         if (nextState.selectedChatId && prevState.selectedChatId !== nextState.selectedChatId) {
             console.log('выделить чат')
             this.chatsMapProps(cloneDeep(prevState.chats))
-            // this.activeCardSelect(nextState.selectedChatId)
 
         }
         const chatFeedSelChat = this.refs.chat_feed.props.selectedChat
@@ -174,7 +172,7 @@ export class Chat_layout extends Block {
             this.refs.chat_feed.refs.message_feed.setProps({
                 messages
             })
-
+            this.props.store.dispatch(chatsGet)
             setTimeout(() => this.feedScroll(), 0)
         }
 
