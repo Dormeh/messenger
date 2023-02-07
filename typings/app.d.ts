@@ -18,6 +18,7 @@ declare global {
     selectedChatId: number | null;
     chatError: string | null;
     activeChatMessages: Record<string, any>[] | []
+    chatsLoader: number | null;
   };
 }
 

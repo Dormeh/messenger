@@ -55,7 +55,7 @@ export class Popup extends Block {
                         {{{ButtonSVG
                                 ref=ref
                                 buttonSvgClass=buttonSvgClass
-                                svgClass="button-svg__svg-elem_arrow-back"
+                                svgClass=svgClass
                                 onClick=../popupModalOpen
                                 buttonTitle=buttonTitle
                                 svgName=svgName

@@ -1,5 +1,6 @@
 import EventBus from './EventBus';
 import { defaultState } from '../store';
+import {isEqual, cloneDeep, merge} from "../asserts/utils";
 
 export type     Dispatch<State> = (
     nextStateOrAction: Partial<State> | Action<State>,
@@ -41,7 +42,10 @@ export class Store<State extends Record<string, any>> extends EventBus {
         const prevState = { ...this.state };
 
         this.state = { ...this.state, ...nextState };
+        if (nextState.activeChatMessages) {
 
+            console.log('store', prevState.activeChatMessages.length, nextState.activeChatMessages.length)
+        }
         this.emit('changed', prevState, nextState);
     }
 
@@ -49,8 +53,7 @@ export class Store<State extends Record<string, any>> extends EventBus {
         if (typeof nextStateOrAction === 'function') {
             await nextStateOrAction(this.dispatch.bind(this), this.state, payload);
         } else {
-            this.set({ ...this.state, ...nextStateOrAction });
+            this.set(nextStateOrAction);
         }
-        console.log(this.state)
     }
 }

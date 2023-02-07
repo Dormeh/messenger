@@ -32,18 +32,5 @@ export const chatAPI = {
 
 
     getToken: (chatId: string) => request.post(`${process.env.API_ENDPOINT}/chats/token/${chatId}` ),
-    // profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {
-    //     data,
-    //     headers: {'Content-Type': 'application/json'}
-    // }),
-    //
-    // passwordChg: (data: PasswordData) => request.put(`${process.env.API_ENDPOINT}/user/password`, {
-    //     data,
-    //     headers: {'Content-Type': 'application/json'}
-    // }),
-    //
-    // avatarChg: (data: AvatarData) => request.put(`${process.env.API_ENDPOINT}/user/profile/avatar`, {
-    //     data,
-    // }),
 
 };

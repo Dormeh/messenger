@@ -2,6 +2,8 @@ import {Store} from "../core";
 import {ChatSocket} from '../api/ChatSocket'
 import {chatAPI} from "../api/chat";
 import {UserT, RequestT, MessageT} from "../api/constant"
+import {chatsGet} from "./chats";
+import {cloneDeep} from "../asserts/utils";
 const interval = 50000
 
 const store = Store.instance()
@@ -96,7 +98,7 @@ store.on('webSocketOpen', async () => {
     }, chatKeepAliveInterval);
 });
 
-store.on('webSocketMessage', (data: string) => {
+store.on('webSocketMessage',  (data: string) => {
     let messages = store.getState().activeChatMessages as Array<MessageT>;
     if (typeof messages === 'object') {
         const count = messages.length;
@@ -109,11 +111,13 @@ store.on('webSocketMessage', (data: string) => {
                 messages.push(parsed as MessageT);
             }
         }
-        if (count !== messages.length) {
+        if (count !== messages.length && parsed.type === 'message' || parsed instanceof Array) {
             store.dispatch({
                 activeChatMessages: messages,
             });
         }
+         store.dispatch(chatsGet);
+
     }
 });
 
