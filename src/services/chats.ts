@@ -17,6 +17,7 @@ type UserDelPayload = {
 
 let response: Record<string, string> | string;
 
+const chatsLoadInterval = 15000;
 
 export const chatsCreate = async (
     dispatch: Dispatch<AppState>,
@@ -127,3 +128,24 @@ export const userDel = async (
 
 };
 
+export const chatsLoadService = async (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+) => {
+    const chatsLoader = setInterval(() => chatsGet(dispatch, state), chatsLoadInterval)
+    if (state.chatsLoader) {
+        clearTimeout(state.chatsLoader);
+    }
+    dispatch({chatsLoader});
+}
+
+export const chatsLoadClearInterval = (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+) => {
+    if (state.chatsLoader) {
+        clearTimeout(state.chatsLoader);
+    }
+    dispatch({chatsLoader: null});
+
+}

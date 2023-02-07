@@ -1,17 +1,26 @@
 [
   {
     "ref": "button1",
-    "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Фото или видео"
+    "buttonSvgClass": "button-svg_round button-svg_with-border button-svg_default-color",
+    "buttonTitle": "Фото или видео",
+    "svgName": "plus-icon",
+    "svgClass": "button-svg__svg-elem_default"
+
   },
   {
     "ref": "button2",
-    "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Отправить файл"
+    "buttonSvgClass": "button-svg_round button-svg_with-border button-svg_default-color",
+    "buttonTitle": "Отправить файл",
+    "svgName": "plus-icon",
+    "svgClass": "button-svg__svg-elem_default"
+
   },
   {
     "ref": "button3",
-    "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Отправить локацию"
+    "buttonSvgClass": "button-svg_round button-svg_with-border button-svg_default-color",
+    "buttonTitle": "Отправить локацию",
+    "svgName": "plus-icon",
+    "svgClass": "button-svg__svg-elem_default"
+
   }
 ]

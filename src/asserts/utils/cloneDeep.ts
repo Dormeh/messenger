@@ -1,4 +1,4 @@
-function cloneDeep<T extends object = object>(obj: T) {
+export function cloneDeep<T extends object = object>(obj: T) {
     return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
         // Handle:
         // * null
@@ -67,5 +67,3 @@ function cloneDeep<T extends object = object>(obj: T) {
         throw new Error(`Unable to copy object: ${item}`);
     })(obj);
 }
-
-export default cloneDeep

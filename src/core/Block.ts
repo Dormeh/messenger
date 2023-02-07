@@ -87,6 +87,7 @@ export default class Block<P  extends IBlockProps = {}> {
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
+      // console.log(oldProps, newProps)
       console.log('Пропсы не изменились')
       return;
     }
@@ -94,8 +95,12 @@ export default class Block<P  extends IBlockProps = {}> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    // console.log('isEqual', !isEqual(oldProps, newProps), oldProps, newProps)
+    // console.log('isEqual', oldProps, newProps)
     return !isEqual(oldProps, newProps);
+  }
+
+  componentServiceDestroy() {
+
   }
 
   setProps = (nextProps: P) => {
@@ -245,6 +250,12 @@ export default class Block<P  extends IBlockProps = {}> {
     return fragment.content;
   }
 
+  destroy() {
+    this.componentServiceDestroy()
+    this._removeEvents()
+    Object.values(this.children).forEach(component => component.destroy())
+    this._element?.remove()
+  }
 
   show() {
     this.getContent().style.display = 'block';

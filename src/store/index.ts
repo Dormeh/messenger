@@ -8,4 +8,5 @@ export const defaultState: AppState = {
     selectedChatId: null,
     chatError: null,
     activeChatMessages: [],
+    chatsLoader: null,
 };

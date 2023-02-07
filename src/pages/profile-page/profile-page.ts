@@ -22,12 +22,6 @@ interface Event {
 
 export class ProfilePage extends Block {
     static componentName = 'ProfilePage';
-    // private form: HTMLCollection | undefined;
-    // private formElems: Record<string, HTMLElement> | undefined;
-    // private formRefs: { [p: string]: Block; } | undefined;
-    // private modalButton: HTMLButtonElement | undefined;
-    // private modalError: Block | undefined;
-    // private formElem: HTMLFormElement | undefined;
 
     constructor(props) {
         super(props);
@@ -48,6 +42,9 @@ export class ProfilePage extends Block {
             modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
 
         })
+
+        console.log(1111111111111111111)
+
 
     }
 
@@ -73,21 +70,18 @@ export class ProfilePage extends Block {
         return this.props.store.getState().FormError
     }
 
-    elemInit() {
-
-    }
-
 
     render() {
+        console.log(123213213132133)
+
         // language=hbs
         return `
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
-<!--                <img src="../../asserts/images/icons_sprite.svg" alt="">-->
                 <div class="chat-layout profile">
                     <div class="profile__nav-back">
                         <a href="{{backLink}}">
-                            <svg  fill="none" viewBox="0 0 448 512" class="profile__svg">
-                                <path xmlns="http://www.w3.org/2000/svg" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" fill="currentColor"/>
+                            <svg class="profile__svg">
+                                <use href="{{svg}}#arrow-back"></use>
                             </svg>
                         </a>
                     </div>
@@ -142,7 +136,6 @@ export class ProfilePage extends Block {
                     </div>
                 </div>
             {{/Layout}}
-
         `;
     }
 }

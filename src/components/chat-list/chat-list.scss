@@ -1,0 +1,29 @@
+@import "../../partials/mixins";
+
+.chat-list {
+  display: flex;
+  border-bottom-left-radius: 5px;
+  width: 320px;
+  flex-direction: column;
+  justify-content: flex-start;
+  grid-area: chats-list;
+  border-right: 1px solid var(--grey-2);
+  background-color: var(--main-bg-color);
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: var(--grey-5);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #657380;
+  }
+
+  &__card-splitter {
+    padding-top: 1px;
+    background-color: var(--grey-5);
+    margin: 2px 10px;
+  }
+}

@@ -23,7 +23,7 @@ interface ChatFeedProps {
     modal: () => Block;
     svg: string;
     store: Store<AppState>
-    selectedChat: Block;
+    selectedChat: Block | null;
 }
 
 export class ChatFeed extends Block {
@@ -50,7 +50,7 @@ export class ChatFeed extends Block {
     }
 
     async onSubmitModal({data, form}: SendData) {
-        const chatId = this.props.selectedChat.props.chatId;
+        const chatId = this.props.store.getState().selectedChatId;
 
         let user;
         if (form.type !== "remove-chat") {
@@ -59,7 +59,10 @@ export class ChatFeed extends Block {
         }
         switch (form.type) {
             case "remove-chat" :
-                await this.props.store.dispatch(chatsDelete, {chatId: this.props.selectedChat.props.chatId})
+                await this.props.store.dispatch(chatsDelete, {chatId})
+                this.setProps({
+                    selectedChat: null
+                })
                 break
 
             case "add-user" :
@@ -78,7 +81,7 @@ export class ChatFeed extends Block {
                 break;
         }
 
-        this.props.modal().modalClose(); // todo временная заглушка
+        this.props.modal().modalClose();
     }
 
     modalOpen(event: MouseEvent) {
