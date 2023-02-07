@@ -43,9 +43,6 @@ export class ProfilePage extends Block {
 
         })
 
-        console.log(1111111111111111111)
-
-
     }
 
 
@@ -72,7 +69,6 @@ export class ProfilePage extends Block {
 
 
     render() {
-        console.log(123213213132133)
 
         // language=hbs
         return `

@@ -116,7 +116,6 @@ store.on('webSocketMessage',  (data: string) => {
                 activeChatMessages: messages,
             });
         }
-         store.dispatch(chatsGet);
 
     }
 });
