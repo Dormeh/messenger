@@ -25,10 +25,10 @@ export class Store<State extends Record<string, any>> extends EventBus {
     static instance() {
         if (!this._instance) {
             this._instance = new Store(defaultState);
-            console.log(
+            if (process.env.DEBUG) console.log(
                 '%cновый Store',
                 'background: #222; color: #bada11',
-            )
+            );
         }
 
         return this._instance;
@@ -42,7 +42,8 @@ export class Store<State extends Record<string, any>> extends EventBus {
         const prevState = { ...this.state };
 
         this.state = { ...this.state, ...nextState };
-        if (nextState.activeChatMessages) {
+
+        if (nextState.activeChatMessages && process.env.DEBUG) {
 
             console.log('store', prevState.activeChatMessages.length, nextState.activeChatMessages.length)
         }

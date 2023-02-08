@@ -2,9 +2,9 @@ import Block from 'core/Block';
 
 import '../../components/profile/profile.scss';
 import {userDataToForm} from '../../asserts/utils'
-import form from 'data/profile.json';
-import formPassword from 'data/password.json';
-import formAvatar from 'data/avatarForm.json';
+import form from '../../data/profile.json';
+import formPassword from '../../data/password.json';
+import formAvatar from '../../data/avatarForm.json';
 import {Store} from "core/Store";
 import {passwordChg, userChg, avatarChg} from '../../services/user'
 import svg from '../../asserts/images/icons_sprite.svg';

@@ -1,6 +1,6 @@
 import {Block, IBlockProps} from 'core';
 
-import form from 'data/auth.json';
+import form from '../../data/auth.json';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 import Router from "core/Router/Router";
 import {Store} from "core/Store";

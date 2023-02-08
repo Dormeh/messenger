@@ -94,15 +94,13 @@ export default class Block<P  extends IBlockProps = {}> {
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
-      // console.log(oldProps, newProps)
-      console.log('Пропсы не изменились')
+      if (process.env.DEBUG) console.log('Пропсы не изменились');
       return;
     }
     this._render();
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    // console.log('isEqual', oldProps, newProps)
     return !isEqual(oldProps, newProps);
   }
 

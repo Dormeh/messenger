@@ -1,7 +1,6 @@
 import Block from 'core/Block';
 
-import form from 'data/reg.json';
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
+import form from '../../data/reg.json';
 import {Store} from "core/Store";
 
 import {registration} from '../../services/auth'
@@ -10,9 +9,6 @@ import type {SendData} from "../../components/form"
 
 export class RegPage extends Block {
     static componentName = 'SignUpPage';
-    private form: HTMLCollection | undefined;
-    private formElems: Record<string, HTMLElement> | undefined;
-    private formRefs: { [p: string]: Block; } | undefined;
 
     constructor() {
         super();

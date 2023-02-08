@@ -1,7 +1,6 @@
 import Block from 'core/Block';
 import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
 
-type strObj = { [key: string]: string }
 
 import './input.scss';
 
@@ -50,7 +49,7 @@ export class Input extends Block {
     }
 
     onBlur(event: MouseEvent): void {
-        console.log('blur')
+        if (process.env.DEBUG) console.log('blur');
         if (!this.refs.error) return;
         const errorMessage: any = validateForm([
             {type: ValidateRuleType[this.props.name], value: event.target?.value},
@@ -62,7 +61,7 @@ export class Input extends Block {
     }
 
     onFocus(event: MouseEvent): void {
-        console.log('focus')
+        if (process.env.DEBUG) console.log('focus');
         if (!this.refs.error) return;
 
         if (this.refs.error.props['errorName']) this.refs.error.setProps({errorName: ''});
