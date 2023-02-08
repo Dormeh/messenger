@@ -48,32 +48,30 @@ export class Chat_layout extends Block {
 
     async onSubmitMessage(event: MouseEvent): Promise<void> {
         event.preventDefault();
+        if (process.env.DEBUG) console.log('Submit');
 
-        console.log('Submit')
-        const messageInput = this.refs.chat_feed.refs.messageInput
-        const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
+        const messageInput = this.refs.chat_feed.refs.messageInput;
+        const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement;
         const rules = [{
             type: ValidateRuleType['message'],
             value: inputElem.value as string
         }]
 
-        const errorMessage = validateForm(rules)
-        messageInput.refs.error.setProps({errorName: errorMessage['message']})
-        setTimeout(() => messageInput.refs.error.setProps({errorName: ''}), 3000)
-        console.log({
-            message: inputElem.value
-        })
+        const errorMessage = validateForm(rules);
+        messageInput.refs.error.setProps({errorName: errorMessage['message']});
+        setTimeout(() => messageInput.refs.error.setProps({errorName: ''}), 3000);
+        if (process.env.DEBUG) console.log({message: inputElem.value});
 
         if (inputElem.value) {
 
-            await sendMessageService({message: inputElem.value})
+            await sendMessageService({message: inputElem.value});
             inputElem.value = '';
             inputElem.focus();
         }
     }
 
     activeCardSelect(selectedChat: Block | null): Block | undefined{
-        const chatList = this.refs.chat_list
+        const chatList = this.refs.chat_list;
 
         if (!selectedChat) return;
         Object.keys(chatList.refs).forEach(key => {
@@ -132,7 +130,7 @@ export class Chat_layout extends Block {
 
         const activeCard = this.activeCardSelect(selectedChat)
         const selectedCardId = this.refs.chat_feed.props.selectedChat?.props.chatId
-        console.log('selectedCardId', selectedCardId)
+        if (process.env.DEBUG) console.log('selectedCardId', selectedCardId);
 
         if (selectedChat && selectedChat !== selectedCardId) {
             this.refs.chat_feed.setProps({
@@ -149,20 +147,20 @@ export class Chat_layout extends Block {
     storeCallback = (prevState, nextState) => { //todo подписка на обновление store
 
         if (nextState.chats && !isEqual(prevState.chats, nextState.chats)) {
-            console.log('чаты поменялись')
-            const chats = nextState.chats
-            this.chatsMapProps(cloneDeep(chats))
+            if (process.env.DEBUG) console.log('чаты поменялись');
+            const chats = nextState.chats;
+            this.chatsMapProps(cloneDeep(chats));
 
         }
         if (nextState.selectedChatId && prevState.selectedChatId !== nextState.selectedChatId) {
-            console.log('выделить чат')
-            this.chatsMapProps(cloneDeep(prevState.chats))
+            if (process.env.DEBUG) console.log('выделить чат');
+            this.chatsMapProps(cloneDeep(prevState.chats));
 
         }
-        const chatFeedSelChat = this.refs.chat_feed.props.selectedChat
+        const chatFeedSelChat = this.refs.chat_feed.props.selectedChat;
 
         if (chatFeedSelChat && nextState.activeChatMessages && nextState.activeChatMessages.length) {
-            console.log('сообщения поменялись')
+            if (process.env.DEBUG) console.log('сообщения поменялись');
 
             let messages = cloneDeep(this.props.store.getState().activeChatMessages)
                 .map(message => {

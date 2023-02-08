@@ -35,10 +35,10 @@ export default class Router implements RouterInterface {
     static instance() {
         if (!this._instance) {
             this._instance = new Router();
-            console.log(
+            if (process.env.DEBUG) console.log(
                 '%cновый роутер',
                 'background: #222; color: #bada55',
-            )
+            );
         }
 
         return this._instance;
@@ -105,7 +105,7 @@ export default class Router implements RouterInterface {
     }
 
     listen() {
-        console.log('listen')
+        if (process.env.DEBUG) console.log('listen');
         window.addEventListener('popstate', () => this.route());
         this.route();
     }

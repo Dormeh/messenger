@@ -8,7 +8,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
         let response = (await authAPI.me()).responseJSON();
         if (response && response.reason) {
             return;
-        } else console.log(response)
+        } else if (process.env.DEBUG) console.log(response);
 
         dispatch({user: response});
     } catch (err) {

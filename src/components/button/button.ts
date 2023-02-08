@@ -12,13 +12,13 @@ interface ButtonProps {
 export class Button extends Block {
     static componentName = 'Button';
 
-    constructor({buttonTitle, buttonClass, formAction, onClick}: ButtonProps) {
-        super({buttonTitle, buttonClass, formAction, events: {click: {fn: onClick, options: false}}});
+    constructor({onClick, ...props}: ButtonProps) {
+        super({events: {click: {fn: onClick, options: false}}, ...props});
 
     }
 
     protected render(): string {
-
+        // language=hbs
         return `<button class="button {{buttonClass}}">{{buttonTitle}}</button>`;
     }
 }

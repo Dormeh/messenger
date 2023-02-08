@@ -1,4 +1,4 @@
-import {Store} from "../core";
+import {Store} from "core/Store";
 import {MessageT, RequestT} from "./constant"
 const store = Store.instance();
 
@@ -9,10 +9,10 @@ export class ChatSocket {
     static instance() {
         if (!this.__instance) {
             this.__instance = new ChatSocket();
-            console.log(
+            if (process.env.DEBUG) console.log(
                 '%cновый Socket',
                 'background: #222; color: #bada55',
-            )
+            );
         }
 
         return this.__instance;

@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import {Store} from "../../core";
+import {Store} from "core/Store";
 import {chatsLoadClearInterval, chatsLoadService} from '../../services/chats'
 
 const store = Store.instance()
