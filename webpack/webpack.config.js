@@ -45,10 +45,7 @@ module.exports = {
       {
         test: /\.(sc|c)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {},
-          },
+          'style-loader',
           'css-loader',
           'sass-loader',
         ],
@@ -71,8 +68,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/index.html'),
     }),
-    new MiniCssExtractPlugin({
-      filename: 'style-[fullhash].css',
-    })
   ]
 };
