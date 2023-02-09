@@ -1,4 +1,4 @@
-import {ValidateComponent} from './validateByType'
+import { ValidateComponent } from './validateByType';
 
 export enum ValidateRuleType {
     login = 'login',
@@ -13,29 +13,25 @@ export enum ValidateRuleType {
     phone = 'phone',
     display_name = 'display_name',
     message = 'message',
-    title = 'title'
+    title = 'title',
 }
 
 type ValidateRule = {
-    type: ValidateRuleType
-    value: string,
-    value2?: string,
-}
+    type: ValidateRuleType;
+    value: string;
+    value2?: string;
+};
 
-type strObj = { [key: string]: string | undefined }
+type strObj = { [key: string]: string | undefined };
 
 const validateByType: any = new ValidateComponent();
 
-
 export function validateForm(rules: ValidateRule[]): object {
-
     const errorMessage: strObj = {};
 
-    for (const {type, value, value2} of rules) {
-
+    for (const { type, value, value2 } of rules) {
         errorMessage[type] = validateByType.initByType(type, value, value2) || '';
     }
-
 
     return errorMessage;
 }

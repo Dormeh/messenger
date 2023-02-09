@@ -1,5 +1,5 @@
 import Block from 'core/Block';
-import '../../components/nav-list/nav-list.scss'
+import '../../components/nav-list/nav-list.scss';
 
 export class NavPage extends Block {
     static componentName = 'DebugPage';
@@ -30,6 +30,6 @@ export class NavPage extends Block {
                     </li>
                 </ul>
             </nav>
-        {{/Layout}}`
+        {{/Layout}}`;
     }
 }

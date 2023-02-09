@@ -2,7 +2,6 @@ import Block from 'core/Block';
 
 import './card.scss';
 
-
 interface CardProps {
     chatName: string;
     userMessage: string;
@@ -17,13 +16,11 @@ interface CardProps {
 export class Card extends Block {
     static componentName = 'Card';
 
-    constructor({lastMessage,onClick, ...props}: CardProps) {
-        super({lastMessage, events: {click: {fn: onClick, options: false}}, ...props});
-
+    constructor({ lastMessage, onClick, ...props }: CardProps) {
+        super({ lastMessage, events: { click: { fn: onClick, options: false } }, ...props });
     }
 
     protected render(): string {
-
         // language=hbs
 
         return `

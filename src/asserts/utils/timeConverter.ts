@@ -1,8 +1,7 @@
 const weekdays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн',
-    'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 const getTimeObj = (time?: string) => {
-    const date = (time? new Date(time) : new Date());
+    const date = time ? new Date(time) : new Date();
     return {
         year: date.getFullYear(),
         month: months[date.getMonth()],

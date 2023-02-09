@@ -2,48 +2,43 @@ import Block from 'core/Block';
 
 import './popup.scss';
 
-
 export interface PopupProps {
     onClick: any;
-    addClass: string
+    addClass: string;
     popupModalOpen: string;
     submitButton?: string;
-    popupSvgConfig: any
-    svg?: string
-
+    popupSvgConfig: any;
+    svg?: string;
 }
 
 export class Popup extends Block {
     static componentName = 'Popup';
 
-    constructor({...props}: PopupProps) {
-        super({...props});
+    constructor({ ...props }: PopupProps) {
+        super({ ...props });
         this.setProps({
             popupOpen: () => this.popupOpen.bind(this),
             events: {
                 click: {
                     fn: this.popupCloseInit.bind(this),
-                    options: false
+                    options: false,
                 },
-            }
-
-        })
+            },
+        });
     }
 
     popupOpen(event: Event): void {
-
         if (this.element) this.element.style.display = 'flex';
-        document.addEventListener('click', this.popupCloseInit)
+        document.addEventListener('click', this.popupCloseInit);
     }
 
     popupCloseInit = (event: Event) => {
         const element = event.target as HTMLElement;
-        if (!element.closest(".button-svg")) {
-
+        if (!element.closest('.button-svg')) {
             if (this.element) this.element.style.display = 'none';
-            document.removeEventListener('click', this.popupCloseInit)
+            document.removeEventListener('click', this.popupCloseInit);
         }
-    }
+    };
 
     protected render(): string {
         // language=hbs

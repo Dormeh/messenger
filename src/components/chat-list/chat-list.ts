@@ -3,23 +3,19 @@ import Block from 'core/Block';
 import './chat-list.scss';
 
 interface ChatListProps {
-    chats: Record<string, any>[] | []
+    chats: Record<string, any>[] | [];
     onClick: () => void;
     svg: string;
-
 }
 
 export class ChatList extends Block {
     static componentName = 'ChatList';
 
-    constructor({onClick, ...props}: ChatListProps) {
-        super({events: {click: {fn: onClick, options: false}}, ...props});
-
+    constructor({ onClick, ...props }: ChatListProps) {
+        super({ events: { click: { fn: onClick, options: false } }, ...props });
     }
 
-
     protected render(): string {
-
         // language=hbs
 
         return `

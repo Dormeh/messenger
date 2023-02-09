@@ -6,35 +6,33 @@ import './button-svg.scss';
 interface ButtonProps {
     buttonTitle: string;
     buttonSvgClass: string;
-    svgClass: string
+    svgClass: string;
     svgName: string;
     formAction: string;
     svg: string;
     popupAdd: boolean;
-    popupTitle?: string
-    popupClass?: string
+    popupTitle?: string;
+    popupClass?: string;
     popupModalOpen?: any;
     clickProps?: any;
     submitButton?: string;
-    popupSvgConfig?: any
+    popupSvgConfig?: any;
     onClick: (clickProps?: any) => void;
 }
 
 export class ButtonSVG extends Block {
     static componentName = 'ButtonSVG';
 
-    constructor({onClick, svgName, ...props}: ButtonProps) {
-        super({events: {click: {fn: onClick, options: false}}, svgName, ...props});
+    constructor({ onClick, svgName, ...props }: ButtonProps) {
+        super({ events: { click: { fn: onClick, options: false } }, svgName, ...props });
         const svgType = {
             clip: true,
             treedots: true,
-            arrowback: true
-        }
-
+            arrowback: true,
+        };
     }
 
     protected render(): string {
-
         // language=hbs
         return `
             <div class="button-svg {{buttonSvgClass}}">

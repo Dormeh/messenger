@@ -1,20 +1,18 @@
 import Block from 'core/Block';
-import renderPage from './render-page'
-import {RouterInterface} from './RouterInterface'
-import {Store} from "../Store";
-import {ChatSocket} from "../../api/ChatSocket";
+import renderPage from './render-page';
+import { RouterInterface } from './RouterInterface';
+import { Store } from '../Store';
+import { ChatSocket } from '../../api/ChatSocket';
 
 const chatSocket = ChatSocket.instance();
 
 export default class Router implements RouterInterface {
     private routes = [];
     private page: Block<{}> | undefined;
-    private notFoundPagePath: string = '';
-    private authPagePath: string = '';
-
+    private notFoundPagePath = '';
+    private authPagePath = '';
 
     constructor() {
-
         this.initEventListeners();
     }
 
@@ -35,33 +33,28 @@ export default class Router implements RouterInterface {
     static instance() {
         if (!this._instance) {
             this._instance = new Router();
-            if (process.env.DEBUG) console.log(
-                '%cновый роутер',
-                'background: #222; color: #bada55',
-            );
+            if (process.env.DEBUG) console.log('%cновый роутер', 'background: #222; color: #bada55');
         }
 
         return this._instance;
     }
 
     async route() {
-
-        let strippedPath = decodeURI(window.location.pathname)
-            .replace(/^\/|\/$/, '');
+        const strippedPath = decodeURI(window.location.pathname).replace(/^\/|\/$/, '');
         chatSocket.close();
 
         let match: string[] | undefined | null;
         const store = Store.instance();
-        const auth = await store.getState() && store.getState().user;
-        for (let route of this.routes) {
+        const auth = (await store.getState()) && store.getState().user;
+        for (const route of this.routes) {
             match = strippedPath.match(route.pattern);
 
             if (match) {
                 if (!route.auth || auth) {
                     this.page = await this.changePage(route.path, match);
                 } else {
-                    history.replaceState(null, null, this.authPagePath)
-                    this.page = await this.changePage(this.authPagePath)
+                    history.replaceState(null, null, this.authPagePath);
+                    this.page = await this.changePage(this.authPagePath);
                 }
                 break;
             }
@@ -70,11 +63,13 @@ export default class Router implements RouterInterface {
             this.page = await this.changePage(this.notFoundPagePath);
         }
 
-        document.dispatchEvent(new CustomEvent('route', {
-            detail: {
-                page: this.page
-            }
-        }));
+        document.dispatchEvent(
+            new CustomEvent('route', {
+                detail: {
+                    page: this.page,
+                },
+            })
+        );
     }
 
     async changePage(path: string, match?: string[]) {
@@ -90,7 +85,7 @@ export default class Router implements RouterInterface {
     }
 
     addRoute(pattern: RegExp, path: string, auth: boolean) {
-        this.routes.push({pattern, path, auth});
+        this.routes.push({ pattern, path, auth });
         return this;
     }
 

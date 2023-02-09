@@ -12,10 +12,10 @@ export class ValidateComponent {
         phone: this.phoneCheck,
         display_name: this.displayNameCheck,
         message: this.messageCheck,
-        title: this.defaultCheck
+        title: this.defaultCheck,
     };
     initByType(type: string, value: string, value2?: string) {
-        return this._type[type] && this._type[type](value, value2)
+        return this._type[type] && this._type[type](value, value2);
     }
 
     loginCheck(value: string) {
@@ -23,10 +23,10 @@ export class ValidateComponent {
             return 'Логин не должен быть пустым';
         }
         if (/[^A-Z\-_0-9]/gi.test(value)) {
-            return 'допустимые символы: латинские буквы, цифры, дефис, подчеркивание _'
+            return 'допустимые символы: латинские буквы, цифры, дефис, подчеркивание _';
         }
         if (value.length < 3 || value.length > 20) {
-            return 'Логин должен содержать не менее 3 символов и не более 20'
+            return 'Логин должен содержать не менее 3 символов и не более 20';
         }
         if (/^[0-9_-]+$/.test(value)) {
             return 'Логин не может состоять только из цифр, дефиса и подчеркивания _';

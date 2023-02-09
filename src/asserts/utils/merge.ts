@@ -3,7 +3,7 @@ type Indexed<T = any> = {
 };
 
 export function merge(lhs: Indexed, rhs: Indexed): Indexed {
-    for (let p in rhs) {
+    for (const p in rhs) {
         if (!rhs.hasOwnProperty(p)) {
             continue;
         }
@@ -11,13 +11,12 @@ export function merge(lhs: Indexed, rhs: Indexed): Indexed {
         try {
             if (rhs[p].constructor === Object) {
                 rhs[p] = merge(lhs[p] as Indexed, rhs[p] as Indexed);
-
-            } else if(rhs[p].constructor === Array) {
+            } else if (rhs[p].constructor === Array) {
                 rhs[p] = merge(lhs[p] as Indexed, rhs[p] as Indexed);
             } else {
                 lhs[p] = rhs[p];
             }
-        } catch(e) {
+        } catch (e) {
             lhs[p] = rhs[p];
         }
     }

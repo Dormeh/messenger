@@ -1,21 +1,21 @@
 import Block from 'core/Block';
 
 import '../../components/profile/profile.scss';
-import {userDataToForm} from '../../asserts/utils'
+import { userDataToForm } from '../../asserts/utils';
 import form from '../../data/profile.json';
 import formPassword from '../../data/password.json';
 import formAvatar from '../../data/avatarForm.json';
-import {Store} from "core/Store";
-import {passwordChg, userChg, avatarChg} from '../../services/user'
+import { Store } from 'core/Store';
+import { passwordChg, userChg, avatarChg } from '../../services/user';
 import svg from '../../asserts/images/icons_sprite.svg';
-import {logout} from "../../services/auth";
-import type {SendData} from "../../components/form"
+import { logout } from '../../services/auth';
+import type { SendData } from '../../components/form';
 
 interface Event {
     event: MouseEvent;
     readonly target: HTMLElement | null;
 
-    preventDefault(): void
+    preventDefault(): void;
 
     tagName: string;
 }
@@ -35,41 +35,38 @@ export class ProfilePage extends Block {
             store: Store.instance() as Store<AppState>,
             backLink: props.pageType ? '/profile' : '/chat',
             svg,
-            photo: Store.instance().getState().user.avatar && `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
+            photo:
+                Store.instance().getState().user.avatar &&
+                `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
             userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: !props.pageType,
 
             modalOpen: (event: MouseEvent): any => this.refs.modal.modalOpen(event),
-
-        })
-
+        });
     }
 
-
-    async onSubmitFile({file}: Record<string, File>) {
+    async onSubmitFile({ file }: Record<string, File>) {
         if (file) {
             const formData = new FormData();
-            formData.append("avatar", file);
+            formData.append('avatar', file);
 
             await this.props.store.dispatch(avatarChg, formData);
-            console.log('ОТПРАВКА ФАЙЛА')
+            console.log('ОТПРАВКА ФАЙЛА');
         }
-        return this.props.store.getState().FormError
+        return this.props.store.getState().FormError;
     }
 
-    async onSubmit({data, form}: SendData): Promise<void> {
+    async onSubmit({ data, form }: SendData): Promise<void> {
         if (data.newPassword_confirm) {
             delete data.newPassword_confirm;
             await this.props.store.dispatch(passwordChg, data);
         } else {
             await this.props.store.dispatch(userChg, data);
         }
-        return this.props.store.getState().FormError
+        return this.props.store.getState().FormError;
     }
 
-
     render() {
-
         // language=hbs
         return `
             {{#Layout name="Profile" addPageClass="page_chat-theme"}}
@@ -135,4 +132,3 @@ export class ProfilePage extends Block {
         `;
     }
 }
-
