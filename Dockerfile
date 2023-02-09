@@ -5,4 +5,3 @@ RUN apt update
 RUN git clone -b sprint_4 --single-branch https://github.com/Dormeh/middle.messenger.praktikum.yandex/ /var/www/
 RUN npm install
 CMD npm run serve
-
