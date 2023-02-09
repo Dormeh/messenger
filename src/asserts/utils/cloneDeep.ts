@@ -8,7 +8,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
         // * string
         // * symbol
         // * function
-        if (item === null || typeof item !== "object") {
+        if (item === null || typeof item !== 'object') {
             return item;
         }
 
@@ -21,7 +21,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
         // Handle:
         // * Array
         if (item instanceof Array) {
-            let copy = [];
+            const copy = [];
 
             item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
 
@@ -31,9 +31,9 @@ export function cloneDeep<T extends object = object>(obj: T) {
         // Handle:
         // * Set
         if (item instanceof Set) {
-            let copy = new Set();
+            const copy = new Set();
 
-            item.forEach(v => copy.add(_cloneDeep(v)));
+            item.forEach((v) => copy.add(_cloneDeep(v)));
 
             return copy;
         }
@@ -41,7 +41,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
         // Handle:
         // * Map
         if (item instanceof Map) {
-            let copy = new Map();
+            const copy = new Map();
 
             item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
 
@@ -51,15 +51,15 @@ export function cloneDeep<T extends object = object>(obj: T) {
         // Handle:
         // * Object
         if (item instanceof Object) {
-            let copy: object = {};
+            const copy: object = {};
 
             // Handle:
             // * Object.symbol
-            Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
+            Object.getOwnPropertySymbols(item).forEach((s) => (copy[s] = _cloneDeep(item[s])));
 
             // Handle:
             // * Object.name (other)
-            Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
+            Object.keys(item).forEach((k) => (copy[k] = _cloneDeep(item[k])));
 
             return copy;
         }

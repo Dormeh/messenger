@@ -1,18 +1,17 @@
-import Block from "../Block";
+import Block from '../Block';
 
 export interface RouterInterface {
+    initEventListeners(): void;
 
-    initEventListeners(): void
+    route(): void;
 
-    route(): void
+    changePage(path: string, match?: string[]): Promise<Block>;
 
-    changePage(path: string, match?: string[]): Promise<Block>
+    navigate(path: string): void;
 
-    navigate(path: string): void
+    addRoute(pattern: RegExp, path: string, auth: boolean): void;
 
-    addRoute(pattern: RegExp, path: string, auth: boolean): void
+    setNotFoundPagePath(path: string): void;
 
-    setNotFoundPagePath(path: string): void
-
-    listen(): void
+    listen(): void;
 }

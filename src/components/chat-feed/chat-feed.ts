@@ -1,16 +1,16 @@
 import Block from 'core/Block';
 
 import './chat-feed.scss';
-import userAddForm from "../../data/userAddForm.json";
-import userDelForm from "../../data/userDelForm.json";
-import chatDelForm from "../../data/modalFormInput.json";
-import popupSvgConfigTop from "../../data/popupConfigTop.json";
-import popupSvgConfigBottom from "../../data/popupSvgConfigBottom.json";
-import {chatsDelete, userAdd, userDel} from "../../services/chats";
-import {Store} from "../../core";
-import {userSearch} from '../../services/user'
-import type {SendData} from "../form"
-import PopupProps  from '../popup'
+import userAddForm from '../../data/userAddForm.json';
+import userDelForm from '../../data/userDelForm.json';
+import chatDelForm from '../../data/modalFormInput.json';
+import popupSvgConfigTop from '../../data/popupConfigTop.json';
+import popupSvgConfigBottom from '../../data/popupSvgConfigBottom.json';
+import { chatsDelete, userAdd, userDel } from '../../services/chats';
+import { Store } from '../../core';
+import { userSearch } from '../../services/user';
+import type { SendData } from '../form';
+import PopupProps from '../popup';
 interface ChatFeedProps {
     onSubmit: any;
     onFocus: any;
@@ -22,26 +22,24 @@ interface ChatFeedProps {
     modalForm: {};
     modal: () => Block;
     svg: string;
-    store: Store<AppState>
+    store: Store<AppState>;
     selectedChat: Block | null;
 }
 
 export class ChatFeed extends Block {
     static componentName = 'ChatFeed';
-    private popupRefs: { [p: string]: Block } | undefined
+    private popupRefs: { [p: string]: Block } | undefined;
 
-    constructor({...props}: ChatFeedProps) {
-        super({...props});
+    constructor({ ...props }: ChatFeedProps) {
+        super({ ...props });
         this.setProps({
             store: Store.instance(),
             popupOpenTop: (event: MouseEvent): any => this.refs.buttonSvgTop.refs.popup.popupOpen(event),
             popupOpenBottom: (event: MouseEvent): any => this.refs.buttonSvgBottom.refs.popup.popupOpen(event),
             modalOpen: (event: MouseEvent): any => this.modalOpen(event),
             popupSvgConfigTop: popupSvgConfigTop,
-            popupSvgConfigBottom: popupSvgConfigBottom
-
-        })
-
+            popupSvgConfigBottom: popupSvgConfigBottom,
+        });
     }
 
     async initUserSearch(data: Record<string, string>) {
@@ -49,34 +47,34 @@ export class ChatFeed extends Block {
         return response instanceof Array && response[0] && response[0].id;
     }
 
-    async onSubmitModal({data, form}: SendData) {
+    async onSubmitModal({ data, form }: SendData) {
         const chatId = this.props.store.getState().selectedChatId;
 
         let user;
-        if (form.type !== "remove-chat") {
-            user = await this.initUserSearch(data)
-            if (!user) return 'Пользователь не найден'
+        if (form.type !== 'remove-chat') {
+            user = await this.initUserSearch(data);
+            if (!user) return 'Пользователь не найден';
         }
         switch (form.type) {
-            case "remove-chat" :
-                await this.props.store.dispatch(chatsDelete, {chatId})
+            case 'remove-chat':
+                await this.props.store.dispatch(chatsDelete, { chatId });
                 this.setProps({
-                    selectedChat: null
-                })
-                break
-
-            case "add-user" :
-                await this.props.store.dispatch(userAdd, {
-                    chatId,
-                    users: [user]
-                })
+                    selectedChat: null,
+                });
                 break;
 
-            case "remove-user" :
+            case 'add-user':
+                await this.props.store.dispatch(userAdd, {
+                    chatId,
+                    users: [user],
+                });
+                break;
+
+            case 'remove-user':
                 await this.props.store.dispatch(userDel, {
                     chatId,
-                    users: [user]
-                })
+                    users: [user],
+                });
 
                 break;
         }
@@ -107,18 +105,18 @@ export class ChatFeed extends Block {
         if (form) {
             this.props.modal().setProps({
                 form: form,
-                onSubmit: ({data, form}: SendData) => this.onSubmitModal({data, form})
-            })
+                onSubmit: ({ data, form }: SendData) => this.onSubmitModal({ data, form }),
+            });
 
-            this.props.modal().modalOpen()
+            this.props.modal().modalOpen();
         }
     }
     elemInit() {
-        this.popupRefs = this.refs.buttonSvgTop && this.refs.buttonSvgTop.refs.popup.refs
+        this.popupRefs = this.refs.buttonSvgTop && this.refs.buttonSvgTop.refs.popup.refs;
     }
 
     protected render(): string {
-        const {selectedChat} = this.props;
+        const { selectedChat } = this.props;
 
         const photo = selectedChat && selectedChat.props.photo ? selectedChat.props.photo : '';
         const name = selectedChat ? selectedChat.props.chatName : '';
@@ -197,6 +195,6 @@ export class ChatFeed extends Block {
                 </div>
 
             </div>
-        `
+        `;
     }
 }

@@ -9,8 +9,8 @@ interface ServiceProps {
 }
 
 export class ServicePage extends Block {
-    constructor({status, message, linkName}: ServiceProps) {
-        super({status, message, linkName});
+    constructor({ status, message, linkName }: ServiceProps) {
+        super({ status, message, linkName });
     }
 
     protected render(): string {
@@ -25,6 +25,6 @@ export class ServicePage extends Block {
                     </div>
                 </div>
             {{/Layout}}
-        `
+        `;
     }
 }

@@ -2,23 +2,19 @@ import Block from 'core/Block';
 
 import './avatar.scss';
 
-
 interface AvatarProps {
     avatarClass: string;
     avatarSvgClass: string;
     photo: string;
     svg: string;
     onClick?: () => void;
-
-
 }
 
 export class Avatar extends Block {
     static componentName = 'Avatar';
 
-    constructor({avatarClass, avatarSvgClass, photo, svg, onClick}: AvatarProps) {
-        super({avatarClass, avatarSvgClass, photo, svg, events: {click: {fn: onClick, options: false}}});
-
+    constructor({ avatarClass, avatarSvgClass, photo, svg, onClick }: AvatarProps) {
+        super({ avatarClass, avatarSvgClass, photo, svg, events: { click: { fn: onClick, options: false } } });
     }
 
     protected render(): string {

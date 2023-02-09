@@ -1,18 +1,18 @@
-import {registerComponent} from "../../core";
-import {Button, ButtonSVG} from "../../components/button";
-import {Form} from "../../components/form";
-import Input from "../../components/input";
-import Layout from "../../components/layout";
-import ErrorComponent from "../../components/error";
-import {Card} from "../../components/card/card";
-import {Avatar} from "../../components/avatar/avatar";
-import Chat_layout from "../../components/chat-layout";
-import ChatFeed from "../../components/chat-feed";
-import Message from "../../components/message";
-import MessageFeed from "../../components/message-feed";
-import Modal from "../../components/modal"
-import Popup from "../../components/popup"
-import ChatList from  "../../components/chat-list"
+import { registerComponent } from '../../core';
+import { Button, ButtonSVG } from '../../components/button';
+import { Form } from '../../components/form';
+import Input from '../../components/input';
+import Layout from '../../components/layout';
+import ErrorComponent from '../../components/error';
+import { Card } from '../../components/card/card';
+import { Avatar } from '../../components/avatar/avatar';
+import Chat_layout from '../../components/chat-layout';
+import ChatFeed from '../../components/chat-feed';
+import Message from '../../components/message';
+import MessageFeed from '../../components/message-feed';
+import Modal from '../../components/modal';
+import Popup from '../../components/popup';
+import ChatList from '../../components/chat-list';
 
 export function regAll() {
     registerComponent(Button);

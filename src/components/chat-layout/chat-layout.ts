@@ -1,14 +1,14 @@
-import Block from "core/Block";
+import Block from 'core/Block';
 
 import './chat-layout.scss';
 import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import {Store} from "core/Store";
-import {chatsCreate, chatsGet} from '../../services/chats';
-import type {SendData} from "../form"
-import {connectToChatService, sendMessageService} from "../../services/soсket";
-import {timeTransform, cloneDeep, isEqual} from "../../asserts/utils";
+import { validateForm, ValidateRuleType } from '../../asserts/utils/validateForm';
+import { Store } from 'core/Store';
+import { chatsCreate, chatsGet } from '../../services/chats';
+import type { SendData } from '../form';
+import { connectToChatService, sendMessageService } from '../../services/soсket';
+import { timeTransform, cloneDeep, isEqual } from '../../asserts/utils';
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
@@ -25,25 +25,22 @@ export class Chat_layout extends Block {
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
-
-        })
+        });
 
         this.loadChats().then();
-
     }
 
     modalOpen(event: MouseEvent) {
         this.refs.modal.setProps({
             form: chatAddForm,
-            onSubmit: (event: MouseEvent): any => this.onSubmitChat(event)
-        })
-        this.refs.modal.modalOpen()
+            onSubmit: (event: MouseEvent): any => this.onSubmitChat(event),
+        });
+        this.refs.modal.modalOpen();
     }
 
-
-    async onSubmitChat({data, form}: SendData) {
+    async onSubmitChat({ data, form }: SendData) {
         await this.props.store.dispatch(chatsCreate, data);
-        this.refs.modal.modalClose()
+        this.refs.modal.modalClose();
     }
 
     async onSubmitMessage(event: MouseEvent): Promise<void> {
@@ -52,48 +49,45 @@ export class Chat_layout extends Block {
 
         const messageInput = this.refs.chat_feed.refs.messageInput;
         const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement;
-        const rules = [{
-            type: ValidateRuleType['message'],
-            value: inputElem.value as string
-        }]
+        const rules = [
+            {
+                type: ValidateRuleType['message'],
+                value: inputElem.value as string,
+            },
+        ];
 
         const errorMessage = validateForm(rules);
-        messageInput.refs.error.setProps({errorName: errorMessage['message']});
-        setTimeout(() => messageInput.refs.error.setProps({errorName: ''}), 3000);
-        if (process.env.DEBUG) console.log({message: inputElem.value});
+        messageInput.refs.error.setProps({ errorName: errorMessage['message'] });
+        setTimeout(() => messageInput.refs.error.setProps({ errorName: '' }), 3000);
+        if (process.env.DEBUG) console.log({ message: inputElem.value });
 
         if (inputElem.value) {
-
-            await sendMessageService({message: inputElem.value});
+            await sendMessageService({ message: inputElem.value });
             inputElem.value = '';
             inputElem.focus();
         }
     }
 
-    activeCardSelect(selectedChat: Block | null): Block | undefined{
+    activeCardSelect(selectedChat: Block | null): Block | undefined {
         const chatList = this.refs.chat_list;
 
         if (!selectedChat) return;
-        Object.keys(chatList.refs).forEach(key => {
-            if (key.includes('card')) chatList.refs[key].element?.classList.remove('card_active')
-        })
-        const chatRef = Object.values(chatList.refs).find(ref => ref.props.chatId === selectedChat)
+        Object.keys(chatList.refs).forEach((key) => {
+            if (key.includes('card')) chatList.refs[key].element?.classList.remove('card_active');
+        });
+        const chatRef = Object.values(chatList.refs).find((ref) => ref.props.chatId === selectedChat);
         if (chatRef) {
-            chatRef.element?.classList.add('card_active')
-
+            chatRef.element?.classList.add('card_active');
         }
         return chatRef;
     }
 
     async onClick(event: MouseEvent) {
-
-        const chatList = this.refs.chat_list
+        const chatList = this.refs.chat_list;
         const card: HTMLElement = event.target?.closest('.card');
-        const cardRef = Object.values(chatList.refs).find(ref => ref.element === card);
+        const cardRef = Object.values(chatList.refs).find((ref) => ref.element === card);
         if (cardRef) {
-
-            await this.props.store.dispatch({selectedChatId: cardRef.props.chatId})
-
+            await this.props.store.dispatch({ selectedChatId: cardRef.props.chatId });
         }
     }
 
@@ -101,83 +95,74 @@ export class Chat_layout extends Block {
         await this.props.store.dispatch(chatsGet);
 
         const chats = this.props.store.getState().chats;
-        this.chatsMapProps(cloneDeep(chats))
+        this.chatsMapProps(cloneDeep(chats));
     }
 
-
     chatsMapProps = (chats: Record<string, any>[] | [] = []) => {
-
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
-            let lastMessage = chats[i].last_message
+            const lastMessage = chats[i].last_message;
             if (lastMessage?.content) {
-                lastMessage.content = lastMessage.content.length > 30
-                    ? lastMessage.content.slice(0, 30) + '...'
-                    : lastMessage.content;
+                lastMessage.content =
+                    lastMessage.content.length > 30 ? lastMessage.content.slice(0, 30) + '...' : lastMessage.content;
 
-                lastMessage.time = timeTransform(lastMessage.time)
+                lastMessage.time = timeTransform(lastMessage.time);
             }
         }
 
         this.chatsShow(chats).then();
-    }
+    };
 
-    async chatsShow (chats: Record<string, any>[]) {
+    async chatsShow(chats: Record<string, any>[]) {
         this.refs.chat_list.setProps({
-            chats: chats.reverse()
-        })
-        const selectedChat = this.props.store.getState().selectedChatId
+            chats: chats.reverse(),
+        });
+        const selectedChat = this.props.store.getState().selectedChatId;
 
-        const activeCard = this.activeCardSelect(selectedChat)
-        const selectedCardId = this.refs.chat_feed.props.selectedChat?.props.chatId
+        const activeCard = this.activeCardSelect(selectedChat);
+        const selectedCardId = this.refs.chat_feed.props.selectedChat?.props.chatId;
         if (process.env.DEBUG) console.log('selectedCardId', selectedCardId);
 
         if (selectedChat && selectedChat !== selectedCardId) {
             this.refs.chat_feed.setProps({
-                selectedChat: activeCard
-            })
+                selectedChat: activeCard,
+            });
             await connectToChatService();
         }
     }
 
     componentDidMount() {
-        this.props.store.on('changed', this.storeCallback)
-
+        this.props.store.on('changed', this.storeCallback);
     }
-    storeCallback = (prevState, nextState) => { //todo подписка на обновление store
-
+    storeCallback = (prevState, nextState) => {
         if (nextState.chats && !isEqual(prevState.chats, nextState.chats)) {
             if (process.env.DEBUG) console.log('чаты поменялись');
             const chats = nextState.chats;
             this.chatsMapProps(cloneDeep(chats));
-
         }
         if (nextState.selectedChatId && prevState.selectedChatId !== nextState.selectedChatId) {
             if (process.env.DEBUG) console.log('выделить чат');
             this.chatsMapProps(cloneDeep(prevState.chats));
-
         }
         const chatFeedSelChat = this.refs.chat_feed.props.selectedChat;
 
         if (chatFeedSelChat && nextState.activeChatMessages && nextState.activeChatMessages.length) {
             if (process.env.DEBUG) console.log('сообщения поменялись');
 
-            let messages = cloneDeep(this.props.store.getState().activeChatMessages)
-                .map(message => {
-                    message.time = timeTransform(message.time)
-                    return message
-                })
+            const messages = cloneDeep(this.props.store.getState().activeChatMessages).map((message) => {
+                message.time = timeTransform(message.time);
+                return message;
+            });
             this.refs.chat_feed.refs.message_feed.setProps({
-                messages
-            })
-            this.props.store.dispatch(chatsGet)
-            setTimeout(() => this.feedScroll(), 0)
+                messages,
+            });
+            this.props.store.dispatch(chatsGet);
+            setTimeout(() => this.feedScroll(), 0);
         }
-
-    }
+    };
 
     feedScroll() {
-        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview')
+        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview');
         if (feed) {
             const feedScroll = feed.scrollHeight;
             feed.scroll(0, feedScroll);
@@ -185,7 +170,7 @@ export class Chat_layout extends Block {
     }
     destroy() {
         super.destroy();
-        this.props.store.off('changed', this.storeCallback)
+        this.props.store.off('changed', this.storeCallback);
     }
 
     render() {

@@ -1,4 +1,4 @@
-export const unknownError = 'ошибка передачи данных'
+export const unknownError = 'ошибка передачи данных';
 
 export type MessageT = {
     content?: string;

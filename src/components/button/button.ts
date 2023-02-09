@@ -12,9 +12,8 @@ interface ButtonProps {
 export class Button extends Block {
     static componentName = 'Button';
 
-    constructor({onClick, ...props}: ButtonProps) {
-        super({events: {click: {fn: onClick, options: false}}, ...props});
-
+    constructor({ onClick, ...props }: ButtonProps) {
+        super({ events: { click: { fn: onClick, options: false } }, ...props });
     }
 
     protected render(): string {

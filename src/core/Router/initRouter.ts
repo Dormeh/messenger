@@ -1,7 +1,7 @@
-import Router from "./Router";
+import Router from './Router';
 
 export const initRouter = () => {
-    const router = Router.instance()
+    const router = Router.instance();
     router
         .addRoute(/^$/, 'nav', false)
         .addRoute(/^auth$/, 'auth', false)
@@ -17,4 +17,4 @@ export const initRouter = () => {
         .listen();
 
     return router;
-}
+};
