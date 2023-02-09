@@ -84,9 +84,9 @@ export default class Router implements RouterInterface {
         return await renderPage(path, match);
     }
 
-    navigate(path: string) {
+    async navigate(path: string) {
         history.pushState(null, null, path);
-        this.route();
+        await this.route();
     }
 
     addRoute(pattern: RegExp, path: string, auth: boolean) {

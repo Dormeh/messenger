@@ -61,6 +61,9 @@ export default async function (path: string, match: string[]): Promise<Block> {
     if (process.env.DEBUG) console.log('render-page');
 
     const subUrl = match && match[1] ? {pageType: match[1]} : {}
+
+    if (!routes[path])  path = 404;
+
     const page = routes[path].arg ? new routes[path].Page(routes[path].arg) : new routes[path].Page(subUrl);
 
     renderDOM(page);

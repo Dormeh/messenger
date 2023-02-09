@@ -1,5 +1,4 @@
-// import { APIError, UserDTO } from './types';
-import request from '../core/HTTPTransport';
+import request from 'core/HTTPTransport';
 
 export type APIError = {
     reason: string;
@@ -18,7 +17,6 @@ export type RegRequestData = {
     phone: string;
 };
 
-// type LoginResponseData = {} | APIError;
 
 export const authAPI = {
     registration: (data: RegRequestData) =>
