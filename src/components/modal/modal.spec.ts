@@ -1,14 +1,14 @@
 import {renderBlock} from "../../tests/renderUtils";
 import {Modal} from "./modal";
 import form from '../../data/chatAddForm.json';
-import {getByRole, prettyDOM} from "@testing-library/dom";
+import {getByRole, getByTestId} from "@testing-library/dom";
 
 describe('components/Modal', () => {
     renderBlock({
         Block: Modal,
         props: {form: form}
     })
-    const modal = document.querySelector('.modal__preview')
+    const modal = getByTestId(document.body,'modal')
 
     it('should render modal', () => {
         expect(modal).toBeInTheDocument()
