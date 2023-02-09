@@ -20,11 +20,13 @@
     "test": "jest",
     "eslint": "npx eslint \"./src/**/*.ts\" --ext .ts",
     "eslint:fix": "eslint --fix \"**/*.ts\"",
+    "csslint": "npx stylelint \"./src/**/*.scss\"",
     "lint": "npm run eslint && npm run csslint",
     "prettier": "prettier --check \"**/*.{ts,css,html,md,json}\" --write",
     "build": "npm run clean && webpack --progress --mode=production --config webpack/webpack.prod.js",
     "start": "npm run build && node server.js",
-    "clean": "rimraf build"
+    "clean": "rimraf build",
+    "prepare": "husky install"
   },
   "alias": {
     "core": "./src/core",
