@@ -27,7 +27,7 @@ export const userChg = async (
 
     dispatch({user: response, FormError: null});
 
-    router.navigate('/profile');
+    await router.navigate('/profile');
 };
 
 export const passwordChg = async (

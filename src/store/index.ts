@@ -9,4 +9,5 @@ export const defaultState: AppState = {
     chatError: null,
     activeChatMessages: [],
     chatsLoader: null,
+    test: null,
 };

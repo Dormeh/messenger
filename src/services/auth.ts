@@ -1,5 +1,4 @@
 import {authAPI} from '../api/auth';
-// import { UserDTO } from 'api/types';
 import type {Dispatch} from 'core/Store';
 import Router from "../core/Router/Router";
 import {RegRequestData} from '../api/auth'
@@ -18,7 +17,11 @@ export const login = async (
     action: LoginPayload,
 ) => {
     try {
-        response = (await authAPI.login(action)).responseJSON();
+        const xhr = (await authAPI.login(action)) as XMLHttpRequest
+        if (process.env.NODE_ENV === 'test') {
+            response = xhr.response;
+            dispatch({test: response});
+        } else response = xhr.responseJSON()
 
     } catch (e) {
         console.log(unknownError)
@@ -69,7 +72,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
 
     dispatch({isLoading: false, user: null});
 
-    router.navigate('/auth');
+    await router.navigate('/auth');
 };
 
 const authUserGet = async (
@@ -78,8 +81,8 @@ const authUserGet = async (
 ) => {
     const router = Router.instance();
     try {
-        response = (await authAPI.me()).responseJSON();
-
+        const xhr = (await authAPI.me()) as XMLHttpRequest
+        response = process.env.NODE_ENV !== 'test'? xhr.responseJSON():xhr.response
     } catch (e) {
         console.log(unknownError)
         dispatch({FormError: unknownError})
@@ -93,7 +96,7 @@ const authUserGet = async (
 
     dispatch({user: response, FormError: null});
 
-    router.navigate('/chat');
+    await router.navigate('/chat');
 }
 
 

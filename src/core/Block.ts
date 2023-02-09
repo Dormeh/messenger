@@ -138,7 +138,7 @@ export default class Block<P  extends IBlockProps = {}> {
     this._removeEvents();
     const newElement = fragment.firstElementChild!;
 
-    this._element!.replaceWith(newElement);
+    this._element?.replaceWith(newElement);
 
     this._element = newElement as HTMLElement;
     this._addEvents();

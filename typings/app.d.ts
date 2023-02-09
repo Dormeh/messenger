@@ -19,14 +19,9 @@ declare global {
     chatError: string | null;
     activeChatMessages: Record<string, any>[] | []
     chatsLoader: number | null;
+    test: Record<string, string> | null;
   };
 }
 
-// declare module '*.hbs';
-// declare module '*.jpg';
-// declare module '*.jpeg';
-// declare module '*.png';
-// declare module "*.svg";
-// declare module '*.json';
 
 export {}

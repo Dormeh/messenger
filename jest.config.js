@@ -10,19 +10,17 @@ module.exports = {
   setupFilesAfterEnv: [
     "<rootDir>/src/tests/setup.ts"
   ],
-  moduleFileExtensions: ['ts', 'js', 'json'],
+
   moduleNameMapper: {
     "\\.(css|scss|svg)$": "identity-obj-proxy",
     "^core(.*)$": "<rootDir>/src/core$1",
     "^components(.*)$": "<rootDir>/src/components$1",
     "^utils(.*)$": "<rootDir>/src/utils$1",
     "^services(.*)$": "<rootDir>/src/services$1",
-    // "^api(.*)$": "<rootDir>/src/api$1",
     "^store(.*)$": "<rootDir>/src/store$1",
     "^pages(.*)$": "<rootDir>/src/pages$1",
     "^tests(.*)$": "<rootDir>/src/tests$1",
     "nanoid": "nanoid"
-    // "handlebars": 'handlebars/dist/handlebars.js'
   }
 
 };
