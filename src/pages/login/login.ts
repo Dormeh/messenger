@@ -1,11 +1,8 @@
-import {Block, IBlockProps} from 'core';
+import {Block} from 'core';
 
 import form from '../../data/auth.json';
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import Router from "core/Router/Router";
 import {Store} from "core/Store";
 import {login} from '../../services/auth'
-import {chatsCreate} from "../../services/chats";
 import type {SendData} from "../../components/form"
 
 

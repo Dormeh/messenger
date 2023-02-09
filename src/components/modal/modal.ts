@@ -84,7 +84,7 @@ export class Modal extends Block {
         // language=hbs
         return `
             <div id="modal" class="modal modal_form {{modalClass}}">
-                <div class="modal__preview">
+                <div class="modal__preview" data-testid="modal">
                     {{{Form
                             ref="modalForm"
                             form=form
