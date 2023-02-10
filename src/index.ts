@@ -1,6 +1,6 @@
 import { Store } from 'core';
 
-import './asserts/css/main.css';
+import './asserts/css/main.scss';
 
 import { regAll } from './asserts/utils/registrAllComponents';
 
