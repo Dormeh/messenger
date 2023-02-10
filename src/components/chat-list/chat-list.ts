@@ -24,7 +24,7 @@ export class ChatList extends Block {
                 {{#each chats}}
                     {{{Card ref=ref
                             lastMessage=last_message
-                            photo=avatarUrl
+                            photo=avatar
                             chatName=title
                             cardTime=time
                             cardMessCount=unread_count
