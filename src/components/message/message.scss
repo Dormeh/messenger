@@ -12,8 +12,10 @@
   font-weight: 300;
   color: var(--active-text-color);
   align-self: flex-end;
+
   &__time {
     @include text(9px, 13px, 500, normal, var(--dark-blue));
+
     padding-left: 10px;
     white-space: nowrap;
   }
@@ -22,6 +24,7 @@
     align-self: flex-start;
     border-radius: 0 15px 15px;
     background: #4c5761;
+
      .message__time {
       @include text(9px, 13px, 500, normal, var(--grey-6));
 
