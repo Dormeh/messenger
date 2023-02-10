@@ -2,9 +2,7 @@
 
 .profile {
   &.chat-layout {
-    grid-template-areas: "nav-back profile";
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto;
+    grid-template: "nav-back profile" auto/auto 1fr
   }
 
   &__nav-back {

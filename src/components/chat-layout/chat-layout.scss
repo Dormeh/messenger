@@ -68,7 +68,7 @@
 
   &__search-bar {
     position: relative;
-
+    /* stylelint-disable no-descending-specificity */
     & .chat-layout__search-icon {
       display: block;
       position: absolute;
