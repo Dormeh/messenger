@@ -16,7 +16,7 @@
   "version": "1.0.0",
   "description": "---",
   "scripts": {
-    "serve": "webpack serve --mode=development --progress --config webpack/webpack.dev.js",
+    "serve": "npx webpack serve --config webpack/webpack.dev.js",
     "test": "jest",
     "eslint": "npx eslint \"./src/**/*.ts\" --ext .ts",
     "eslint:fix": "eslint --fix \"**/*.ts\"",
