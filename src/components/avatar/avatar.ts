@@ -23,7 +23,7 @@ export class Avatar extends Block {
         return `
             {{#if photo}}
                 <div class="avatar {{avatarClass}}">
-                    <img src="{{photo}}" alt="avatar" class="avatar__img">
+                    <img src="${process.env.API_ENDPOINT}/resources{{photo}}" alt="avatar" class="avatar__img">
                 </div>
             {{else}}
                 <div class="avatar avatar_default {{avatarClass}}">
