@@ -1,9 +1,10 @@
 import { authAPI } from '../api/auth';
-import type { Dispatch } from 'core/Store';
+import {DispatchStateHandler} from './constants'
 import Router from '../core/Router/Router';
 import { RegRequestData } from '../api/auth';
 import { unknownError } from '../api/constant';
 import { hasError } from '../asserts/utils/apiHasError';
+import { Dispatch } from '../core';
 
 type LoginPayload = {
     login: string;
@@ -11,7 +12,7 @@ type LoginPayload = {
 };
 let response: Record<string, string> | string;
 
-export const login = async (dispatch: Dispatch<AppState>, state: AppState, action: LoginPayload) => {
+export const login: DispatchStateHandler<LoginPayload> = async (dispatch, state, action) => {
     try {
         const xhr = (await authAPI.login(action)) as XMLHttpRequest;
         if (process.env.NODE_ENV === 'test') {
@@ -31,7 +32,7 @@ export const login = async (dispatch: Dispatch<AppState>, state: AppState, actio
     await authUserGet(dispatch, state);
 };
 
-export const registration = async (dispatch: Dispatch<AppState>, state: AppState, action: RegRequestData) => {
+export const registration: DispatchStateHandler<RegRequestData> = async (dispatch, state, action) => {
     try {
         response = (await authAPI.registration(action)).responseJSON();
     } catch (e) {
@@ -61,7 +62,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
     await router.navigate('/auth');
 };
 
-const authUserGet = async (dispatch: Dispatch<AppState>, state: AppState) => {
+const authUserGet = async (dispatch: Dispatch<AppState>) => {
     const router = Router.instance();
     try {
         const xhr = (await authAPI.me()) as XMLHttpRequest;

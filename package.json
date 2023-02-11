@@ -25,7 +25,7 @@
     "prettier": "prettier --check \"**/*.{ts,css,html,md,json}\" --write",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "start": "npm run build && node server.js",
-    "clean": "rimraf build",
+    "clean": "rimraf dist",
     "validate": "npm audit && npm-run-all --parallel test eslint csslint",
     "huskysetup": "npx husky install && npx husky add .husky/pre-commit \"npm run validate\"",
     "prepare": "husky install"

@@ -1,10 +1,10 @@
 import http from 'core/HTTPTransport';
 import METHODS from 'core/HTTPTransport';
-
+const TEST_URL = 'http://mockhost/mock/path'
 describe('core/HTTPTransport', () => {
     it('should send requests', async () => {
         await http
-            .request('http://mockhost/mock/path', { method: METHODS.GET })
+            .request(`${TEST_URL}`, { method: METHODS.GET })
             .then(({ status }) => {
                 expect(status).toBe(200);
             })
@@ -15,7 +15,7 @@ describe('core/HTTPTransport', () => {
     });
     it('should send requests with headers', async () => {
         await http
-            .request('http://mockhost/mock/path', { headers: { 'mock-header': 'test' } })
+            .request(`${TEST_URL}`, { headers: { 'mock-header': 'test' } })
             .then((response) => {
                 const headers = response
                     .getAllResponseHeaders()
@@ -35,8 +35,8 @@ describe('core/HTTPTransport', () => {
     });
 
     it('should send get requests with parameters', async () => {
-        const response = await http
-            .get('http://mockhost/mock/path', { data: { param: 'mock' } })
+        await http
+            .get(`${TEST_URL}`, { data: { param: 'mock' } })
             .then(({ status, response }) => {
                 expect(status).toBe(200);
                 expect(JSON.parse(response)).toEqual({ param: 'mock' });
@@ -48,7 +48,7 @@ describe('core/HTTPTransport', () => {
     });
     it('should send post requests with JSON', async () => {
         await http
-            .post('http://mockhost/mock/path', { data: { postprop: 'mock' } })
+            .post(`${TEST_URL}`, { data: { postprop: 'mock' } })
             .then(({ status, response }) => {
                 expect(status).toBe(200);
                 expect(JSON.parse(response)).toEqual({ postprop: 'mock' });
@@ -61,7 +61,7 @@ describe('core/HTTPTransport', () => {
 
     it('should send put requests with JSON', async () => {
         await http
-            .put('http://mockhost/mock/path', { data: { putprop: 'mock' } })
+            .put(`${TEST_URL}`, { data: { putprop: 'mock' } })
             .then(({ status, response }) => {
                 expect(status).toBe(200);
                 expect(JSON.parse(response)).toEqual({ putprop: 'mock' });
@@ -74,7 +74,7 @@ describe('core/HTTPTransport', () => {
 
     it('should send delete requests with JSON', async () => {
         await http
-            .delete('http://mockhost/mock/path', { data: { deleteprop: 'mock' } })
+            .delete(`${TEST_URL}`, { data: { deleteprop: 'mock' } })
             .then(({ status, response }) => {
                 expect(status).toBe(200);
                 expect(JSON.parse(response)).toEqual({ deleteprop: 'mock' });

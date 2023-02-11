@@ -8,5 +8,5 @@
         "color-function-notation": null,
         "scss/no-global-function-names": null
     },
-    "ignoreFiles": ["dist/*", "build/*"]
+    "ignoreFiles": ["dist/*"]
 }
