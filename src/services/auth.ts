@@ -14,7 +14,7 @@ let response: Record<string, string> | string;
 
 export const login: DispatchStateHandler<LoginPayload> = async (dispatch, state, action) => {
     try {
-        const xhr = (await authAPI.login(action)) as XMLHttpRequest;
+        const xhr = (await authAPI.login(action));
         if (process.env.NODE_ENV === 'test') {
             response = xhr.response;
             dispatch({ test: response });
@@ -65,7 +65,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
 const authUserGet = async (dispatch: Dispatch<AppState>) => {
     const router = Router.instance();
     try {
-        const xhr = (await authAPI.me()) as XMLHttpRequest;
+        const xhr = (await authAPI.me());
         response = process.env.NODE_ENV !== 'test' ? xhr.responseJSON() : xhr.response;
     } catch (e) {
         console.log(unknownError);

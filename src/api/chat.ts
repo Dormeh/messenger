@@ -1,4 +1,5 @@
 import request from '../core/HTTPTransport';
+import {ChatData, ChatDelPayload, UserDelPayload} from  '../services/chats'
 
 export type UserData = {
     first_name: string;
@@ -9,28 +10,24 @@ export type UserData = {
     phone: string;
 };
 
-export type ChatData = {
-    title: string;
-};
-
 export const chatAPI = {
     getChats: () => request.get(`${process.env.API_ENDPOINT}/chats`),
 
     getUsers: (chatId: string) => request.get(`${process.env.API_ENDPOINT}/chats/${chatId}/users`),
 
-    createChat: (data: ChatData) =>
+    createChat: (data: ChatData | undefined) =>
         request.post(`${process.env.API_ENDPOINT}/chats`, { data, headers: { 'Content-Type': 'application/json' } }),
 
-    deleteChat: (data: ChatData) =>
+    deleteChat: (data: ChatDelPayload | undefined) =>
         request.delete(`${process.env.API_ENDPOINT}/chats`, { data, headers: { 'Content-Type': 'application/json' } }),
 
-    userAddToChat: (data: ChatData) =>
+    userAddToChat: (data: ChatData | undefined) =>
         request.put(`${process.env.API_ENDPOINT}/chats/users`, {
             data,
             headers: { 'Content-Type': 'application/json' },
         }),
 
-    userDelFromChat: (data: ChatData) =>
+    userDelFromChat: (data: UserDelPayload | undefined) =>
         request.delete(`${process.env.API_ENDPOINT}/chats/users`, {
             data,
             headers: { 'Content-Type': 'application/json' },
