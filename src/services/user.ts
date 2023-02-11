@@ -1,12 +1,11 @@
-import { Dispatch } from '../core';
 import Router from '../core/Router/Router';
 import { AvatarData, searchUser, PasswordData, UserData, userAPI } from '../api/user';
 import { hasError } from '../asserts/utils/apiHasError';
 import { unknownError } from '../api/constant';
-
+import {DispatchStateHandler} from './constants'
 let response: Record<string, string> | string;
 
-export const userChg = async (dispatch: Dispatch<AppState>, state: AppState, action: UserData) => {
+export const userChg: DispatchStateHandler<UserData> = async (dispatch, state, action) => {
     const router = Router.instance();
     try {
         response = (await userAPI.profileChg(action)).responseJSON();
@@ -25,7 +24,7 @@ export const userChg = async (dispatch: Dispatch<AppState>, state: AppState, act
     await router.navigate('/profile');
 };
 
-export const passwordChg = async (dispatch: Dispatch<AppState>, state: AppState, action: PasswordData) => {
+export const passwordChg: DispatchStateHandler<PasswordData> = async (dispatch, state, action) => {
     const router = Router.instance();
     try {
         response = (await userAPI.passwordChg(action)).responseJSON();
@@ -40,10 +39,10 @@ export const passwordChg = async (dispatch: Dispatch<AppState>, state: AppState,
     }
     dispatch({ isLoading: false, FormError: null });
 
-    router.navigate('/profile');
+    await router.navigate('/profile');
 };
 
-export const avatarChg = async (dispatch: Dispatch<AppState>, state: AppState, action: AvatarData) => {
+export const avatarChg: DispatchStateHandler<AvatarData> = async (dispatch, state, action) => {
     const router = Router.instance();
 
     dispatch({ isLoading: true });

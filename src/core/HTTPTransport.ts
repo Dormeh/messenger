@@ -13,6 +13,8 @@ type RequestOptions = {
     data?: unknown;
 };
 
+type HTTPMethod = (url: string, options?: RequestOptions) => Promise<XMLHttpRequestResponseType>
+
 import { isJson } from '../asserts/utils';
 
 type RequestData = Record<string, string | number>;
@@ -33,30 +35,28 @@ function queryStringify(data: RequestData) {
 }
 
 class HTTPTransport {
-    public get = (url: string, options = {}) => {
+    public get: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.GET });
     };
 
-    public post = (url: string, options = {}) => {
+    public post: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.POST });
     };
 
-    public put = (url: string, options = {}) => {
+    public put: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.PUT });
     };
 
-    public patch = (url: string, options = {}) => {
+    public patch: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.PATCH });
     };
 
-    public delete = (url: string, options = {}) => {
+    public delete: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.DELETE });
     };
 
     request = (url: string, options: RequestOptions) => {
         const { method = METHODS.GET, headers = {}, data, timeout = 5000 } = options;
-
-        const query = method === METHODS.GET ? queryStringify(data as RequestData) : '';
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();

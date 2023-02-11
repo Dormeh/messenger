@@ -1,11 +1,10 @@
 import { chatAPI } from '../api/chat';
 import type { Dispatch } from 'core/Store';
 import { unknownError } from '../api/constant';
+import {ChatData} from  '../api/chat'
 import { hasError } from '../asserts/utils/apiHasError';
+import {DispatchStateHandler} from './constants'
 
-type ChatPayload = {
-    title: string;
-};
 type ChatDelPayload = {
     chatId: number;
 };
@@ -19,7 +18,7 @@ let response: Record<string, string> | string;
 
 const chatsLoadInterval = 15000;
 
-export const chatsCreate = async (dispatch: Dispatch<AppState>, state: AppState, action: ChatPayload) => {
+export const chatsCreate: DispatchStateHandler<ChatData> = async (dispatch, state, action) => {
     try {
         response = (await chatAPI.createChat(action)).responseJSON();
     } catch (e) {
@@ -35,7 +34,7 @@ export const chatsCreate = async (dispatch: Dispatch<AppState>, state: AppState,
     await chatsGet(dispatch, state);
 };
 
-export const chatsGet = async (dispatch: Dispatch<AppState>, state: AppState) => {
+export const chatsGet = async (dispatch: Dispatch<AppState>) => {
     try {
         response = (await chatAPI.getChats()).responseJSON();
     } catch (e) {
@@ -51,7 +50,7 @@ export const chatsGet = async (dispatch: Dispatch<AppState>, state: AppState) =>
     dispatch({ chats: response, FormError: null }); //todo нужно внести в пользователя
 };
 
-export const chatsDelete = async (dispatch: Dispatch<AppState>, state: AppState, action: ChatDelPayload) => {
+export const chatsDelete: DispatchStateHandler<ChatDelPayload> = async (dispatch, state, action) => {
     try {
         response = (await chatAPI.deleteChat(action)).responseJSON();
     } catch (e) {
@@ -66,7 +65,7 @@ export const chatsDelete = async (dispatch: Dispatch<AppState>, state: AppState,
 
     await chatsGet(dispatch, state);
 };
-export const userAdd = async (dispatch: Dispatch<AppState>, state: AppState, action: ChatPayload) => {
+export const userAdd: DispatchStateHandler<ChatData> = async (dispatch, state, action) => {
     try {
         response = (await chatAPI.userAddToChat(action)).responseJSON();
     } catch (e) {
@@ -80,7 +79,7 @@ export const userAdd = async (dispatch: Dispatch<AppState>, state: AppState, act
     }
 };
 
-export const userDel = async (dispatch: Dispatch<AppState>, state: AppState, action: UserDelPayload) => {
+export const userDel: DispatchStateHandler<UserDelPayload> = async (dispatch, state, action) => {
     try {
         response = (await chatAPI.userDelFromChat(action)).responseJSON();
     } catch (e) {
