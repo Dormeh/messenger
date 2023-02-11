@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.config.js');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const webpack = require('webpack')
 
 module.exports = merge(common, {
   mode: 'production',
@@ -23,6 +24,10 @@ module.exports = merge(common, {
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       analyzerMode: 'static'
-    })
+    }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      DEBUG: false,
+    }),
   ]
 });
