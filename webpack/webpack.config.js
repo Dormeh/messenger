@@ -1,7 +1,8 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const styleLoaderSelect = require('./loaders/style-loader-select');
+
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 
@@ -44,11 +45,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: styleLoaderSelect
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -68,5 +65,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/index.html'),
     }),
+    new MiniCssExtractPlugin({
+      filename: 'style-[fullhash].css',
+    })
   ]
 };
