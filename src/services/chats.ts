@@ -1,15 +1,17 @@
 import { chatAPI } from '../api/chat';
 import type { Dispatch } from 'core/Store';
 import { unknownError } from '../api/constant';
-import {ChatData} from  '../api/chat'
 import { hasError } from '../asserts/utils/apiHasError';
 import {DispatchStateHandler} from './constants'
 
-type ChatDelPayload = {
+export type ChatData = {
+    title: string;
+};
+export type ChatDelPayload = {
     chatId: number;
 };
 
-type UserDelPayload = {
+export type UserDelPayload = {
     chatId: number;
     users: number[];
 };
@@ -31,7 +33,7 @@ export const chatsCreate: DispatchStateHandler<ChatData> = async (dispatch, stat
         return;
     }
 
-    await chatsGet(dispatch, state);
+    await chatsGet(dispatch);
 };
 
 export const chatsGet = async (dispatch: Dispatch<AppState>) => {
@@ -63,7 +65,7 @@ export const chatsDelete: DispatchStateHandler<ChatDelPayload> = async (dispatch
         return;
     }
 
-    await chatsGet(dispatch, state);
+    await chatsGet(dispatch);
 };
 export const userAdd: DispatchStateHandler<ChatData> = async (dispatch, state, action) => {
     try {
@@ -92,11 +94,11 @@ export const userDel: DispatchStateHandler<UserDelPayload> = async (dispatch, st
         return;
     }
 
-    await chatsGet(dispatch, state);
+    await chatsGet(dispatch);
 };
 
 export const chatsLoadService = async (dispatch: Dispatch<AppState>, state: AppState) => {
-    const chatsLoader = setInterval(() => chatsGet(dispatch, state), chatsLoadInterval);
+    const chatsLoader = setInterval(() => chatsGet(dispatch), chatsLoadInterval);
     if (state.chatsLoader) {
         clearTimeout(state.chatsLoader);
     }

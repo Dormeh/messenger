@@ -31,6 +31,9 @@
 
     &:hover {
       color: var(--active-text-color);
+      & .chat-layout__nav-icon {
+        color: var(--active-text-color);
+      }
     }
   }
 
@@ -38,6 +41,7 @@
     width: 6px;
     height: 10px;
     color: var(--grey-6);
+    transform: translateY(20%);
   }
 
   & &__seach-input {
