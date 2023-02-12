@@ -19,7 +19,9 @@
 
   &_simple {
     @include text(12px, 12px, 500, normal, var(--grey-6));
+
     padding: 0;
+
     &:hover {
       color: var(--active-text-color);
     }
