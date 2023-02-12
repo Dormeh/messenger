@@ -16,8 +16,8 @@
   }
 
   &__avatar-container {
-    width: 130px;
-    height: 130px;
+    width: 145px;
+    height: 145px;
     border-radius: 50%;
     position: relative;
 
@@ -63,7 +63,8 @@
     @include text(16px, 16px, 600, normal, var(--main-font-color));
 
     width: 100%;
-    height: 100%;
+    height: 75%;
+    padding-top: 7%;
 
     & .profile__button-container {
       align-self: center;
@@ -72,9 +73,9 @@
   }
 
   &__string {
-    height: 35px;
+    height: 45px;
 
-    @include text(13px, 13px, 500, normal);
+    @include text(14px, 14px, 500, normal);
 
     display: flex;
     justify-content: flex-start;
@@ -115,9 +116,12 @@
   }
 
   & &__link {
+
     color: var(--ligth-blue);
 
     &_red {
+      @include text(14px, 14px, 500, normal);
+
       color: var(--red);
     }
   }
