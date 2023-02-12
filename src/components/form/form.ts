@@ -133,8 +133,8 @@ export class Form extends Block {
 
                 return value.name
             })
-            .reduce((acc, key) => {
-                acc[key.name] = this.form[key.name];
+            .reduce((acc, value) => {
+                acc[value.name] = value;
                 return acc;
             }, {});
         this.formRefs = this.refs;
