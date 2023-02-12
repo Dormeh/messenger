@@ -70,7 +70,8 @@
   }
 
   &_profile {
-    height: 35px;
+    height: 45px;
+    @include text(0.95em, 1em, 400);
 
     & .input__input-text {
       text-align: right;
