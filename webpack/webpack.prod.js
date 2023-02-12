@@ -10,7 +10,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   output: {
     publicPath: '/',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../build')
   },
   optimization: {
     minimizer: [
