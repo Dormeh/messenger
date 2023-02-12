@@ -1,7 +1,6 @@
 @import "../../partials/mixins";
 
 .button-svg {
-
   border: none;
   outline: none;
   position: relative;
@@ -12,15 +11,16 @@
 
   &__button {
     @include flex-center(row);
+
     position: relative;
     background: transparent;
     cursor: pointer;
-
     border: none;
     padding: 15px;
     transition: background 200ms ease-in-out, transform 100ms ease-in-out;
 
   }
+
   &_primary &__button {
     color: var(--font-color-light);
     background: var(--ligth-blue);
@@ -34,18 +34,44 @@
     position: absolute;
     white-space: nowrap;
     right: -10%;
-    transform: translateX(100%);
+    transform: translateX(110%);
     @include text(11px, 11px, 500, false, var(--main-font-color));
+
     margin: 0;
   }
-
+  /* stylelint-disable no-descending-specificity */
   &_round &__button{
     border-radius: 50%;
     padding: 17px;
   }
 
+  &_with-border &__button{
+    border: 2px solid var(--main-font-color);
+    padding: 13px;
+  }
+
+  &_red-border &__button{
+    border-color: var(--dark-red-2);
+
+    &:hover {
+      border-color: var(--red);
+    }
+  }
+
+  &_default-color &__button{
+    &:hover {
+      border-color: var(--active-text-color);
+    }
+  }
+
   &__svg-elem {
     position: absolute;
+
+    &_default {
+      color: var(--main-font-color);
+      width: 17px;
+      height: 17px;
+    }
 
     &_arrow-back {
       width: 17px;
@@ -64,10 +90,28 @@
       height: 16px;
       color: var(--grey-6);
     }
+
+    &_red-color {
+      color: var(--dark-red-2);
+    }
+
+    &_rotate-45 {
+      transform: rotate(45deg);
+    }
   }
 
-  &__button:hover &__svg-elem {
-    color: var(--active-text-color);
+  &__button:hover {
+    & .button-svg__svg-elem {
+      color: var(--active-text-color);
+    }
+
+    & .button-svg__title {
+      color: var(--active-text-color);
+    }
+
+    & .button-svg__svg-elem_red-color {
+      color: var(--red);
+    }
   }
 
   &__button:active {

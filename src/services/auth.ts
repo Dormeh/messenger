@@ -1,10 +1,10 @@
-import {authAPI} from '../api/auth';
-// import { UserDTO } from 'api/types';
-import type {Dispatch} from 'core/Store';
-import Router from "../core/Router/Router";
-import {RegRequestData} from '../api/auth'
-import {unknownError} from '../api/constant'
-import {hasError} from '../asserts/utils/apiHasError';
+import { authAPI } from '../api/auth';
+import {DispatchStateHandler} from './constants'
+import Router from '../core/Router/Router';
+import { RegRequestData } from '../api/auth';
+import { unknownError } from '../api/constant';
+import { hasError } from '../asserts/utils/apiHasError';
+import { Dispatch } from '../core';
 
 type LoginPayload = {
     login: string;
@@ -12,89 +12,73 @@ type LoginPayload = {
 };
 let response: Record<string, string> | string;
 
-export const login = async (
-    dispatch: Dispatch<AppState>,
-    state: AppState,
-    action: LoginPayload,
-) => {
+export const login: DispatchStateHandler<LoginPayload> = async (dispatch, state, action) => {
     try {
-        response = (await authAPI.login(action)).responseJSON();
-
+        const xhr = (await authAPI.login(action));
+        if (process.env.NODE_ENV === 'test') {
+            response = xhr.response;
+            dispatch({ test: response });
+        } else response = xhr.responseJSON();
     } catch (e) {
-        console.log(unknownError)
-        dispatch({FormError: unknownError})
+        console.log(unknownError);
+        dispatch({ FormError: unknownError });
     }
 
-
     if (hasError(response)) {
-        dispatch({FormError: response.reason})
+        dispatch({ FormError: response.reason });
         return;
     }
 
     await authUserGet(dispatch, state);
 };
 
-export const registration = async (
-    dispatch: Dispatch<AppState>,
-    state: AppState,
-    action: RegRequestData,
-) => {
+export const registration: DispatchStateHandler<RegRequestData> = async (dispatch, state, action) => {
     try {
         response = (await authAPI.registration(action)).responseJSON();
-
     } catch (e) {
-        console.log(unknownError)
-        dispatch({FormError: unknownError})
+        console.log(unknownError);
+        dispatch({ FormError: unknownError });
     }
 
-
     if (hasError(response)) {
-        dispatch({FormError: response.reason});
+        dispatch({ FormError: response.reason });
         return;
     }
 
     await authUserGet(dispatch, state);
-
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
     const router = Router.instance();
     try {
         await authAPI.logout();
-
     } catch (e) {
-        console.log(unknownError)
-        dispatch({FormError: unknownError})
+        console.log(unknownError);
+        dispatch({ FormError: unknownError });
     }
 
-    dispatch({isLoading: false, user: null});
+    dispatch({ isLoading: false, user: null });
 
-    router.navigate('/auth');
+    await router.navigate('/auth');
 };
 
-const authUserGet = async (
-    dispatch: Dispatch<AppState>,
-    state: AppState,
-) => {
+const authUserGet = async (dispatch: Dispatch<AppState>) => {
     const router = Router.instance();
     try {
-        response = (await authAPI.me()).responseJSON();
-
+        const xhr = (await authAPI.me());
+        response = process.env.NODE_ENV !== 'test' ? xhr.responseJSON() : xhr.response;
     } catch (e) {
-        console.log(unknownError)
-        dispatch({FormError: unknownError})
+        console.log(unknownError);
+        dispatch({ FormError: unknownError });
     }
 
     if (hasError(response)) {
-        console.log('Ошбка получения авторизации')
+        console.log('Ошбка получения авторизации');
         dispatch(logout);
         return;
     }
 
-    dispatch({user: response, FormError: null});
+    dispatch({ user: response, FormError: null });
 
-    router.navigate('/chat');
-}
-
-
-
+    await router.navigate('/chat');
+};

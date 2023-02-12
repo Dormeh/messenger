@@ -1,5 +1,5 @@
-import {Store} from "../core";
-import {MessageT, RequestT} from "./constant"
+import { Store } from 'core/Store';
+import { MessageT, RequestT } from './constant';
 const store = Store.instance();
 
 export class ChatSocket {
@@ -9,18 +9,14 @@ export class ChatSocket {
     static instance() {
         if (!this.__instance) {
             this.__instance = new ChatSocket();
-            console.log(
-                '%cновый Socket',
-                'background: #222; color: #bada55',
-            )
+            if (process.env.DEBUG) console.log('%cновый Socket', 'background: #222; color: #bada55');
         }
 
         return this.__instance;
     }
-    init({userId, chatId, token}: RequestT['SocketInit']) {
+    init({ userId, chatId, token }: RequestT['SocketInit']) {
         this.close();
-        this.activeSocket =
-            new WebSocket(`${process.env.API_CHATS_WEBSOCKET_URL}/${userId}/${chatId}/${token}`);
+        this.activeSocket = new WebSocket(`${process.env.API_CHATS_WEBSOCKET_URL}/${userId}/${chatId}/${token}`);
         this.registerEvents();
     }
     close() {
@@ -48,8 +44,7 @@ export class ChatSocket {
         });
     }
     send(data: MessageT) {
-        if (this.activeSocket &&
-            this.activeSocket.readyState !== WebSocket.CLOSED) {
+        if (this.activeSocket && this.activeSocket.readyState !== WebSocket.CLOSED) {
             this.activeSocket.send(JSON.stringify(data));
         }
     }

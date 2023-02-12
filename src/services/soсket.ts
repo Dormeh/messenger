@@ -1,10 +1,12 @@
-import {Store} from "../core";
-import {ChatSocket} from '../api/ChatSocket'
-import {chatAPI} from "../api/chat";
-import {UserT, RequestT, MessageT} from "../api/constant"
-const interval = 50000
+import { Store } from '../core';
+import { ChatSocket } from '../api/ChatSocket';
+import { chatAPI } from '../api/chat';
+import { UserT, RequestT, MessageT } from '../api/constant';
+import { chatsGet } from './chats';
+import { cloneDeep } from '../asserts/utils';
+const interval = 50000;
 
-const store = Store.instance()
+const store = Store.instance();
 
 const chatKeepAliveInterval = 30000;
 const chatSelectInterval = 1000;
@@ -29,48 +31,42 @@ export const socketUnloadService = () => {
         clearInterval(chatKeepAlive);
     }
 };
-const tokenGet = async (
-    chatId: number,
-) => {
+const tokenGet = async (chatId: number) => {
     try {
         return (await chatAPI.getToken(chatId)).responseJSON();
-
     } catch (e) {
         return;
     }
 };
 
 export const connectToChatService = async () => {
-    await chatSocket.close();
     const user: UserT | null | unknown = store.getState().user;
     if (!user || !('id' in user)) {
-        await store.dispatch({chatError: 'user no ID'});
+        await store.dispatch({ chatError: 'user no ID' });
         return;
     }
     const userId = (user as UserT).id;
     const chatId = store.getState().selectedChatId as number;
 
-    const {token} = await tokenGet(chatId);
+    const { token } = await tokenGet(chatId);
     if (!token) {
-        await store.dispatch({chatError: 'Token error'});
+        await store.dispatch({ chatError: 'Token error' });
         return;
     }
-    chatSocket.init({userId, chatId, token});
+    chatSocket.init({ userId, chatId, token });
 };
 
 export const getOldMessagesService = async () => {
-    chatSocket.send({content: '0', type: 'get old'});
+    chatSocket.send({ content: '0', type: 'get old' });
 };
 
 store.on('webSocketInit', async () => {
-    await store.dispatch({activeChatMessages: []});
+    await store.dispatch({ activeChatMessages: [] });
 });
 
 export const sendMessageService = async (data: RequestT['SendMessage']) => {
-    chatSocket.send({content: data.message, type: 'message'});
+    chatSocket.send({ content: data.message, type: 'message' });
 };
-
-
 
 store.on('webSocketClose, webSocketError', async () => {
     socketUnloadService();
@@ -81,8 +77,7 @@ store.on('webSocketClose, webSocketError', async () => {
 
 store.on('webSocketClose', (event: CloseEvent) => {
     if (!event.wasClean) {
-        console.warn('webSocketClose',
-            `Code: ${event.code||''} | Reason: ${event.reason||''}`);
+        console.warn('webSocketClose', `Code: ${event.code || ''} | Reason: ${event.reason || ''}`);
     }
 });
 store.on('webSocketError', (event: ErrorEvent) => {
@@ -93,7 +88,7 @@ store.on('webSocketOpen', async () => {
     await getOldMessagesService();
     socketUnloadService();
     chatKeepAlive = setInterval(() => {
-        chatSocket.send({type: 'ping'});
+        chatSocket.send({ type: 'ping' });
     }, chatKeepAliveInterval);
 });
 
@@ -103,14 +98,14 @@ store.on('webSocketMessage', (data: string) => {
         const count = messages.length;
         const parsed = JSON.parse(data);
         if (parsed instanceof Array) {
-            messages.push(...parsed as Array<MessageT>);
+            messages.push(...(parsed as Array<MessageT>));
             messages = messages.sort(msgSort);
         } else {
             if (parsed.type && parsed.type === 'message') {
                 messages.push(parsed as MessageT);
             }
         }
-        if (count !== messages.length) {
+        if ((count !== messages.length && parsed.type === 'message') || parsed instanceof Array) {
             store.dispatch({
                 activeChatMessages: messages,
             });

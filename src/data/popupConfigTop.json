@@ -1,12 +1,16 @@
 [
-  {
-    "ref": "button1",
-    "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Добавить пользователя"
-  },
-  {
-    "ref": "button2",
-    "buttonSvgClass": "button-svg_round",
-    "buttonTitle": "Удалить пользователя"
-  }
+    {
+        "ref": "button1",
+        "buttonSvgClass": "button-svg_round button-svg_with-border button-svg_default-color",
+        "buttonTitle": "Добавить пользователя",
+        "svgName": "plus-icon",
+        "svgClass": "button-svg__svg-elem_default"
+    },
+    {
+        "ref": "button2",
+        "buttonSvgClass": "button-svg_round button-svg_with-border button-svg_red-border",
+        "buttonTitle": "Удалить пользователя",
+        "svgName": "plus-icon",
+        "svgClass": "button-svg__svg-elem_default button-svg__svg-elem_rotate-45 button-svg__svg-elem_red-color"
+    }
 ]

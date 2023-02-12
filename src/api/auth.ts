@@ -1,5 +1,4 @@
-// import { APIError, UserDTO } from './types';
-import request from '../core/HTTPTransport';
+import request from 'core/HTTPTransport';
 
 export type APIError = {
     reason: string;
@@ -18,14 +17,18 @@ export type RegRequestData = {
     phone: string;
 };
 
-// type LoginResponseData = {} | APIError;
-
 export const authAPI = {
     registration: (data: RegRequestData) =>
-        request.post(`${process.env.API_ENDPOINT}/auth/signup`, {data, headers: { 'Content-Type': 'application/json' }}),
+        request.post(`${process.env.API_ENDPOINT}/auth/signup`, {
+            data,
+            headers: { 'Content-Type': 'application/json' },
+        }),
 
     login: (data: LoginRequestData) =>
-        request.post(`${process.env.API_ENDPOINT}/auth/signin`, {data, headers: { 'Content-Type': 'application/json' }}),
+        request.post(`${process.env.API_ENDPOINT}/auth/signin`, {
+            data,
+            headers: { 'Content-Type': 'application/json' },
+        }),
 
     me: () => request.get(`${process.env.API_ENDPOINT}/auth/user`),
 

@@ -1,4 +1,5 @@
-import request from "../core/HTTPTransport";
+import request from '../core/HTTPTransport';
+import {ChatData, ChatDelPayload, UserDelPayload} from  '../services/chats'
 
 export type UserData = {
     first_name: string;
@@ -9,41 +10,28 @@ export type UserData = {
     phone: string;
 };
 
-export type ChatData = {
-    title: string;
-}
-
 export const chatAPI = {
-    getChats: () => request.get(`${process.env.API_ENDPOINT}/chats` ),
+    getChats: () => request.get(`${process.env.API_ENDPOINT}/chats`),
 
     getUsers: (chatId: string) => request.get(`${process.env.API_ENDPOINT}/chats/${chatId}/users`),
 
-    createChat: (data: ChatData) =>
-        request.post(`${process.env.API_ENDPOINT}/chats`, {data, headers: { 'Content-Type': 'application/json' }}),
+    createChat: (data: ChatData | undefined) =>
+        request.post(`${process.env.API_ENDPOINT}/chats`, { data, headers: { 'Content-Type': 'application/json' } }),
 
-    deleteChat: (data: ChatData) =>
-        request.delete(`${process.env.API_ENDPOINT}/chats`, {data, headers: { 'Content-Type': 'application/json' }}),
+    deleteChat: (data: ChatDelPayload | undefined) =>
+        request.delete(`${process.env.API_ENDPOINT}/chats`, { data, headers: { 'Content-Type': 'application/json' } }),
 
-    userAddToChat: (data: ChatData) =>
-        request.put(`${process.env.API_ENDPOINT}/chats/users`, {data, headers: { 'Content-Type': 'application/json' }}),
+    userAddToChat: (data: ChatData | undefined) =>
+        request.put(`${process.env.API_ENDPOINT}/chats/users`, {
+            data,
+            headers: { 'Content-Type': 'application/json' },
+        }),
 
-    userDelFromChat: (data: ChatData) =>
-        request.delete(`${process.env.API_ENDPOINT}/chats/users`, {data, headers: { 'Content-Type': 'application/json' }}),
+    userDelFromChat: (data: UserDelPayload | undefined) =>
+        request.delete(`${process.env.API_ENDPOINT}/chats/users`, {
+            data,
+            headers: { 'Content-Type': 'application/json' },
+        }),
 
-
-    getToken: (chatId: string) => request.post(`${process.env.API_ENDPOINT}/chats/token/${chatId}` ),
-    // profileChg: (data: UserData) => request.put(`${process.env.API_ENDPOINT}/user/profile`, {
-    //     data,
-    //     headers: {'Content-Type': 'application/json'}
-    // }),
-    //
-    // passwordChg: (data: PasswordData) => request.put(`${process.env.API_ENDPOINT}/user/password`, {
-    //     data,
-    //     headers: {'Content-Type': 'application/json'}
-    // }),
-    //
-    // avatarChg: (data: AvatarData) => request.put(`${process.env.API_ENDPOINT}/user/profile/avatar`, {
-    //     data,
-    // }),
-
+    getToken: (chatId: string) => request.post(`${process.env.API_ENDPOINT}/chats/token/${chatId}`),
 };

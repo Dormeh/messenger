@@ -1,20 +1,20 @@
-import Block from "core/Block";
+import Block from 'core/Block';
 
 import './chat-layout.scss';
 import chatAddForm from 'data/chatAddForm.json';
 import svg from '../../asserts/images/icons_sprite.svg';
-import {validateForm, ValidateRuleType} from "../../asserts/utils/validateForm";
-import {Store} from "core/Store";
-import {chatsCreate, chatsGet} from '../../services/chats';
-import type {SendData} from "../form"
-import {connectToChatService, sendMessageService} from "../../services/soket";
+import { validateForm, ValidateRuleType } from '../../asserts/utils/validateForm';
+import { Store } from 'core/Store';
+import { chatsCreate, chatsGet } from '../../services/chats';
+import type { SendData } from '../form';
+import { connectToChatService, sendMessageService } from '../../services/soсket';
+import { timeTransform, cloneDeep, isEqual } from '../../asserts/utils';
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
 
     constructor() {
         super();
-        const store = Store.instance();
 
         this.setProps({
             store: Store.instance(),
@@ -23,115 +23,154 @@ export class Chat_layout extends Block {
             onClick: (event: MouseEvent): any => this.onClick(event),
             onSubmitMessage: (event: MouseEvent): any => this.onSubmitMessage(event),
             onSubmitChat: (event: MouseEvent): any => this.onSubmitChat(event),
-            loadChats: (): any => this.loadChats(),
             modalOpen: (): any => this.modalOpen(),
             modal: () => this.refs.modal,
+        });
 
-        })
-
-        this.loadChats()
-
+        this.loadChats().then();
     }
 
     modalOpen(event: MouseEvent) {
         this.refs.modal.setProps({
             form: chatAddForm,
-            onSubmit: (event: MouseEvent): any => this.onSubmitChat(event)
-        })
-        this.refs.modal.modalOpen()
+            onSubmit: (event: MouseEvent): any => this.onSubmitChat(event),
+        });
+        this.refs.modal.modalOpen();
     }
 
-
-    async onSubmitChat({data, form}: SendData) {
+    async onSubmitChat({ data, form }: SendData) {
         await this.props.store.dispatch(chatsCreate, data);
+        this.refs.modal.modalClose();
     }
 
-    async onSubmitMessage(event: MouseEvent): void { //отправка сообщения
-        console.log('Submit')
-        const messageInput = this.refs.chat_feed.refs.messageInput
-        const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement
-        const rules = [{
-            type: ValidateRuleType['message'],
-            value: inputElem.value as string
-        }]
+    async onSubmitMessage(event: MouseEvent): Promise<void> {
+        event.preventDefault();
+        if (process.env.DEBUG) console.log('Submit');
 
-        const errorMessage = validateForm(rules)
-        messageInput.refs.error.setProps({errorName: errorMessage['message']})
-        console.log({
-            message: inputElem.value
-        })
+        const messageInput = this.refs.chat_feed.refs.messageInput;
+        const inputElem = messageInput.element?.children?.[1].children[0] as HTMLInputElement;
+        const rules = [
+            {
+                type: ValidateRuleType['message'],
+                value: inputElem.value as string,
+            },
+        ];
+
+        const errorMessage = validateForm(rules);
+        messageInput.refs.error.setProps({ errorName: errorMessage['message'] });
+        setTimeout(() => messageInput.refs.error.setProps({ errorName: '' }), 3000);
+        if (process.env.DEBUG) console.log({ message: inputElem.value });
 
         if (inputElem.value) {
-
-            await sendMessageService({message: inputElem.value})
+            await sendMessageService({ message: inputElem.value });
             inputElem.value = '';
             inputElem.focus();
         }
     }
 
+    activeCardSelect(selectedChat: Block | null): Block | undefined {
+        const chatList = this.refs.chat_list;
+
+        if (!selectedChat) return;
+        Object.keys(chatList.refs).forEach((key) => {
+            if (key.includes('card')) chatList.refs[key].element?.classList.remove('card_active');
+        });
+        const chatRef = Object.values(chatList.refs).find((ref) => ref.props.chatId === selectedChat);
+        if (chatRef) {
+            chatRef.element?.classList.add('card_active');
+        }
+        return chatRef;
+    }
 
     async onClick(event: MouseEvent) {
-
-        const cardList: Block[] = [];
-
-        Object.keys(this.refs).forEach(key => {
-            if (key.includes('card')) cardList.push(this.refs[key])
-        })
-
-        cardList.forEach(card => card.element?.classList.remove('card_active'))
-
-        const card: HTMLElement = event.target.closest('.card');
-        const cardRef = cardList.find(elem => elem.element === card);
-        card.classList.add('card_active');
-        this.refs.chat_feed.setProps({
-            selectedChat: cardRef
-        })
-        await this.props.store.dispatch({selectedChatId: cardRef.props.chatId})
-        await connectToChatService();
-
+        const chatList = this.refs.chat_list;
+        const card: HTMLElement = event.target?.closest('.card');
+        const cardRef = Object.values(chatList.refs).find((ref) => ref.element === card);
+        if (cardRef) {
+            await this.props.store.dispatch({ selectedChatId: cardRef.props.chatId });
+        }
     }
 
     async loadChats() {
-        await this.props.store.dispatch(chatsGet).then();
+        await this.props.store.dispatch(chatsGet);
 
-        this.chats = this.props.store.getState().chats;
-        this.chatsAddRefsProps(this.chats)
+        const chats = this.props.store.getState().chats;
+        this.chatsMapProps(cloneDeep(chats));
     }
 
-
-    chatsAddRefsProps = async (chats = []) => {
-
+    chatsMapProps = (chats: Record<string, any>[] | [] = []) => {
         for (let i = 0; i < chats.length; i++) {
             chats[i].ref = 'card_' + (i + 1);
+            const lastMessage = chats[i].last_message;
+            if (lastMessage?.content) {
+                lastMessage.content =
+                    lastMessage.content.length > 30 ? lastMessage.content.slice(0, 30) + '...' : lastMessage.content;
+
+                lastMessage.time = timeTransform(lastMessage.time);
+            }
         }
 
-        await this.setProps({
-            chats: chats.reverse()
-        })
+        this.chatsShow(chats).then();
+    };
+
+    async chatsShow(chats: Record<string, any>[]) {
+        this.refs.chat_list.setProps({
+            chats: chats.reverse(),
+        });
+        const selectedChat = this.props.store.getState().selectedChatId;
+
+        const activeCard = this.activeCardSelect(selectedChat);
+        const selectedCardId = this.refs.chat_feed.props.selectedChat?.props.chatId;
+        if (process.env.DEBUG) console.log('selectedCardId', selectedCardId);
+
+        if (selectedChat && selectedChat !== selectedCardId) {
+            this.refs.chat_feed.setProps({
+                selectedChat: activeCard,
+            });
+            await connectToChatService();
+        }
     }
 
     componentDidMount() {
-        this.props.store.on('changed', (prevState, nextState) => { //todo подписка на обновление store
-            const chats = nextState.chats
-
-            if (this.refs.chat_feed.props.selectedChat) {
-                this.refs.chat_feed.refs.message_feed.setProps({
-
-                    messages: this.props.store.getState().activeChatMessages
-                })
-
-                setTimeout(() => this.feedScroll(), 0)
-            }
-        })
-
+        this.props.store.on('changed', this.storeCallback);
     }
+    storeCallback = (prevState, nextState) => {
+        if (nextState.chats && !isEqual(prevState.chats, nextState.chats)) {
+            if (process.env.DEBUG) console.log('чаты поменялись');
+            const chats = nextState.chats;
+            this.chatsMapProps(cloneDeep(chats));
+        }
+        if (nextState.selectedChatId && prevState.selectedChatId !== nextState.selectedChatId) {
+            if (process.env.DEBUG) console.log('выделить чат');
+            this.chatsMapProps(cloneDeep(prevState.chats));
+        }
+        const chatFeedSelChat = this.refs.chat_feed.props.selectedChat;
+
+        if (chatFeedSelChat && nextState.activeChatMessages && nextState.activeChatMessages.length) {
+            if (process.env.DEBUG) console.log('сообщения поменялись');
+
+            const messages = cloneDeep(this.props.store.getState().activeChatMessages).map((message) => {
+                message.time = timeTransform(message.time);
+                return message;
+            });
+            this.refs.chat_feed.refs.message_feed.setProps({
+                messages,
+            });
+            this.props.store.dispatch(chatsGet);
+            setTimeout(() => this.feedScroll(), 0);
+        }
+    };
 
     feedScroll() {
-        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview') // прокрутка страницы
+        const feed = this.refs.chat_feed.element?.querySelector('.chat-feed__preview');
         if (feed) {
             const feedScroll = feed.scrollHeight;
             feed.scroll(0, feedScroll);
         }
+    }
+    destroy() {
+        super.destroy();
+        this.props.store.off('changed', this.storeCallback);
     }
 
     render() {
@@ -174,23 +213,11 @@ export class Chat_layout extends Block {
                         }}}
                     </div>
                 </div>
-                <div class="chat-layout__list">
-                    <div class="chat-layout__card-splitter"></div>
-                    {{#each chats}}
-                        {{{Card ref=ref
-                                messages=messages
-                                photo=avatarUrl
-                                userName=title
-                                cardTime=time
-                                cardMessCount=unread_count
-                                onClick=../onClick
-                                chatId=id
-                                svg=../svg
-                        }}}
-                        <div class="chat-layout__card-splitter"></div>
-                    {{/each}}
-
-                </div>
+                {{{ChatList ref="chat_list"
+                            chats=chats
+                            onClick=onClick
+                            svg=svg
+                }}}
                 {{{ChatFeed ref="chat_feed"
                             svg=svg
                             onSubmit=onSubmitMessage

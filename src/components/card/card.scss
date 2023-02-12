@@ -13,6 +13,10 @@
     background: lighten(#343941, 3%);
   }
 
+  &__message {
+    @include text(13px, 13px, 400, normal, var(--grey-6));
+  }
+
   &_active,
   &_active:hover {
     background: lighten(#343941, 6%);
@@ -50,6 +54,7 @@
     & .card__avatar-container {
       width: 47px;
       height: 47px;
+      border-radius: 50%;
     }
   }
 
@@ -59,9 +64,6 @@
     margin-bottom: 8px;
   }
 
-  &__message {
-    @include text(13px, 13px, 400, normal, var(--grey-6));
-  }
 
   &__time {
     @include text(9px, 13px, 500, normal, var(--grey-6));

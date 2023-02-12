@@ -6,7 +6,6 @@ interface ErrorProps {
     errorName?: string;
     messageInput?: boolean;
     errorAddClass?: string;
-
 }
 
 export class ErrorComponent extends Block<ErrorProps> {
@@ -20,6 +19,6 @@ export class ErrorComponent extends Block<ErrorProps> {
                     {{errorName}}
                 {{/if}}
             </div>
-        `
+        `;
     }
 }
