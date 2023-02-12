@@ -46,7 +46,7 @@ export class Modal extends Block {
     }
 
     modalOpen(): void {
-        console.log('модальное окно');
+        if (process.env.DEBUG) console.log('модальное окно');
 
         const modal = document.getElementById('modal');
 

@@ -37,7 +37,7 @@ export class ProfilePage extends Block {
             svg,
             photo:
                 Store.instance().getState().user.avatar &&
-                `${process.env.API_ENDPOINT}/resources${Store.instance().getState().user.avatar}`,
+                `${Store.instance().getState().user.avatar}`,
             userName: Store.instance().getState().user.display_name || 'User',
             profileMainPage: !props.pageType,
 

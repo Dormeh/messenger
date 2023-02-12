@@ -19,11 +19,14 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
+
   &__avatar-input {
     visibility: hidden;
   }
+
   &__avatar-change-container {
     position: relative;
+
     & .input__avatar-change-text {
       position: absolute;
       left: 50%;
@@ -56,8 +59,19 @@
     }
   }
 
+  &_error {
+    position: absolute;
+
+    @include text(8px, 8px, 400, normal, var(--red));
+
+    top: 100%;
+    transform: translateY(80%);
+    white-space: nowrap;
+  }
+
   &_profile {
-    height: 35px;
+    height: 45px;
+    @include text(0.95em, 1em, 400);
 
     & .input__input-text {
       text-align: right;
@@ -91,20 +105,12 @@
     }
   }
 
+
   & &__input-text:focus {
     border-bottom-color: lighten(#3369f3, 15%);
     outline: none;
   }
 
-  &_error {
-    position: absolute;
-
-    @include text(8px, 8px, 400, normal, var(--red));
-
-    top: 100%;
-    transform: translateY(80%);
-    white-space: nowrap;
-  }
 
   &_message-error {
     top: -30%;

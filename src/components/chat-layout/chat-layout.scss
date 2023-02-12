@@ -26,18 +26,23 @@
     font-family: Inter, sans-serif;
   }
 
+  &__nav-icon {
+    width: 6px;
+    height: 10px;
+    color: var(--grey-6);
+    transform: translateY(20%);
+  }
+
   &__link {
     @include text(12px, 12px, 500, normal, var(--grey-6));
 
     &:hover {
       color: var(--active-text-color);
-    }
-  }
 
-  &__nav-icon {
-    width: 6px;
-    height: 10px;
-    color: var(--grey-6);
+      & .chat-layout__nav-icon {
+        color: var(--active-text-color);
+      }
+    }
   }
 
   & &__seach-input {
@@ -68,7 +73,7 @@
 
   &__search-bar {
     position: relative;
-
+    /* stylelint-disable no-descending-specificity */
     & .chat-layout__search-icon {
       display: block;
       position: absolute;

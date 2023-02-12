@@ -1,7 +1,8 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const styleLoaderSelect = require('./loaders/style-loader-select');
+
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 
@@ -43,15 +44,8 @@ module.exports = {
         exclude: /(node_modules)/
       },
       {
-        test: /\.(sc|c)ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {},
-          },
-          'css-loader',
-          'sass-loader',
-        ],
+        test: /\.s[ac]ss$/i,
+        use: styleLoaderSelect
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -65,15 +59,6 @@ module.exports = {
     ],
   },
   plugins: [
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {
-    //       from: '**/*',
-    //       context: path.resolve(__dirname, '../src/asserts/images'),
-    //       to: './asserts/images',
-    //     },
-    //   ],
-    // }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
     }),

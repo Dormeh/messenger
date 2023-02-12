@@ -128,10 +128,13 @@ export class Form extends Block {
     elemInit() {
         this.form = this.element?.children[1] as HTMLFormElement;
         this.formCollection = this.element?.children[1].elements as HTMLCollection;
-        this.formElems = Object.keys(this.formCollection as object)
-            .filter((key: any) => isNaN(+key))
-            .reduce((acc, key) => {
-                acc[key] = this.form[key];
+        this.formElems = Object.values(this.formCollection as object)
+                .filter((value: any) => {
+
+                return value.name
+            })
+            .reduce((acc, value) => {
+                acc[value.name] = value;
                 return acc;
             }, {});
         this.formRefs = this.refs;
