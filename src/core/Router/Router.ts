@@ -7,6 +7,8 @@ import { ChatSocket } from '../../api/ChatSocket';
 const chatSocket = ChatSocket.instance();
 
 export default class Router implements RouterInterface {
+    private static _instance: Router;
+
     private routes = [];
     private page: Block<{}> | undefined;
     private notFoundPagePath = '';
@@ -18,14 +20,16 @@ export default class Router implements RouterInterface {
 
     initEventListeners() {
         document.addEventListener('click', (event) => {
-            const link = event.target.closest('a');
-            if (!link) return;
+            if (event.target instanceof HTMLElement) {
+                const link = event.target.closest('a');
+                if (!link) return;
 
-            const href = link.getAttribute('href');
+                const href = link.getAttribute('href');
 
-            if (href && href.startsWith('/')) {
-                event.preventDefault();
-                this.navigate(href);
+                if (href && href.startsWith('/')) {
+                    event.preventDefault();
+                    this.navigate(href).then();
+                }
             }
         });
     }
