@@ -1,5 +1,6 @@
 import request from '../core/HTTPTransport';
-import {ChatData, ChatDelPayload, UserDelPayload} from  '../services/chats'
+import {ChatData, ChatDelPayload, UserDelPayload} from '../services/chats'
+import {AvatarData} from "./user";
 
 export type UserData = {
     first_name: string;
@@ -14,6 +15,10 @@ export const chatAPI = {
     getChats: () => request.get(`${process.env.API_ENDPOINT}/chats`),
 
     getUsers: (chatId: string) => request.get(`${process.env.API_ENDPOINT}/chats/${chatId}/users`),
+
+    chatAvatarChg: (data: AvatarData) => request.put(`${process.env.API_ENDPOINT}/chats/avatar`, {
+        data,
+    }),
 
     createChat: (data: ChatData | undefined) =>
         request.post(`${process.env.API_ENDPOINT}/chats`, { data, headers: { 'Content-Type': 'application/json' } }),

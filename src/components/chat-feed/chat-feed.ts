@@ -6,11 +6,14 @@ import userDelForm from '../../data/userDelForm.json';
 import chatDelForm from '../../data/modalFormInput.json';
 import popupSvgConfigTop from '../../data/popupConfigTop.json';
 import popupSvgConfigBottom from '../../data/popupSvgConfigBottom.json';
+import formAvatar from '../../data/avatarForm.json';
 import { chatsDelete, userAdd, userDel } from '../../services/chats';
 import { Store } from '../../core';
-import { userSearch } from '../../services/user';
+import {userSearch} from '../../services/user';
+import {chatAvatarChg} from '../../services/chats'
 import type { SendData } from '../form';
 import PopupProps from '../popup';
+
 interface ChatFeedProps {
     onSubmit: any;
     onFocus: any;
@@ -47,11 +50,11 @@ export class ChatFeed extends Block {
         return response instanceof Array && response[0] && response[0].id;
     }
 
-    async onSubmitModal({ data, form }: SendData) {
+    async onSubmitModal({ data, form, file }: SendData) {
         const chatId = this.props.store.getState().selectedChatId;
 
         let user;
-        if (form.type !== 'remove-chat') {
+        if (form && !['remove-chat', 'avatar'].includes(<string>form.type)) {
             user = await this.initUserSearch(data);
             if (!user) return 'Пользователь не найден';
         }
@@ -77,17 +80,33 @@ export class ChatFeed extends Block {
                 });
 
                 break;
+            case 'avatar':
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('chatId', chatId);
+                    formData.append('avatar', file);
+
+                    await this.props.store.dispatch(chatAvatarChg, formData);
+                    console.log('ОТПРАВКА ФАЙЛА');
+                    const photo = this.props.store.getState().chats
+                        .find(chat => chat.id === this.props.store.getState().selectedChatId)
+                        .avatar
+                    if (photo) this.refs.avatar.setProps({photo})
+
+                }
         }
 
         this.props.modal().modalClose();
     }
 
     modalOpen(event: MouseEvent) {
-        if (!event.target || !event.target.closest('.button-svg')) return;
+        if (!event.target || !event.target.closest('.button-svg, .avatar')) return;
         this.elemInit();
         let form;
+        let avatar = false;
         if (!this.popupRefs) return;
-        switch (event.target.closest('.button-svg, .button')) {
+
+        switch (event.target.closest('.button-svg, .button, .avatar')) {
             case this.popupRefs.button1.element:
                 form = userAddForm;
 
@@ -100,12 +119,19 @@ export class ChatFeed extends Block {
                 form = chatDelForm;
 
                 break;
+            case this.refs.avatar.element:
+                form= formAvatar;
+                avatar = true;
+
+                break;
         }
 
         if (form) {
             this.props.modal().setProps({
                 form: form,
-                onSubmit: ({ data, form }: SendData) => this.onSubmitModal({ data, form }),
+                onSubmit: ({ data, form, file }: SendData) => this.onSubmitModal({ data, form, file }),
+                file: avatar,
+                modalClass: avatar ? "modal_avatar" : ""
             });
 
             this.props.modal().modalOpen();
@@ -133,6 +159,8 @@ export class ChatFeed extends Block {
                                           photo="${photo}"
                                           svg=svg
                                           avatarSvgClass="avatar__svg_mini"
+                                          onClick=modalOpen
+                                          ref="avatar"
                                    }}}
                                 <p class="chat-feed__user-name">${name}</p>
                             </div>

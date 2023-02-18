@@ -34,6 +34,8 @@ export class Chat_layout extends Block {
     modalOpen() {
         this.refs.modal.setProps({
             form: chatAddForm,
+            modalClass: "",
+            file: false,
             onSubmit: (event: MouseEvent): any => this.onSubmitChat(event),
         });
         this.refs.modal.modalOpen();
