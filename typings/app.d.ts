@@ -1,5 +1,3 @@
-import { Store } from '../src/core';
-
 declare global {
     export type Nullable<T> = T | null;
 
@@ -21,6 +19,9 @@ declare global {
         chatsLoader: number | null;
         test: Record<string, string> | null;
     };
+    interface XMLHttpRequest {
+        responseJSON: () => object | string
+    }
 }
 
 export {};

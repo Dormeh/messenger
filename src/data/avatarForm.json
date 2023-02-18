@@ -8,6 +8,7 @@
     ],
     "inputAddClass": "input_file",
     "title": "Изменить аватар",
+    "type": "avatar",
     "addFormClass": "modal_form modal_avatar",
     "buttonClass": "button_primary button_set-big-btn profile__button-container",
     "buttonTitle": "Установить фотографию",

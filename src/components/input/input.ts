@@ -56,7 +56,7 @@ export class Input extends Block {
         }
     }
 
-    onFocus(event: MouseEvent): void {
+    onFocus(): void {
         if (process.env.DEBUG) console.log('focus');
         if (!this.refs.error) return;
 
@@ -70,7 +70,7 @@ export class Input extends Block {
                 {{#if file}}
                     <label class="input__avatar-change-container button button_alternate">
                         <span class="input__avatar-change-text">Выбрать файл</span>
-                        <input name="file" class="input__avatar-input" type="file" id="input" accept="image/png, image/jpeg">
+                        <input name="file" class="input__avatar-input" type="file" id="input" accept="image/png, image/jpeg, image/gif,">
                     </label>
                 {{else}}
                     <label class="input__label">{{label}}

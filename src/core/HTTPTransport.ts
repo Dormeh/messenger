@@ -13,7 +13,7 @@ type RequestOptions = {
     data?: unknown;
 };
 
-type HTTPMethod = (url: string, options?: RequestOptions) => Promise<XMLHttpRequestResponseType>
+type HTTPMethod = (url: string, options?: RequestOptions) => Promise<unknown>
 
 import { isJson } from '../asserts/utils';
 

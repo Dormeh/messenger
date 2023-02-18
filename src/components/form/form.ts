@@ -6,7 +6,8 @@ import { formatBytes } from '../../asserts/utils';
 
 export type SendData = {
     data: Record<string, string>;
-    form: Record<string, string | Array<[Record<string, string>]>>;
+    form?: Record<string, string | Array<[Record<string, string>]>>;
+    file?: FormData;
 };
 
 const MAX_FILE_SIZE = 1048576;
@@ -114,7 +115,7 @@ export class Form extends Block {
                 this.formError && this.formError.setProps({ errorName: 'файл не загружен' });
             }
             hasError = this.formError && !!this.formError.props.errorName;
-            sendData = { file: file };
+            sendData = { file: file, form: this.props.form};
             console.log(hasError);
         }
         if (hasError) return;

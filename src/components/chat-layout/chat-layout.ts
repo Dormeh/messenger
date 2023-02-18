@@ -9,6 +9,7 @@ import { chatsCreate, chatsGet } from '../../services/chats';
 import type { SendData } from '../form';
 import { connectToChatService, sendMessageService } from '../../services/soсket';
 import { timeTransform, cloneDeep, isEqual } from '../../asserts/utils';
+import {ChatT} from "../../api/constant";
 
 export class Chat_layout extends Block {
     static componentName = 'Chat_layout';
@@ -30,15 +31,17 @@ export class Chat_layout extends Block {
         this.loadChats().then();
     }
 
-    modalOpen(event: MouseEvent) {
+    modalOpen() {
         this.refs.modal.setProps({
             form: chatAddForm,
+            modalClass: "",
+            file: false,
             onSubmit: (event: MouseEvent): any => this.onSubmitChat(event),
         });
         this.refs.modal.modalOpen();
     }
 
-    async onSubmitChat({ data, form }: SendData) {
+    async onSubmitChat({data}: SendData) {
         await this.props.store.dispatch(chatsCreate, data);
         this.refs.modal.modalClose();
     }
@@ -95,22 +98,34 @@ export class Chat_layout extends Block {
         await this.props.store.dispatch(chatsGet);
 
         const chats = this.props.store.getState().chats;
-        this.chatsMapProps(cloneDeep(chats));
+        this.chatsMapProps(chats);
     }
 
-    chatsMapProps = (chats: Record<string, any>[] | [] = []) => {
-        for (let i = 0; i < chats.length; i++) {
-            chats[i].ref = 'card_' + (i + 1);
-            const lastMessage = chats[i].last_message;
+    chatsMapProps = (chats: ChatT[] | [] = []) => {
+        chats.length && chats.sort((a:ChatT, b: ChatT): number => {
+                if (a.last_message?.time && b.last_message?.time) {
+                    const timeA = new Date(a.last_message.time).getTime();
+                    const timeB = new Date(b.last_message.time).getTime();
+                    return timeA - timeB;
+                }
+                if (!a.last_message && b.last_message) return -1;
+                if (a.last_message && !b.last_message) return 1;
+                return 0;
+
+        })
+        const clonedChats: ChatT[] = cloneDeep(chats)
+        for (let i = 0; i < clonedChats.length; i++) {
+            clonedChats[i].ref = 'card_' + (i + 1);
+            const lastMessage = clonedChats[i].last_message;
             if (lastMessage?.content) {
                 lastMessage.content =
-                    lastMessage.content.length > 30 ? lastMessage.content.slice(0, 30) + '...' : lastMessage.content;
+                    lastMessage.content.length > 25 ? lastMessage.content.slice(0, 25) + '...' : lastMessage.content;
 
                 lastMessage.time = timeTransform(lastMessage.time);
             }
         }
 
-        this.chatsShow(chats).then();
+        this.chatsShow(clonedChats).then();
     };
 
     async chatsShow(chats: Record<string, any>[]) {
@@ -138,11 +153,11 @@ export class Chat_layout extends Block {
         if (nextState.chats && !isEqual(prevState.chats, nextState.chats)) {
             if (process.env.DEBUG) console.log('чаты поменялись');
             const chats = nextState.chats;
-            this.chatsMapProps(cloneDeep(chats));
+            this.chatsMapProps(chats);
         }
         if (nextState.selectedChatId && prevState.selectedChatId !== nextState.selectedChatId) {
             if (process.env.DEBUG) console.log('выделить чат');
-            this.chatsMapProps(cloneDeep(prevState.chats));
+            this.chatsMapProps(prevState.chats);
         }
         const chatFeedSelChat = this.refs.chat_feed.props.selectedChat;
 
