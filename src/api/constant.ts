@@ -8,6 +8,17 @@ export type MessageT = {
     id?: number;
 };
 
+export type ChatT = {
+    id:number,
+    title: string,
+    avatar:string | null,
+    created_by:number,
+    unread_count:number,
+    last_message: MessageT,
+    ref?: string
+}
+
+
 export type RequestT = {
     Login: {
         login: string;
