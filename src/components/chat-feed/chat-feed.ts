@@ -155,7 +155,7 @@ export class ChatFeed extends Block {
                     {{#if selectedChat}}
                         <div class="chat-feed__header">
                             <div class="chat-feed__content-box">
-                                {{{Avatar avatarClass="chat-feed_header-avatr"
+                                {{{Avatar avatarClass="chat-feed_header-avatr chat-feed__avatar-container chat-feed__avatar-container_chng"
                                           photo="${photo}"
                                           svg=svg
                                           avatarSvgClass="avatar__svg_mini"

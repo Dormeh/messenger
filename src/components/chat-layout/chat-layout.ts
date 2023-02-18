@@ -119,7 +119,7 @@ export class Chat_layout extends Block {
             const lastMessage = clonedChats[i].last_message;
             if (lastMessage?.content) {
                 lastMessage.content =
-                    lastMessage.content.length > 30 ? lastMessage.content.slice(0, 30) + '...' : lastMessage.content;
+                    lastMessage.content.length > 25 ? lastMessage.content.slice(0, 25) + '...' : lastMessage.content;
 
                 lastMessage.time = timeTransform(lastMessage.time);
             }
