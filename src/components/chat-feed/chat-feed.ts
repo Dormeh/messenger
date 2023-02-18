@@ -54,16 +54,15 @@ export class ChatFeed extends Block {
         const chatId = this.props.store.getState().selectedChatId;
 
         let user;
+
         if (form && !['remove-chat', 'avatar'].includes(<string>form.type)) {
             user = await this.initUserSearch(data);
             if (!user) return 'Пользователь не найден';
         }
-        switch (form.type) {
+        switch (form?.type) {
             case 'remove-chat':
                 await this.props.store.dispatch(chatsDelete, { chatId });
-                this.setProps({
-                    selectedChat: null,
-                });
+
                 break;
 
             case 'add-user':
@@ -86,14 +85,24 @@ export class ChatFeed extends Block {
                     formData.append('chatId', chatId);
                     formData.append('avatar', file);
 
+                    if (process.env.DEBUG) console.log('ОТПРАВКА ФАЙЛА');
                     await this.props.store.dispatch(chatAvatarChg, formData);
-                    console.log('ОТПРАВКА ФАЙЛА');
-                    const photo = this.props.store.getState().chats
-                        .find(chat => chat.id === this.props.store.getState().selectedChatId)
-                        .avatar
-                    if (photo) this.refs.avatar.setProps({photo})
 
                 }
+        }
+        const error = this.props.store.getState().FormError
+
+        if (error) return error;
+
+        switch (form?.type) {
+            case 'avatar':
+                const photo = this.props.store.getState().chats
+                    .find(chat => chat.id === this.props.store.getState().selectedChatId)
+                    .avatar
+                if (photo) this.refs.avatar.setProps({photo})
+                break;
+            case 'remove-chat':
+            this.setProps({selectedChat: null,});
         }
 
         this.props.modal().modalClose();
