@@ -6,7 +6,7 @@ import { formatBytes } from '../../asserts/utils';
 
 export type SendData = {
     data: Record<string, string>;
-    form: Record<string, string | Array<[Record<string, string>]>>;
+    form?: Record<string, string | Array<[Record<string, string>]>>;
 };
 
 const MAX_FILE_SIZE = 1048576;
