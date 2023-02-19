@@ -3,7 +3,7 @@
 .avatar {
   @include flex-center;
 
-  box-shadow: 0 0 5px rgb(0 0 0 / 14%);
+  box-shadow: 2px 2px 4px 2px rgb(0 0 0 / 10%);
   position: relative;
 
   &__img {
@@ -27,6 +27,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1.5);
+    opacity: 1;
+    transition: opacity 0.2s ease-out;
   }
 
   &__svg_mini {

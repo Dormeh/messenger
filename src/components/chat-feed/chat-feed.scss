@@ -105,13 +105,21 @@
         cursor: pointer;
 
       }
-      &:hover:before {
-        content: "📷";
-        animation: changeLetter 200ms ease-out forwards;
+
+      &:hover {
+        &:before {
+          content: "📷";
+          animation: changeLetter 200ms ease-out forwards;
+        }
+        & .avatar__svg {
+          cursor: pointer;
+          opacity: 0.3;
+        }
       }
     }
   }
 }
+
 @keyframes changeLetter {
   0% {
     opacity: 0;
@@ -119,7 +127,7 @@
 
   }
   100% {
-    background-color: #4c5761;
+    background-color: var(--grey-5);
     opacity: 0.8;
   }
 }
