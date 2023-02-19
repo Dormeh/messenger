@@ -20,16 +20,14 @@ export default class Router implements RouterInterface {
 
     initEventListeners() {
         document.addEventListener('click', (event) => {
-            if (event.target instanceof HTMLElement) {
-                const link = event.target.closest('a');
-                if (!link) return;
+            const link = event.target?.closest('a');
+            if (!link) return;
 
-                const href = link.getAttribute('href');
+            const href = link.getAttribute('href');
 
-                if (href && href.startsWith('/')) {
-                    event.preventDefault();
-                    this.navigate(href).then();
-                }
+            if (href && href.startsWith('/')) {
+                event.preventDefault();
+                this.navigate(href).then();
             }
         });
     }
